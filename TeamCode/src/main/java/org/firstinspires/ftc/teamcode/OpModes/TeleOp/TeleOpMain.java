@@ -9,28 +9,92 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Commands.IntakeSpecimens;
+import org.firstinspires.ftc.teamcode.Commands.arm.Score;
+import org.firstinspires.ftc.teamcode.Commands.claw.Grab;
+import org.firstinspires.ftc.teamcode.Commands.claw.Release;
+import org.firstinspires.ftc.teamcode.Commands.drive.DefaultDriveCommand;
+import org.firstinspires.ftc.teamcode.Commands.drive.SlowDriveCommand;
+import org.firstinspires.ftc.teamcode.Commands.slides.SlideHigh;
+import org.firstinspires.ftc.teamcode.Commands.slides.SlideLow;
+import org.firstinspires.ftc.teamcode.Commands.slides.SlideMid;
+import org.firstinspires.ftc.teamcode.Commands.slides.SlideMoveManual;
+import org.firstinspires.ftc.teamcode.Commands.slides.SlideReset;
+import org.firstinspires.ftc.teamcode.RoadRunner.drive.StrafeChassis;
+import org.firstinspires.ftc.teamcode.RoadRunner.util.MatchOpMode;
 import org.firstinspires.ftc.teamcode.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
+import org.firstinspires.ftc.teamcode.Subsystems.Drive;
+import org.firstinspires.ftc.teamcode.Subsystems.Slides;
 
 @Config
 @TeleOp
-public class TeleOpMain extends CommandOpMode {
+public class TeleOpMain extends MatchOpMode {
 
-    public GamepadEx gamepad1;
-    public GamepadEx gamepad2;
+    private GamepadEx driverGamepad; //Driver 1
+    private GamepadEx operatorGamepad; // Driver 2
 
-    private Arm arm;
     private Claw claw;
+    private Slides slide;
+    private Arm arm;
+    private Drive drivetrain;
+
+    //Drive drive = new Drive(this);
 
     @Override
-    public void initialize() {
-       arm =  new Arm(hardwareMap, "leftArmServo", "rightArmServo");
-       claw = new Claw(hardwareMap, "clawServo");
+    public void robotInit() {
+        driverGamepad = new GamepadEx(gamepad1);
+        operatorGamepad = new GamepadEx(gamepad2);
+
+        arm = new Arm(hardwareMap, telemetry);
+        slide = new Slides(hardwareMap, telemetry);
+        claw = new Claw(hardwareMap, telemetry);
+
+        drivetrain = new Drive(new StrafeChassis(hardwareMap, telemetry, true), telemetry, hardwareMap);
+
+        drivetrain.init();
     }
 
+    @Override
     public void configureButtons() {
-        Button intake = (new GamepadButton(gamepad2, GamepadKeys.Button.A))
-                .whenPressed(new IntakeSpecimens(claw, arm));
+        drivetrain.setDefaultCommand(new DefaultDriveCommand(drivetrain, driverGamepad, false));
+
+        //Button recenterIMU = (new GamepadButton(driverGamepad, GamepadKeys.Button.A))
+        //.whenPressed(new InstantCommand(drivetrain::reInitializeIMU));
+
+        Button recenterIMU2 = (new GamepadButton(driverGamepad, GamepadKeys.Button.B))
+                .whenPressed(new InstantCommand(drivetrain::reInitializeIMU));
+
+        Button slowMode = (new GamepadButton(driverGamepad, GamepadKeys.Button.LEFT_BUMPER))
+                .whileHeld(new SlowDriveCommand(drivetrain, driverGamepad, false));
+
+        slide.setDefaultCommand(new SlideMoveManual(slide, operatorGamepad::getLeftY));
+
+        Button slideReset = new GamepadButton(operatorGamepad, GamepadKeys.Button.DPAD_DOWN)
+                .whenPressed(new SlideReset(slide, claw, arm));
+
+        Button slideLow = new GamepadButton(operatorGamepad, GamepadKeys.Button.DPAD_LEFT)
+                .whenPressed(new SlideLow(slide, claw, arm));
+
+        Button slideMid = new GamepadButton(operatorGamepad, GamepadKeys.Button.DPAD_RIGHT)
+                .whenPressed(new SlideMid(slide, claw, arm));
+
+        Button slideHigh = new GamepadButton(operatorGamepad, GamepadKeys.Button.DPAD_UP)
+                .whenPressed(new SlideHigh(slide, claw, arm));
+
+        Button Score = new GamepadButton(operatorGamepad, GamepadKeys.Button.A)
+                .whenPressed(new Score(arm));
+
+        Button Reset = new GamepadButton(operatorGamepad, GamepadKeys.Button.B)
+                .whenPressed(new Release(claw));
+
+        Button Claw = new GamepadButton(operatorGamepad, GamepadKeys.Button.RIGHT_BUMPER)
+                .whenPressed(new Grab(claw));
+        Button ClawOuttake = new GamepadButton(operatorGamepad, GamepadKeys.Button.LEFT_BUMPER)
+                .whenPressed(new Release(claw));
+
+    }
+    @Override
+    public void matchStart() {
+
     }
 }

@@ -11,7 +11,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config
-@Config
 public class Claw extends SubsystemBase {
 
     // testing to see if you can change booleans
