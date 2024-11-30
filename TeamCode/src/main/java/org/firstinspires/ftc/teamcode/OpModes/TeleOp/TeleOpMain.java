@@ -56,7 +56,7 @@ public class TeleOpMain extends MatchOpMode {
 
     @Override
     public void configureButtons() {
-        drivetrain.setDefaultCommand(new DefaultDriveCommand(drivetrain, driverGamepad, false));
+        drivetrain.setDefaultCommand(new DefaultDriveCommand(drivetrain, driverGamepad, true));
 
         //Button recenterIMU = (new GamepadButton(driverGamepad, GamepadKeys.Button.A))
         //.whenPressed(new InstantCommand(drivetrain::reInitializeIMU));
@@ -65,7 +65,7 @@ public class TeleOpMain extends MatchOpMode {
                 .whenPressed(new InstantCommand(drivetrain::reInitializeIMU));
 
         Button slowMode = (new GamepadButton(driverGamepad, GamepadKeys.Button.LEFT_BUMPER))
-                .whileHeld(new SlowDriveCommand(drivetrain, driverGamepad, false));
+                .whileHeld(new SlowDriveCommand(drivetrain, driverGamepad, true));
 
         slide.setDefaultCommand(new SlideMoveManual(slide, operatorGamepad::getLeftY));
 
