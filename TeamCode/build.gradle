@@ -22,11 +22,6 @@ android {
         jniLibs.useLegacyPackaging true
     }
 }
-repositories {
-    maven {
-        url = 'https://maven.brott.dev/'
-    }
-}
 
 dependencies {
     implementation project(':FtcRobotController')
@@ -36,5 +31,6 @@ dependencies {
     implementation 'com.acmerobotics.roadrunner:core:0.5.6'
 
     implementation 'org.ftclib.ftclib:core:2.1.1'
+    implementation 'org.ftclib.ftclib:vision:2.1.0'
     implementation 'com.google.firebase:firebase-crashlytics-buildtools:3.0.2'
 }

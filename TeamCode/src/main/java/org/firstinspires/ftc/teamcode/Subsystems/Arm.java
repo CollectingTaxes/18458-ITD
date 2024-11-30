@@ -1,44 +1,50 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.SensorColor;
 import com.arcrobotics.ftclib.hardware.ServoEx;
+import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+@Config
 public class Arm extends SubsystemBase {
 
-    private final ServoEx rightArm, leftArm;
+    public static boolean REVERSED = false;
+
+    public static double resetPose = 0.8,
+            grabPose = 0.43;
 
     Telemetry telemetry;
+    private final SimpleServo leftArm, rightArm;
 
-    public double INTAKE = 0.5, OUTTAKE = 1, REST = 0;
+    public Arm(final HardwareMap hMap, Telemetry telemetry) {
+        this.leftArm = new SimpleServo(hMap, "leftArm", 0, 360);
+        this.rightArm = new SimpleServo(hMap, "rightArm", 0, 360);
 
-    public Arm(final HardwareMap hardwareMap, final String name, final String nameOther ) {
-        rightArm = hardwareMap.get(ServoEx.class, name);
+        leftArm.setInverted(REVERSED);
         rightArm.setInverted(true);
 
-        leftArm = hardwareMap.get(ServoEx.class, nameOther);
-        leftArm.setInverted(false);
+        leftArm.setPosition(resetPose);
+        rightArm.setPosition(resetPose);
+
+        this.telemetry = telemetry;
     }
 
     @Override
     public void periodic() {
-        telemetry.addData("Left Arm:", leftArm.getPosition());
-        telemetry.addData("Right Arm", rightArm.getPosition());
+        telemetry.addData("ArmPose", leftArm.getPosition());
     }
-    public void intake() {
-        leftArm.setPosition(INTAKE);
-        rightArm.setPosition(INTAKE);
-    }
-    public void outtake() {
-        leftArm.setPosition(OUTTAKE);
-        rightArm.setPosition(OUTTAKE);
 
+    public void grab() {
+        leftArm.setPosition(grabPose);
+        rightArm.setPosition(grabPose);
     }
-    public void rest() {
-        leftArm.setPosition(REST);
-        rightArm.setPosition(REST);
+
+    public void reset() {
+        leftArm.setPosition(resetPose);
+        rightArm.setPosition(resetPose);
     }
 }
