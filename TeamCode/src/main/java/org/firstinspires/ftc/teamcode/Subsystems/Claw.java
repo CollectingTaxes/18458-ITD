@@ -27,9 +27,8 @@ public class Claw extends SubsystemBase {
     public Claw(final HardwareMap hMap, Telemetry telemetry) {
         Claw = new SimpleServo(hMap, "Claw", 0, 360);
 
-        Claw.setInverted(false);
+        Claw.setInverted(REVERSED);
 
-        Claw.setPosition(scorePose);
 
         this.telemetry = telemetry;
     }

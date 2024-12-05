@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Arm;
 public class Score extends SequentialCommandGroup {
     public Score(Arm arm) {
         addCommands(
-                new InstantCommand(arm::reset)
+                new InstantCommand(arm::grab)
         );
     }
 }

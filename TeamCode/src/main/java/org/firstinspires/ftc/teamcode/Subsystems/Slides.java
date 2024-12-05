@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+@Config
 public class Slides extends SubsystemBase {
     private final Telemetry telemetry;
     private final MotorEx leftSlide;
@@ -16,8 +18,7 @@ public class Slides extends SubsystemBase {
     public static int min = -5;
     public static int max = 2500;
 
-
-    public static int High = 1000;
+    public static int High = 1100;
     public static int Mid = 600;
     public static int Low = 100;
     public static int Reset = 0;
@@ -39,11 +40,10 @@ public class Slides extends SubsystemBase {
 
         this.telemetry = telemetry;
     }
+
     @Override
     public void periodic() {
         if(!rightSlide.motorEx.isBusy()){
-            leftSlide.motorEx.setPower(0);
-            rightSlide.motorEx.setPower(0);
 
             telemetry.addData("     left encoder: ", getPos());
             telemetry.addData("     right encoder: ", getPos());
@@ -74,6 +74,8 @@ public class Slides extends SubsystemBase {
         rightSlide.motorEx.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         rightSlide.motorEx.setPower(1);
     }
+
+    //Lift Pose
     public void liftRest() {
         setPos(Reset);
     }

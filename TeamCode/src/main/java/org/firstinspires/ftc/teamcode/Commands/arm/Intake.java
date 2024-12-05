@@ -5,8 +5,8 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Arm;
 
-public class Reset extends SequentialCommandGroup {
-    public Reset(Arm arm) {
+public class Intake extends SequentialCommandGroup {
+    public Intake(Arm arm) {
         addCommands(
                 new InstantCommand(arm::reset)
         );
