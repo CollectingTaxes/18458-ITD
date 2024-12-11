@@ -17,7 +17,7 @@ public class Claw extends SubsystemBase {
     public static boolean REVERSED = false;
 
     public static double grabPose = 0,
-            scorePose = 0.225;
+            scorePose = 0.2;
 
     public static double resetPose = 0;
     Telemetry telemetry;
