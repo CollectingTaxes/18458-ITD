@@ -14,7 +14,7 @@ public class SlideReset extends SequentialCommandGroup {
         addCommands(
                 new InstantCommand(arm::reset),
                 new InstantCommand(slide::liftRest),
-                new WaitCommand(250),
+                new WaitCommand(200),
                 new InstantCommand(claw::Reset)
         );
     }
