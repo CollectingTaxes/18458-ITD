@@ -1,16 +1,18 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autos;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-
+import org.firstinspires.ftc.teamcode.RoadRunner.container.LineToLinearHeading;
+import org.firstinspires.ftc.teamcode.RoadRunner.container.TrajectorySequenceContainer;
 import org.firstinspires.ftc.teamcode.RoadRunner.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.RoadRunner.drive.StrafeChassis;
 import org.firstinspires.ftc.teamcode.RoadRunner.trajectorysequence.TrajectorySequenceConstraints;
 import org.firstinspires.ftc.teamcode.RoadRunner.util.MatchOpMode;
-import org.firstinspires.ftc.teamcode.RoadRunner.util.Pose2dContainer;
+import org.firstinspires.ftc.teamcode.RoadRunner.container.Pose2dContainer;
 import org.firstinspires.ftc.teamcode.RoadRunner.util.PoseStorage;
 import org.firstinspires.ftc.teamcode.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
@@ -51,7 +53,7 @@ public class BlueFar extends MatchOpMode {
         schedule(
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(
-
+                                new TrajectorySequenceContainer()
                         ),
 
                         /* EXAMPLE CODE, THIS IS ONE AUTO PATH THING */
@@ -142,9 +144,16 @@ public class BlueFar extends MatchOpMode {
 
 
             public static class Start {
-
-                public static Pose2dContainer startPose = new Pose2dContainer(0,0,0);
-                /*
+                public static Pose2dContainer startPose = new Pose2dContainer(-32,61,270);
+            }
+            public static class OuttakePreLoad {
+                public static LineToLinearHeading outtakePreLoad = new LineToLinearHeading(1,33, -90);
+            }
+            public static class Park {
+                public static LineToLinearHeading parking = new LineToLinearHeading(-60, 56,-90);
+            }
+        }
+        /*
                 This is where the trajectories go
 
                 Here is an example:
@@ -156,7 +165,5 @@ public class BlueFar extends MatchOpMode {
                     static TrajectorySequenceContainer endCycle = new TrajectorySequenceContainer(BlueCloseConstants.Speed::getBaseConstraints, a, b, c, d);
 
                  */
-            }
-        }
     }
 }

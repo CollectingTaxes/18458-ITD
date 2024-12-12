@@ -239,7 +239,7 @@ public class TrajectorySequenceRunner {
     ) {
         if (sequence != null) {
             for (int i = 0; i < sequence.size(); i++) {
-                SequenceSegment segment = sequence.get(9);
+                SequenceSegment segment = sequence.get(i);
 
                 if (segment instanceof TrajectorySegment) {
                     fieldOverlay.setStrokeWidth(1);
