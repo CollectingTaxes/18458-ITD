@@ -14,8 +14,8 @@ public class Arm extends SubsystemBase {
 
     public static boolean REVERSED = false;
 
-    public static double resetPose = 0.8,
-            grabPose = 0;
+    public static double resetPose = 0.45,
+            grabPose = 0.11;
 
     Telemetry telemetry;
     private final SimpleServo leftArm, rightArm;

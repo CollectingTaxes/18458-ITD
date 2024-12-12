@@ -53,7 +53,7 @@ public class BlueFar extends MatchOpMode {
         schedule(
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(
-                                new TrajectorySequenceContainer()
+                               // new TrajectorySequenceContainer()
                         ),
 
                         /* EXAMPLE CODE, THIS IS ONE AUTO PATH THING */
