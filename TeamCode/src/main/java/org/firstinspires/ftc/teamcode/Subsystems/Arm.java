@@ -14,7 +14,7 @@ public class Arm extends SubsystemBase {
 
     public static boolean REVERSED = false;
 
-    public static double resetPose = 0.45,
+    public static double resetPose = 0.43,
             grabPose = 0.11;
 
     Telemetry telemetry;
