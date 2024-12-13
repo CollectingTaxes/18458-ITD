@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.RoadRunner.trajectorysequence;
+package org.firstinspires.ftc.teamcode.RoadRunner.trajectorysequence.container;
 
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
