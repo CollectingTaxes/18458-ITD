@@ -15,7 +15,8 @@ public class Arm extends SubsystemBase {
     public static boolean REVERSED = false;
 
     public static double resetPose = 0.45,
-            grabPose = 0.11;
+            grabPose = 0.105,
+            emergencyPose = 0.095;
 
     Telemetry telemetry;
     private final SimpleServo leftArm, rightArm;
@@ -43,5 +44,10 @@ public class Arm extends SubsystemBase {
     public void reset() {
         leftArm.setPosition(resetPose);
         rightArm.setPosition(resetPose);
+    }
+    public void holyMolyStringingBroke() {
+
+        leftArm.setPosition(emergencyPose);
+        rightArm.setPosition(emergencyPose);
     }
 }

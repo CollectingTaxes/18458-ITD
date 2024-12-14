@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.RoadRunner.container;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 
-import org.firstinspires.ftc.teamcode.RoadRunner.util.PathSegment;
 
 public class Pose2dContainer extends PathSegment {
     public volatile double x = 0;

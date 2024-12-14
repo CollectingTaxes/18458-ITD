@@ -320,6 +320,14 @@ public class StrafeChassis extends com.acmerobotics.roadrunner.drive.MecanumDriv
     public static TrajectoryAccelerationConstraint getAccelerationConstraint(double maxAccel) {
         return new ProfileAccelerationConstraint(maxAccel);
     }
+    public void pain()  {
+        leftFront.setPower(1);
+        rightFront.setPower(1);
+        leftRear.setPower(1);
+        rightRear.setPower(1);
+
+        //double leftFrontPower, double rightFrontPower, double leftRearPower, double rightRearPower
+    }
 
 //    public int getRightAngle(){
 //        return wheelLocalizer.returnRightPos();

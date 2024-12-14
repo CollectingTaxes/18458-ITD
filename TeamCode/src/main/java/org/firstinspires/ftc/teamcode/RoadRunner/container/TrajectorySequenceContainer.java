@@ -18,6 +18,7 @@ public class TrajectorySequenceContainer {
         this.pathSegments = pathSegments;
     }
 
+
     public TrajectorySequenceBuilder getBuilder(TrajectorySequenceBuilder trajectorySequenceBuilder) {
         for (PathSegment pathSegment : pathSegments) {
             if (pathSegment.getClass() == LineTo.class) {
