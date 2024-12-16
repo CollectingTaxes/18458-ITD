@@ -1,16 +1,16 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autos;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.RoadRunner.container.LineToLinearHeading;
-import org.firstinspires.ftc.teamcode.RoadRunner.container.PathSegment;
 import org.firstinspires.ftc.teamcode.RoadRunner.container.TrajectorySequenceContainer;
 import org.firstinspires.ftc.teamcode.RoadRunner.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.RoadRunner.drive.StrafeChassis;
-import org.firstinspires.ftc.teamcode.RoadRunner.trajectorysequence.container.TrajectorySequenceConstraints;
+import org.firstinspires.ftc.teamcode.RoadRunner.trajectorysequence.TrajectorySequenceConstraints;
 import org.firstinspires.ftc.teamcode.RoadRunner.util.MatchOpMode;
 import org.firstinspires.ftc.teamcode.RoadRunner.container.Pose2dContainer;
 import org.firstinspires.ftc.teamcode.RoadRunner.util.PoseStorage;
@@ -18,8 +18,6 @@ import org.firstinspires.ftc.teamcode.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Subsystems.Drive;
 import org.firstinspires.ftc.teamcode.Subsystems.Slides;
-
-import java.util.function.Supplier;
 
 @Autonomous
 public class BlueFar extends MatchOpMode {
@@ -50,12 +48,12 @@ public class BlueFar extends MatchOpMode {
         double finalY = 0;
         double finalX = 0;
 
-        drive.setPoseEstimate(BlueFarConstants.Path.Start.startPose.getPose());
-        PoseStorage.trajectoryPose = BlueFarConstants.Path.Start.startPose.getPose();
+        drive.setPoseEstimate(BlueCloseConstants.Path.start.startPose.getPose());
+        PoseStorage.trajectoryPose = BlueCloseConstants.Path.start.startPose.getPose();
         schedule(
                 new SequentialCommandGroup(
                         new ParallelCommandGroup(
-                               new TrajectorySequenceContainer(drive, BlueFarConstants.Path.Start.startPose)
+                               // new TrajectorySequenceContainer()
                         ),
 
                         /* EXAMPLE CODE, THIS IS ONE AUTO PATH THING */
@@ -109,7 +107,7 @@ public class BlueFar extends MatchOpMode {
     }
 
     @Config
-    public static class BlueFarConstants {
+    public static class BlueCloseConstants {
 
         public static Speed speed;
 
@@ -141,14 +139,15 @@ public class BlueFar extends MatchOpMode {
         }
 
             public static class Path {
+            public static Start start;
 
-                public static class Start {
+
+
+            public static class Start {
                 public static Pose2dContainer startPose = new Pose2dContainer(-32,61,270);
             }
             public static class OuttakePreLoad {
-                    int number = 1;
                 public static LineToLinearHeading outtakePreLoad = new LineToLinearHeading(1,33, -90);
-                static TrajectorySequenceContainer pathOne = new TrajectorySequenceContainer(BlueFarConstants.Speed::getBaseConstraints, outtakePreLoad);
             }
             public static class Park {
                 public static LineToLinearHeading parking = new LineToLinearHeading(-60, 56,-90);
