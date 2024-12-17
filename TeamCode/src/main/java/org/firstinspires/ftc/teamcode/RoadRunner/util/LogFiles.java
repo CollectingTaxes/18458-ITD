@@ -1,9 +1,5 @@
 package org.firstinspires.ftc.teamcode.RoadRunner.util;
 
-import static org.firstinspires.ftc.teamcode.RoadRunner.drive.StrafeChassis.HEADING_PID;
-import static org.firstinspires.ftc.teamcode.RoadRunner.drive.StrafeChassis.LATERAL_MULTIPLIER;
-import static org.firstinspires.ftc.teamcode.RoadRunner.drive.StrafeChassis.TRANSLATIONAL_PID;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 
@@ -20,9 +16,10 @@ import com.qualcomm.robotcore.util.WebHandlerManager;
 
 import org.firstinspires.ftc.ftccommon.external.WebHandlerRegistrar;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
-import org.firstinspires.ftc.teamcode.RoadRunner.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.RoadRunner.drive.Sample.StandardTrackingWheelLocalizer;
-
+import org.firstinspires.ftc.teamcode.RoadRunner.drive.StrafeChassis;
+import org.firstinspires.ftc.teamcode.RoadRunner.drive.DriveConstants;
+import org.firstinspires.ftc.teamcode.RoadRunner.drive.Sample.SampleTankDrive;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -69,13 +66,23 @@ public final class LogFiles {
         public double maxAngVel = DriveConstants.MAX_ANG_VEL;
         public double maxAngAccel = DriveConstants.MAX_ANG_ACCEL;
 
-        public double mecTransP = TRANSLATIONAL_PID.kP;
-        public double mecTransI = TRANSLATIONAL_PID.kI;
-        public double mecTransD = TRANSLATIONAL_PID.kD;
-        public double mecHeadingP = HEADING_PID.kP;
-        public double mecHeadingI = HEADING_PID.kI;
-        public double mecHeadingD = HEADING_PID.kD;
-        public double mecLateralMultiplier = LATERAL_MULTIPLIER;
+        public double mecTransP = StrafeChassis.TRANSLATIONAL_PID.kP;
+        public double mecTransI = StrafeChassis.TRANSLATIONAL_PID.kI;
+        public double mecTransD = StrafeChassis.TRANSLATIONAL_PID.kD;
+        public double mecHeadingP = StrafeChassis.HEADING_PID.kP;
+        public double mecHeadingI = StrafeChassis.HEADING_PID.kI;
+        public double mecHeadingD = StrafeChassis.HEADING_PID.kD;
+        public double mecLateralMultiplier = StrafeChassis.LATERAL_MULTIPLIER;
+
+        public double tankAxialP = SampleTankDrive.AXIAL_PID.kP;
+        public double tankAxialI = SampleTankDrive.AXIAL_PID.kI;
+        public double tankAxialD = SampleTankDrive.AXIAL_PID.kD;
+        public double tankCrossTrackP = SampleTankDrive.CROSS_TRACK_PID.kP;
+        public double tankCrossTrackI = SampleTankDrive.CROSS_TRACK_PID.kI;
+        public double tankCrossTrackD = SampleTankDrive.CROSS_TRACK_PID.kD;
+        public double tankHeadingP = SampleTankDrive.HEADING_PID.kP;
+        public double tankHeadingI = SampleTankDrive.HEADING_PID.kI;
+        public double tankHeadingD = SampleTankDrive.HEADING_PID.kD;
 
         public double trackingTicksPerRev = StandardTrackingWheelLocalizer.TICKS_PER_REV;
         public double trackingWheelRadius = StandardTrackingWheelLocalizer.WHEEL_RADIUS;
