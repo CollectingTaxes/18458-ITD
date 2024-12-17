@@ -147,7 +147,6 @@
 //
 //                    static TrajectorySequenceContainer endCycle = new TrajectorySequenceContainer(Speed::getBaseConstraints, a, b, c, d);
 //                }
-//
 //                public static class farCycleStart {
 //                    public static SplineToConstantHeading a = new SplineToConstantHeading(17, 11, 180);
 //                    public static LineToLinearHeading b = new LineToLinearHeading(-24, 11, 180);
