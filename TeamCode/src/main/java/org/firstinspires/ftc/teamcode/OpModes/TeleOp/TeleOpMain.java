@@ -1,111 +1,36 @@
 package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Commands.arm.EmergencyPose;
-import org.firstinspires.ftc.teamcode.Commands.arm.Intake;
 import org.firstinspires.ftc.teamcode.Commands.arm.Score;
-import org.firstinspires.ftc.teamcode.Commands.claw.Grab;
-import org.firstinspires.ftc.teamcode.Commands.claw.Release;
-import org.firstinspires.ftc.teamcode.Commands.drive.DefaultDriveCommand;
-import org.firstinspires.ftc.teamcode.Commands.drive.SlowDriveCommand;
-import org.firstinspires.ftc.teamcode.Commands.slides.SlideHigh;
-import org.firstinspires.ftc.teamcode.Commands.slides.SlideLow;
-import org.firstinspires.ftc.teamcode.Commands.slides.SlideMid;
-import org.firstinspires.ftc.teamcode.Commands.slides.SlideMoveManual;
-import org.firstinspires.ftc.teamcode.Commands.slides.SlideReset;
-import org.firstinspires.ftc.teamcode.RoadRunner.drive.StrafeChassis;
-import org.firstinspires.ftc.teamcode.RoadRunner.util.MatchOpMode;
 import org.firstinspires.ftc.teamcode.Subsystems.Arm;
-import org.firstinspires.ftc.teamcode.Subsystems.Claw;
-import org.firstinspires.ftc.teamcode.Subsystems.Drive;
-import org.firstinspires.ftc.teamcode.Subsystems.Slides;
-import org.firstinspires.ftc.teamcode.Testing.GamepadTrigger;
+import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
 
 @Config
 @TeleOp
-public class TeleOpMain extends MatchOpMode {
+public class TeleOpMain extends OpMode {
+    Follower follower;
+    Arm arm = new Arm(hardwareMap, telemetry);
+    GamepadEx operatorGamepad;
 
-    private GamepadEx driverGamepad; //Driver 1
-    private GamepadEx operatorGamepad; // Driver 2
-
-    private Claw claw;
-    private Slides slide;
-    private Arm arm;
-    private Drive drivetrain;
-
-    //Drive drive = new Drive(this);
 
     @Override
-    public void robotInit() {
-        driverGamepad = new GamepadEx(gamepad1);
-        operatorGamepad = new GamepadEx(gamepad2);
-
-        arm = new Arm(hardwareMap, telemetry);
-        slide = new Slides(hardwareMap, telemetry);
-        claw = new Claw(hardwareMap, telemetry);
-
-        drivetrain = new Drive(new StrafeChassis(hardwareMap, telemetry, true), telemetry, hardwareMap);
-
-        drivetrain.init();
+    public void init() {
+        follower = new Follower(this);
+        follower.startTeleopDrive();
     }
 
     @Override
-    public void configureButtons() {
-
-        //DRIVETRAIN COMMANDS
-        drivetrain.setDefaultCommand(new DefaultDriveCommand(drivetrain, driverGamepad, true));
-
-        Button recenterIMU2 = (new GamepadButton(driverGamepad, GamepadKeys.Button.B))
-                .whenPressed(new InstantCommand(drivetrain::reInitializeIMU));
-
-        Button slowMode = (new GamepadButton(driverGamepad, GamepadKeys.Button.LEFT_BUMPER))
-                .whileHeld(new SlowDriveCommand(drivetrain, driverGamepad, true));
-
-        //SLIDE + OTHER SUBSYSTEM COMMANDS COMMANDS
-
-        slide.setDefaultCommand(new SlideMoveManual(slide, operatorGamepad::getLeftY));
-
-        Button slideReset = new GamepadButton(operatorGamepad, GamepadKeys.Button.DPAD_DOWN)
-                .whenPressed(new SlideReset(slide, claw, arm));
-
-        Button slideLow = new GamepadButton(operatorGamepad, GamepadKeys.Button.DPAD_LEFT)
-                .whenPressed(new SlideLow(slide, claw, arm));
-
-        Button slideMid = new GamepadButton(operatorGamepad, GamepadKeys.Button.DPAD_RIGHT)
-                .whenPressed(new SlideMid(slide, claw, arm));
-
-        Button slideHigh = new GamepadButton(operatorGamepad, GamepadKeys.Button.DPAD_UP)
-                .whenPressed(new SlideHigh(slide, claw, arm));
-
-        //ARM COMMANDS
+    public void loop() {
+        follower.setTeleOpMovementVectors(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, false);
 
         Button Score = new GamepadButton(operatorGamepad, GamepadKeys.Button.A)
                 .whenPressed(new Score(arm));
-
-        Button Reset = new GamepadButton(operatorGamepad, GamepadKeys.Button.B)
-                .whenPressed(new Intake(arm));
-
-        Button score = (new GamepadTrigger(operatorGamepad, GamepadKeys.Trigger.RIGHT_TRIGGER))
-                .whileHeld(new Score(arm))
-                .whenReleased(new EmergencyPose(arm));
-
-        //CLAW COMMANDS
-        Button Claw = new GamepadButton(operatorGamepad, GamepadKeys.Button.RIGHT_BUMPER)
-                .whenPressed(new Grab(claw));
-
-        Button ClawOuttake = new GamepadButton(operatorGamepad, GamepadKeys.Button.LEFT_BUMPER)
-                .whenPressed(new Release(claw));
-
-    }
-    @Override
-    public void matchStart() {
-
     }
 }
