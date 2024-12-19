@@ -84,8 +84,8 @@ public class SoloTeleOp extends MatchOpMode {
                 .whenPressed(new SlideHigh(slide, claw, arm));
 
         Button score = (new GamepadTrigger(driverGamepad, GamepadKeys.Trigger.RIGHT_TRIGGER))
-                .whileHeld(new Score(arm))
-                .whenReleased(new Intake(arm));
+                .whileHeld(new Score(arm,claw))
+                .whenReleased(new Intake(arm,claw));
 
         Button Claw = new GamepadButton(driverGamepad, GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(new Grab(claw));

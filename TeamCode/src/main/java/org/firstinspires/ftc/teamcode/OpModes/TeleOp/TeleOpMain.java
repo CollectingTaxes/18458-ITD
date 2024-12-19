@@ -82,10 +82,10 @@ public class TeleOpMain extends MatchOpMode {
                 .whenPressed(new SlideHigh(slide, claw, arm));
 
         Button Score = new GamepadButton(operatorGamepad, GamepadKeys.Button.A)
-                .whenPressed(new Score(arm));
+                .whenPressed(new Score(arm,claw));
 
         Button Reset = new GamepadButton(operatorGamepad, GamepadKeys.Button.B)
-                .whenPressed(new Intake(arm));
+                .whenPressed(new Intake(arm,claw));
 
         Button Claw = new GamepadButton(operatorGamepad, GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(new Grab(claw));
