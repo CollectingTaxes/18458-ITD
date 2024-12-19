@@ -18,7 +18,7 @@ public class Slides extends SubsystemBase {
     public static int min = -5;
     public static int max = 2500;
 
-    public static int High = 1450;
+    public static int High = 1500;
     public static int Mid = 600;
     public static int Low = 100;
     public static int Reset = 0;
@@ -30,7 +30,7 @@ public class Slides extends SubsystemBase {
         rightSlide = new MotorEx(hardwareMap, "rightSlide");
 
         rightSlide.setInverted(false);
-        leftSlide.setInverted(false);
+        leftSlide.setInverted(true);
 
         leftSlide.resetEncoder();
         rightSlide.resetEncoder();
