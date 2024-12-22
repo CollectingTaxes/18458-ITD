@@ -4,29 +4,25 @@ import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
-import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Commands.arm.Intake;
-import org.firstinspires.ftc.teamcode.Commands.arm.Score;
-import org.firstinspires.ftc.teamcode.Commands.claw.Grab;
-import org.firstinspires.ftc.teamcode.Commands.claw.Release;
-import org.firstinspires.ftc.teamcode.Commands.drive.DefaultDriveCommand;
-import org.firstinspires.ftc.teamcode.Commands.drive.SlowDriveCommand;
-import org.firstinspires.ftc.teamcode.Commands.slides.SlideHigh;
-import org.firstinspires.ftc.teamcode.Commands.slides.SlideLow;
-import org.firstinspires.ftc.teamcode.Commands.slides.SlideMid;
-import org.firstinspires.ftc.teamcode.Commands.slides.SlideMoveManual;
-import org.firstinspires.ftc.teamcode.Commands.slides.SlideReset;
-import org.firstinspires.ftc.teamcode.RoadRunner.drive.StrafeChassis;
-import org.firstinspires.ftc.teamcode.RoadRunner.util.MatchOpMode;
-import org.firstinspires.ftc.teamcode.Subsystems.Arm;
-import org.firstinspires.ftc.teamcode.Subsystems.Claw;
-import org.firstinspires.ftc.teamcode.Subsystems.Drive;
-import org.firstinspires.ftc.teamcode.Subsystems.Slides;
-import org.firstinspires.ftc.teamcode.Testing.GamepadTrigger;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.arm.Intake;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.arm.Score;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.claw.Grab;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.claw.Release;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.drive.DefaultDriveCommand;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.drive.SlowDriveCommand;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.slides.SlideHigh;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.slides.SlideReset;
+import org.firstinspires.ftc.teamcode.OldStuff.RoadRunner.drive.StrafeChassis;
+import org.firstinspires.ftc.teamcode.OldStuff.RoadRunner.util.MatchOpMode;
+import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
+import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
+import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Drive;
+import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
+import org.firstinspires.ftc.teamcode.OldStuff.Testing.GamepadTrigger;
 
 @Config
 @TeleOp
