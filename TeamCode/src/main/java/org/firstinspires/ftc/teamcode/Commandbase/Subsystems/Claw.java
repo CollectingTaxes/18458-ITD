@@ -14,10 +14,10 @@ public class Claw extends SubsystemBase {
     // testing to see if you can change booleans
     public static boolean REVERSED = false;
 
-    public static double grabPose = 0,
-            scorePose = 0.24;
+    public boolean sensorOn = true;
 
-    public static double resetPose = 0;
+    public static double GRAB = 0.24, OPEN = 0;
+
     Telemetry telemetry;
     private static ServoEx Claw;
 
@@ -27,7 +27,6 @@ public class Claw extends SubsystemBase {
 
         Claw.setInverted(REVERSED);
 
-
         this.telemetry = telemetry;
     }
     @Override
@@ -35,11 +34,17 @@ public class Claw extends SubsystemBase {
         telemetry.addData("ClawPose", Claw.getPosition());
     }
 
-    public void Score() {
-        Claw.setPosition(scorePose);
+    public void GRAB() {
+        Claw.setPosition(GRAB);
+        sensorOn = false;
     }
 
-    public void Reset() {
-        Claw.setPosition(resetPose);
+    public void OPEN() {
+        Claw.setPosition(OPEN);
+        sensorOn = true;
+    }
+
+    public boolean clawStateOpen(){
+        return (Claw.getPosition()==GRAB);
     }
 }

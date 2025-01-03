@@ -32,6 +32,7 @@ package org.firstinspires.ftc.robotcontroller.external.samples;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 /*
@@ -48,15 +49,16 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
 @TeleOp(name = "Sensor: REV touch sensor", group = "Sensor")
-@Disabled
 public class SensorTouch extends LinearOpMode {
     TouchSensor touchSensor;  // Touch sensor Object
+    Servo servo;
 
     @Override
     public void runOpMode() {
 
         // get a reference to our touchSensor object.
         touchSensor = hardwareMap.get(TouchSensor.class, "sensor_touch");
+        servo = hardwareMap.get(Servo.class, "Claw");
 
         // wait for the start button to be pressed.
         waitForStart();
@@ -68,6 +70,7 @@ public class SensorTouch extends LinearOpMode {
             // send the info back to driver station using telemetry function.
             if (touchSensor.isPressed()) {
                 telemetry.addData("Touch Sensor", "Is Pressed");
+                servo.setPosition(0.24);
             } else {
                 telemetry.addData("Touch Sensor", "Is Not Pressed");
             }

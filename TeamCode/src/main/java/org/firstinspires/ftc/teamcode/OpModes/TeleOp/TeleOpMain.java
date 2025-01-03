@@ -67,16 +67,11 @@ public class TeleOpMain extends MatchOpMode {
         Button slowMode = (new GamepadButton(driverGamepad, GamepadKeys.Button.LEFT_BUMPER))
                 .whileHeld(new SlowDriveCommand(drivetrain, driverGamepad, true));
 
+
         slide.setDefaultCommand(new SlideMoveManual(slide, operatorGamepad::getLeftY));
 
         Button slideReset = new GamepadButton(operatorGamepad, GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new SlideReset(slide, claw, arm));
-
-        Button slideLow = new GamepadButton(operatorGamepad, GamepadKeys.Button.DPAD_LEFT)
-                .whenPressed(new SlideLow(slide, claw, arm));
-
-        Button slideMid = new GamepadButton(operatorGamepad, GamepadKeys.Button.DPAD_RIGHT)
-                .whenPressed(new SlideMid(slide, claw, arm));
 
         Button slideHigh = new GamepadButton(operatorGamepad, GamepadKeys.Button.DPAD_UP)
                 .whenPressed(new SlideHigh(slide, claw, arm));
@@ -91,6 +86,7 @@ public class TeleOpMain extends MatchOpMode {
                 .whenPressed(new Grab(claw));
         Button ClawOuttake = new GamepadButton(operatorGamepad, GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(new Release(claw));
+
 
     }
     @Override

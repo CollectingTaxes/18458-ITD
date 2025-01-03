@@ -1,167 +1,121 @@
-package org.firstinspires.ftc.teamcode.OpModes.Autos;
-
-import com.acmerobotics.dashboard.config.Config;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
-import com.arcrobotics.ftclib.command.SequentialCommandGroup;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
-import org.firstinspires.ftc.teamcode.OldStuff.RoadRunner.container.LineToLinearHeading;
-import org.firstinspires.ftc.teamcode.OldStuff.RoadRunner.drive.DriveConstants;
-import org.firstinspires.ftc.teamcode.OldStuff.RoadRunner.drive.StrafeChassis;
-import org.firstinspires.ftc.teamcode.OldStuff.RoadRunner.trajectorysequence.TrajectorySequenceConstraints;
-import org.firstinspires.ftc.teamcode.OldStuff.RoadRunner.util.MatchOpMode;
-import org.firstinspires.ftc.teamcode.OldStuff.RoadRunner.container.Pose2dContainer;
-import org.firstinspires.ftc.teamcode.OldStuff.RoadRunner.util.PoseStorage;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Drive;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
-
-@Autonomous
-public class BlueFar extends MatchOpMode {
-
-    // Subsystems
-    public Arm arm;
-    public Claw claw;
-    public Drive drive;
-    public Slides slides;
-
-    @Override
-    public void robotInit() {
-
-        slides = new Slides(hardwareMap, telemetry);
-        claw = new Claw(hardwareMap, telemetry);
-        arm = new Arm(hardwareMap, telemetry);
-        drive = new Drive(new StrafeChassis(hardwareMap, telemetry, true), telemetry, hardwareMap);
-        drive.init();
-
-        while (!isStarted() & !isStopRequested()) {
-            telemetry.update();
-        }
-        this.matchStart();
-
-    }
-    @Override
-    public void matchStart() {
-        double finalY = 0;
-        double finalX = 0;
-
-        drive.setPoseEstimate(BlueCloseConstants.Path.start.startPose.getPose());
-        PoseStorage.trajectoryPose = BlueCloseConstants.Path.start.startPose.getPose();
-        schedule(
-                new SequentialCommandGroup(
-                        new ParallelCommandGroup(
-                               // new TrajectorySequenceContainer()
-                        ),
-
-                        /* EXAMPLE CODE, THIS IS ONE AUTO PATH THING */
-//                        new ParallelCommandGroup(
-//                                new TrajectorySequenceContainerFollowCommand(drivetrain, BlueCloseConstants.Path.PurplePixel.getPurple(finalX))
-//                        ),
+//package org.firstinspires.ftc.teamcode.OpModes.Autos;
 //
-//                        new WaitCommand(1),
+//import com.acmerobotics.dashboard.config.Config;
 //
-//                        new ParallelCommandGroup(
-//                                new TrajectorySequenceContainerFollowCommand(drivetrain, BlueCloseConstants.Path.getYellow(finalY))
-//                        ),
+//import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierCurve;
+//import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierLine;
+//import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.PathBuilder;
+//import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Point;
 //
-//                        new WaitCommand(1000),
+//@Config
+//public class BlueFar {
+//        public double startPoseX = 9;
+//        public double startPoseY = 89;
 //
-//                        new ParallelCommandGroup(
-//                                new AutoStack(intake),
-//                                new TrajectorySequenceContainerFollowCommand(drivetrain, BlueCloseConstants.Path.closeCycleStart.startCycle)
-//                        ),
+//    public BlueFar() {
+//        PathBuilder builder = new PathBuilder();
 //
-//                        new WaitCommand(1000),
+//        builder
+//                .addPath(
+//                        // Line 1
+//                        new BezierLine(
+//                                new Point(startPoseX, startPoseY, Point.CARTESIAN),
+//                                new Point(44.463, 81.930, Point.CARTESIAN)
+//                        )
+//                )
+//                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+//                .addPath(
+//                        // Line 2
+//                        new BezierCurve(
+//                                new Point(44.463, 81.930, Point.CARTESIAN),
+//                                new Point(2.134, 95.802, Point.CARTESIAN),
+//                                new Point(58.335, 23.595, Point.CARTESIAN)
+//                        )
+//                )
+//                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+//                .addPath(
+//                        // Line 3
+//                        new BezierLine(
+//                                new Point(58.335, 23.595, Point.CARTESIAN),
+//                                new Point(12.805, 23.417, Point.CARTESIAN)
+//                        )
+//                )
+//                .setTangentHeadingInterpolation()
+//                .addPath(
+//                        // Line 4
+//                        new BezierCurve(
+//                                new Point(12.805, 23.417, Point.CARTESIAN),
+//                                new Point(39.661, 41.024, Point.CARTESIAN),
+//                                new Point(56.912, 12.390, Point.CARTESIAN)
+//                        )
+//                )
+//                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+//                .addPath(
+//                        // Line 5
+//                        new BezierLine(
+//                                new Point(56.912, 12.390, Point.CARTESIAN),
+//                                new Point(12.094, 12.924, Point.CARTESIAN)
+//                        )
+//                )
+//                .setTangentHeadingInterpolation()
+//                .addPath(
+//                        // Line 6
+//                        new BezierCurve(
+//                                new Point(12.094, 12.924, Point.CARTESIAN),
+//                                new Point(30.235, 32.310, Point.CARTESIAN),
+//                                new Point(56.912, 6.165, Point.CARTESIAN)
+//                        )
+//                )
+//                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+//                .addPath(
+//                        // Line 7
+//                        new BezierLine(
+//                                new Point(56.912, 6.165, Point.CARTESIAN),
+//                                new Point(12.627, 6.521, Point.CARTESIAN)
+//                        )
+//                )
+//                .setTangentHeadingInterpolation()
+//                .addPath(
+//                        // Line 8
+//                        new BezierLine(
+//                                new Point(12.627, 6.521, Point.CARTESIAN),
+//                                new Point(40.194, 76.594, Point.CARTESIAN)
+//                        )
+//                )
+//                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(0))
+//                .addPath(
+//                        // Line 9
+//                        new BezierLine(
+//                                new Point(40.194, 76.594, Point.CARTESIAN),
+//                                new Point(8.181, 24.128, Point.CARTESIAN)
+//                        )
+//                )
+//                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(180))
+//                .addPath(
+//                        // Line 10
+//                        new BezierLine(
+//                                new Point(8.181, 24.128, Point.CARTESIAN),
+//                                new Point(39.127, 69.480, Point.CARTESIAN)
+//                        )
+//                )
+//                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(0))
+//                .addPath(
+//                        // Line 11
+//                        new BezierLine(
+//                                new Point(39.127, 69.480, Point.CARTESIAN),
+//                                new Point(8.359, 23.951, Point.CARTESIAN)
+//                        )
+//                )
+//                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(180))
+//                .addPath(
+//                        // Line 12
+//                        new BezierLine(
+//                                new Point(8.359, 23.951, Point.CARTESIAN),
+//                                new Point(38.772, 62.366, Point.CARTESIAN)
+//                        )
+//                )
+//                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(0));
+//    }
+//}
 //
-//                        new ParallelCommandGroup(
-//                                new IntakeOff(intake, wheel),
-//                                new TrajectorySequenceContainerFollowCommand(drivetrain, BlueCloseConstants.Path.closeCycleEnd.endCycle)
-//                        ),
 //
-//                        new WaitCommand(1000),
-//
-//                        new ParallelCommandGroup(
-//                                new TrajectorySequenceContainerFollowCommand(drivetrain, BlueCloseConstants.Path.closeCycleStart.startCycle),
-//                                new AutoStack(intake)
-//                        ),
-//
-//                        new WaitCommand(1000),
-//
-//                        new ParallelCommandGroup(
-//                                new IntakeOff(intake, wheel),
-//                                new TrajectorySequenceContainerFollowCommand(drivetrain, BlueCloseConstants.Path.closeCycleEnd.endCycle)
-//                        ),
-
-
-
-                        run(() -> PoseStorage.currentPose = drive.getPoseEstimate()),
-
-                        /* Save Pose and end opmode*/
-
-                        run(this::stop)
-                )
-        );
-    }
-
-    @Config
-    public static class BlueCloseConstants {
-
-        public static Speed speed;
-
-        public static class Speed {
-            public static double baseVel = DriveConstants.MAX_VEL; // value
-            public static double baseAccel = DriveConstants.MAX_ACCEL; // value
-            public static double turnVel = DriveConstants.MAX_ANG_VEL; // value
-            public static double turnAccel = DriveConstants.MAX_ANG_ACCEL; // value
-
-            static TrajectorySequenceConstraints getDropConstraints() {
-                return new TrajectorySequenceConstraints(
-                        (s, a, b, c) -> {
-                            if (s > 18) {
-                                return baseVel * 0.4;
-                            } else {
-                                return baseVel;
-                            }
-
-                        },
-                        (s, a, b, c) -> baseAccel,
-                        turnVel,
-                        turnAccel
-                );
-            }
-
-            static TrajectorySequenceConstraints getBaseConstraints() {
-                return new TrajectorySequenceConstraints(baseVel, baseAccel, turnVel, turnAccel);
-            }
-        }
-
-            public static class Path {
-            public static Start start;
-
-
-
-            public static class Start {
-                public static Pose2dContainer startPose = new Pose2dContainer(-32,61,270);
-            }
-            public static class OuttakePreLoad {
-                public static LineToLinearHeading outtakePreLoad = new LineToLinearHeading(1,33, -90);
-            }
-            public static class Park {
-                public static LineToLinearHeading parking = new LineToLinearHeading(-60, 56,-90);
-            }
-        }
-        /*
-                This is where the trajectories go
-
-                Here is an example:
-
-                    public static Back a = new Back(2);
-                    public static SplineToConstantHeading b = new SplineToConstantHeading(-24, 11, 0);
-                    public static LineToLinearHeading c = new LineToLinearHeading(16, 11, 180);
-                    public static SplineToConstantHeading d = new SplineToConstantHeading(49, 36, 0);
-                    static TrajectorySequenceContainer endCycle = new TrajectorySequenceContainer(BlueCloseConstants.Speed::getBaseConstraints, a, b, c, d);
-
-                 */
-    }
-}

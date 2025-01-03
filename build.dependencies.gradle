@@ -3,6 +3,7 @@ repositories {
     google()// Needed for androidx
     maven { url = 'https://maven.brott.dev/' }
     maven { url = 'https://jitpack.io' }
+    maven { url= 'https://maven.pedropathing.com/' }
 }
 
 dependencies {
@@ -23,6 +24,9 @@ dependencies {
     //RR
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.acmerobotics.dashboard:dashboard:0.4.15'
+
+    //PEDRO PATHING
+    implementation 'com.pedropathing:pedro:1.0.3'
 
     //PHOTON
     implementation 'com.github.Eeshwar-Krishnan:PhotonFTC:v3.0.2-ALPHA'
