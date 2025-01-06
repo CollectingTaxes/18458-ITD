@@ -5,8 +5,8 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.SensorOctoQuad;
-import org.firstinspires.ftc.teamcode.Commandbase.Commands.claw.TestingSensor;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.drive.DefaultDriveCommand;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.sensor.PLEASE_FOR_THE_LOVE_OF_GOD;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.SampleDetector;
 import org.firstinspires.ftc.teamcode.OldStuff.RoadRunner.drive.StrafeChassis;
 import org.firstinspires.ftc.teamcode.OldStuff.RoadRunner.util.MatchOpMode;
@@ -34,7 +34,7 @@ public class SensorTest extends MatchOpMode {
 
     @Override
     public void configureButtons() {
-        claw.setDefaultCommand(new TestingSensor(claw, sampleDetector));
+        claw.setDefaultCommand(new PLEASE_FOR_THE_LOVE_OF_GOD(claw, sampleDetector));
 
     }
     @Override

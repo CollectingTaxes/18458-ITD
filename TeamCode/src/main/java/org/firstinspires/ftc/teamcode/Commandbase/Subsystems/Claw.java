@@ -14,7 +14,7 @@ public class Claw extends SubsystemBase {
     // testing to see if you can change booleans
     public static boolean REVERSED = false;
 
-    public boolean sensorOn = true;
+    public boolean clawStateGrabbed = true;
 
     public static double GRAB = 0.24, OPEN = 0;
 
@@ -28,6 +28,8 @@ public class Claw extends SubsystemBase {
         Claw.setInverted(REVERSED);
 
         this.telemetry = telemetry;
+
+        OPEN();
     }
     @Override
     public void periodic() {
@@ -36,15 +38,12 @@ public class Claw extends SubsystemBase {
 
     public void GRAB() {
         Claw.setPosition(GRAB);
-        sensorOn = false;
+        clawStateGrabbed = true;
     }
 
     public void OPEN() {
         Claw.setPosition(OPEN);
-        sensorOn = true;
+        clawStateGrabbed = false;
     }
 
-    public boolean clawStateOpen(){
-        return (Claw.getPosition()==GRAB);
-    }
 }

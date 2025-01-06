@@ -16,13 +16,13 @@ import org.firstinspires.ftc.teamcode.Commandbase.Commands.drive.DefaultDriveCom
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.drive.SlowDriveCommand;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.slides.SlideHigh;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.slides.SlideReset;
+import org.firstinspires.ftc.teamcode.GamepadTrigger;
 import org.firstinspires.ftc.teamcode.OldStuff.RoadRunner.drive.StrafeChassis;
 import org.firstinspires.ftc.teamcode.OldStuff.RoadRunner.util.MatchOpMode;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Drive;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
-import org.firstinspires.ftc.teamcode.OldStuff.Testing.GamepadTrigger;
 
 @Config
 @TeleOp

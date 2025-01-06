@@ -35,7 +35,6 @@ import org.firstinspires.ftc.teamcode.OldStuff.RoadRunner.drive.StrafeChassis;
  * satisfactory result is produced.
  */
 @Config
-@Autonomous(group="drive")
 public class TrackingWheelForwardOffsetTuner extends LinearOpMode {
     public static double ANGLE = 180; // deg
     public static int NUM_TRIALS = 5;

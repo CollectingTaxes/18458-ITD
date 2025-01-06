@@ -10,10 +10,10 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @Config
 public class Arm extends SubsystemBase {
 
-    public static boolean REVERSED = false;
+    public static boolean FORWARD = false;
 
-    public static double resetPose = 0.41,
-            grabPose = 0.11;
+    public static double RESET_POSE = 0.41;
+    public static double GRAB_POSE = 0.11;
 
     Telemetry telemetry;
     private final SimpleServo leftArm, rightArm;
@@ -22,7 +22,7 @@ public class Arm extends SubsystemBase {
         this.leftArm = new SimpleServo(hMap, "leftArm", 0, 360);
         this.rightArm = new SimpleServo(hMap, "rightArm", 0, 360);
 
-        leftArm.setInverted(REVERSED);
+        leftArm.setInverted(FORWARD);
         rightArm.setInverted(true);
 
         this.telemetry = telemetry;
@@ -34,12 +34,12 @@ public class Arm extends SubsystemBase {
     }
 
     public void grab() {
-        leftArm.setPosition(grabPose);
-        rightArm.setPosition(grabPose);
+        leftArm.setPosition(GRAB_POSE);
+        rightArm.setPosition(GRAB_POSE);
     }
 
     public void reset() {
-        leftArm.setPosition(resetPose);
-        rightArm.setPosition(resetPose);
+        leftArm.setPosition(RESET_POSE);
+        rightArm.setPosition(RESET_POSE);
     }
 }

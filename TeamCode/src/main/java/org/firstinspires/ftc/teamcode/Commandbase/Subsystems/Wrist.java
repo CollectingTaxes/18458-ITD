@@ -11,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @Config
+//TODO: TALK TO CARLOS ABOUT CONTROLS FOR THE WRIST
 public class Wrist extends SubsystemBase {
 
     // testing to see if you can change booleans
@@ -18,7 +19,8 @@ public class Wrist extends SubsystemBase {
 
     public boolean sensorOn = true;
 
-    public static double NEUTRAL_POSE = 0.625, HORIZONTAL_GRAB_POSE = 0.965;
+    public static double NEUTRAL_POSE = 0.625;
+    public double HORIZONTAL_GRAB_POSE = 0.965;
 
     Telemetry telemetry;
     private static ServoEx wrist;
@@ -62,7 +64,8 @@ public class Wrist extends SubsystemBase {
     }
     public String holyMolyServoWireIsTangledUp() {
         if (wrist.getPosition() <= 0.375) {
-            return "SERVO WIRE TWISTING AROUND ARM. SUGGESTED TO ";
+            return "SERVO WIRE TWISTING AROUND ARM" +
+                    "SERVO WIRE TWISTING AROUND ARM";
         }
         else return "We good gang.";
     }

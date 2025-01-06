@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.OldStuff.RoadRunner.drive.StrafeChassis;
  * This is a simple routine to test turning capabilities.
  */
 @Config
-@Autonomous(group = "drive")
 public class TurnTest extends LinearOpMode {
     public static double ANGLE = 90; // deg
 

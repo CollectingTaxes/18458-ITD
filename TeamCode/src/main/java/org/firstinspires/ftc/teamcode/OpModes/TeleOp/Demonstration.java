@@ -8,20 +8,19 @@ import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.OpModes.Autos.PedroPathingCommands;
+
 @TeleOp
 public class Demonstration extends LinearOpMode {
-    Servo servo;
-    ColorRangeSensor colorSensor;
+    PedroPathingCommands pedroPathingCommands;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        hardwareMap.get(ColorRangeSensor.class, "colorSensor");
-        hardwareMap.get(Servo.class, "Claw");
+        pedroPathingCommands = new PedroPathingCommands(this);
 
         waitForStart();
-        while(opModeIsActive()) {
-            if (colorSensor.getDistance(CM) == 0.636)
-                servo.setPosition(0.24);
+        while (opModeIsActive()) {
+            pedroPathingCommands.scoringSpecimens();
         }
     }
 }

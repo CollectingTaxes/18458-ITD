@@ -56,6 +56,7 @@ public class TeleOpMain extends MatchOpMode {
 
     @Override
     public void configureButtons() {
+        //TODO: TALK TO CARLOS ABOUT CONTROLS FOR THE WRIST
         drivetrain.setDefaultCommand(new DefaultDriveCommand(drivetrain, driverGamepad, true));
 
         //Button recenterIMU = (new GamepadButton(driverGamepad, GamepadKeys.Button.A))
@@ -86,6 +87,7 @@ public class TeleOpMain extends MatchOpMode {
                 .whenPressed(new Grab(claw));
         Button ClawOuttake = new GamepadButton(operatorGamepad, GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(new Release(claw));
+
 
 
     }
