@@ -11,8 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
-import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
+import org.firstinspires.ftc.teamcode.pedroPathing.constants.*;
 
 
 /**
@@ -36,7 +35,7 @@ public class LateralTuner extends OpMode {
 
     private Telemetry telemetryA;
 
-    public static double DISTANCE = 48;
+    public static double DISTANCE = 32;
 
     /**
      * This initializes the PoseUpdater as well as the FTC Dashboard telemetry.
