@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Commandbase.Commands.slides;
+package org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.slides;
 
 
 import com.arcrobotics.ftclib.command.CommandBase;

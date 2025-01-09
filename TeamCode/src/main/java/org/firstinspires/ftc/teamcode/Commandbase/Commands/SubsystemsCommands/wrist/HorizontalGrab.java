@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Commandbase.Commands.wrist;
+package org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.wrist;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;

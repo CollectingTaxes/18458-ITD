@@ -27,6 +27,7 @@ dependencies {
 
     //PEDRO PATHING
     implementation 'com.pedropathing:pedro:1.0.5'
+    implementation 'com.pedropathing:ftclib:1.0.5'
 
     //PHOTON
     implementation 'com.github.Eeshwar-Krishnan:PhotonFTC:v3.0.2-ALPHA'

@@ -6,10 +6,10 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Commandbase.Commands.wrist.Decrement;
-import org.firstinspires.ftc.teamcode.Commandbase.Commands.wrist.HorizontalGrab;
-import org.firstinspires.ftc.teamcode.Commandbase.Commands.wrist.NeutralGrab;
-import org.firstinspires.ftc.teamcode.Commandbase.Commands.wrist.Increment;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.wrist.Decrement;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.wrist.HorizontalGrab;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.wrist.NeutralGrab;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.wrist.Increment;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
 import org.firstinspires.ftc.teamcode.OldStuff.RoadRunner.util.MatchOpMode;
 

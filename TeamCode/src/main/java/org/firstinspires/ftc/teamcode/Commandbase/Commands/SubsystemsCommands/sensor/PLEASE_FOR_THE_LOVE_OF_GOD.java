@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Commandbase.Commands.sensor;
+package org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.sensor;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 

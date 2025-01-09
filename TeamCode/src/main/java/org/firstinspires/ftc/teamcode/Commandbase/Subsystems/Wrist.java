@@ -19,8 +19,8 @@ public class Wrist extends SubsystemBase {
 
     public boolean sensorOn = true;
 
-    public static double NEUTRAL_POSE = 0.625;
-    public double HORIZONTAL_GRAB_POSE = 0.965;
+    public static double NEUTRAL_POSE = 0.14;
+    public double HORIZONTAL_GRAB_POSE = 0.45;
 
     Telemetry telemetry;
     private static ServoEx wrist;
