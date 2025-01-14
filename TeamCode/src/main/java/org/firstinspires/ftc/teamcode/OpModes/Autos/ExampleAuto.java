@@ -16,6 +16,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.Pathing.PathFollower;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.arm.Intake;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.claw.Grab;
+import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.*;
 
 
@@ -34,6 +37,7 @@ public class ExampleAuto extends OpMode {
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
     private PathFollower pathFollower;
+    private Arm arm;
     private int pathState;
 
 
@@ -157,7 +161,8 @@ public class ExampleAuto extends OpMode {
         CommandScheduler.getInstance().schedule(
                 new SequentialCommandGroup(
                         new PathFollower(scorePreload),
-                        new PathFollower(scorePreload)
+                        new PathFollower(scorePreload),
+                        new Intake(arm)
                 )
         );
     }

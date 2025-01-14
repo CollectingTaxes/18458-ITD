@@ -16,9 +16,9 @@ public class LConstants {
          */
         TwoWheelConstants.forwardY = 5;
         TwoWheelConstants.strafeX = 5;
-        TwoWheelConstants.forwardEncoder_HardwareMapName = "leftFront";
+        TwoWheelConstants.forwardEncoder_HardwareMapName = "rightFront";
         TwoWheelConstants.strafeEncoder_HardwareMapName = "rightRear";
-        TwoWheelConstants.forwardEncoderDirection = Encoder.REVERSE;
+        TwoWheelConstants.forwardEncoderDirection = Encoder.FORWARD;
         TwoWheelConstants.strafeEncoderDirection = Encoder.FORWARD;
         TwoWheelConstants.IMU_HardwareMapName = "imu";
         TwoWheelConstants.IMU_Orientation = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.LEFT, RevHubOrientationOnRobot.UsbFacingDirection.UP);
