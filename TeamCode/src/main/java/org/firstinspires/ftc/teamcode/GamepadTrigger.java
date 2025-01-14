@@ -8,6 +8,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 
 
 // I HAVE NO CLUE WHY THIS IS HERE I ORGANIZE LATER
+//JOE MAMA
 public class GamepadTrigger extends Button {
     private final GamepadEx gamepad;
     private GamepadKeys.Trigger trigger;
