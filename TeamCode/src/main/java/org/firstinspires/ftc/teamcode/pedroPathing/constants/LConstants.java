@@ -7,15 +7,15 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 
 public class LConstants {
     static {
-        TwoWheelConstants.forwardTicksToInches = .0015;
-        TwoWheelConstants.strafeTicksToInches = .0026;
+        TwoWheelConstants.forwardTicksToInches = 0.0009;
+        TwoWheelConstants.strafeTicksToInches = .00215;
         /*
         VALUES TO TEST
         3.149 OR 5.9 for back wheel
         3.66 for the wheels on the side
          */
-        TwoWheelConstants.forwardY = 3.66;
-        TwoWheelConstants.strafeX = 5;
+        TwoWheelConstants.forwardY = 5;
+        TwoWheelConstants.strafeX = 4.6;
         TwoWheelConstants.forwardEncoder_HardwareMapName = "rightFront";
         TwoWheelConstants.strafeEncoder_HardwareMapName = "rightRear";
         TwoWheelConstants.forwardEncoderDirection = Encoder.FORWARD;
