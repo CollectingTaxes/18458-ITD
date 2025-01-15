@@ -29,19 +29,19 @@ public class Claw extends SubsystemBase {
 
         this.telemetry = telemetry;
 
-        OPEN();
+        open();
     }
     @Override
     public void periodic() {
         telemetry.addData("ClawPose", Claw.getPosition());
     }
 
-    public void GRAB() {
+    public void grab() {
         Claw.setPosition(GRAB);
         clawStateGrabbed = true;
     }
 
-    public void OPEN() {
+    public void open() {
         Claw.setPosition(OPEN);
         clawStateGrabbed = false;
     }

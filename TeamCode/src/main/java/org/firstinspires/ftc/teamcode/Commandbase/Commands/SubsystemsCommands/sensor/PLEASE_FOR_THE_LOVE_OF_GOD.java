@@ -18,8 +18,8 @@ public class PLEASE_FOR_THE_LOVE_OF_GOD extends CommandBase {
     @Override
     public void execute() {
         if (!claw.clawStateGrabbed && sampleDetector.distance()) {
-            claw.GRAB();
+            claw.grab();
         }
-        else claw.OPEN();
+        else claw.open();
     }
 }

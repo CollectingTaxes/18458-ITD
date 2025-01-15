@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
 public class Release extends SequentialCommandGroup {
     public Release(Claw claw) {
         addCommands(
-                new InstantCommand(claw::OPEN)
+                new InstantCommand(claw::open)
         );
     }
 }
