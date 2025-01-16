@@ -26,22 +26,25 @@ import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
  * @version 2.0, 11/28/2024
  */
 
-@Autonomous(name = "Example Auto Blue", group = "Examples")
+@Autonomous(name = "Example Auto", group = "Examples")
 public class ExampleAuto extends CommandOpMode {
     private Follower follower;
     private Grab grab;
-    private Claw claw = new Claw(hardwareMap, telemetry);
+    private Claw claw;
 
     @Override
     public void initialize() {
         this.follower = new Follower(hardwareMap);
+        this.claw = new Claw(hardwareMap, telemetry);
         this.follower.setStartingPose(new Pose(0,0,0));
 
+
+        //IT DOES THIS ON INIT. WHILE OPMODE IS ACTIVE
         schedule(
                 //TODO it might die
                 new WaitUntilCommand(this::opModeIsActive),
-                new FollowPath(follower, Pathing.TEST()).alongWith(
-                new Grab(claw))
+                new FollowPath(follower, Pathing.TEST()),
+                new Grab(claw)
         );
     }
 }
