@@ -1,7 +1,6 @@
-package org.firstinspires.ftc.teamcode.pedroPathing.constants;
+package org.firstinspires.ftc.teamcode.ZenithSummerProject_PedroPathing.constants;
 
 import com.pedropathing.localization.Encoder;
-import com.pedropathing.localization.constants.DriveEncoderConstants;
 import com.pedropathing.localization.constants.TwoWheelConstants;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 

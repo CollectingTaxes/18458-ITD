@@ -11,18 +11,17 @@ public class ChamberBlue {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, 0, 0))
-                .lineToX(30)
-                .turn(Math.toRadians(90))
-                .lineToY(30)
-                .turn(Math.toRadians(90))
-                .lineToX(0)
-                .turn(Math.toRadians(90))
-                .lineToY(0)
-                .turn(Math.toRadians(90))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-17.5, 64, Math.toRadians(270)))
+                .splineToLinearHeading(new Pose2d(-8,30, Math.toRadians(270)), Math.toRadians(270))
+                .waitSeconds(1)
+                .lineToYConstantHeading(35)
+                .splineToLinearHeading(new Pose2d(-50, 15, Math.toRadians(270)), Math.toRadians(90))
+                .lineToYConstantHeading(55)
+
                 .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)

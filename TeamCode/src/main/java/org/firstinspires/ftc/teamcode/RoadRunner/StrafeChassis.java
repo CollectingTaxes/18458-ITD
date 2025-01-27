@@ -234,8 +234,8 @@ public final class StrafeChassis {
         // TODO: make sure your config has motors with these names (or change them)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
         leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        leftRear = hardwareMap.get(DcMotorEx.class, "leftBack");
-        rightRear = hardwareMap.get(DcMotorEx.class, "rightBack");
+        leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
+        rightRear = hardwareMap.get(DcMotorEx.class, "rightFront");
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

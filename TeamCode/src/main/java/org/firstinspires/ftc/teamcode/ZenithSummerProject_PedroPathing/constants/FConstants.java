@@ -1,9 +1,7 @@
-package org.firstinspires.ftc.teamcode.pedroPathing.constants;
+package org.firstinspires.ftc.teamcode.ZenithSummerProject_PedroPathing.constants;
 
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.localization.Localizers;
-import com.pedropathing.util.CustomFilteredPIDFCoefficients;
-import com.pedropathing.util.CustomPIDFCoefficients;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class FConstants {

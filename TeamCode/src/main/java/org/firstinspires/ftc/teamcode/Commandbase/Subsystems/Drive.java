@@ -5,6 +5,7 @@ package org.firstinspires.ftc.teamcode.Commandbase.Subsystems;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
+import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -18,7 +19,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.RoadRunner.StrafeChassis;
 
 import java.util.List;
-
 
 public class Drive extends SubsystemBase {
     public final StrafeChassis drive;
@@ -38,7 +38,6 @@ public class Drive extends SubsystemBase {
         this.hardwareMap = hardwareMap;
 //        imu = hardwareMap.get(BNO055IMU.class, "imu");
     }
-
 
     public void init() {
         new Pose2d(0,0,0);
@@ -98,15 +97,12 @@ public class Drive extends SubsystemBase {
     public void setMotorPowers(double lFP, double lRP, double rFP, double rRP) {
 
     }
-
     private double squareInput(double power) {
         return power * Math.abs(power);
     }
     private double cubeInput(double power) {
         return power*Math.abs(power)*Math.abs(power);
     }
-
-
     /**
      * Returns minimum range value if the given value is less than
      * the set minimum. If the value is greater than the set maximum,
@@ -114,12 +110,10 @@ public class Drive extends SubsystemBase {
      *
      * value - The value to clip.
      */
-
     @Override
     public void periodic() {
 
     }
-
     public void stop() {
         setPowers(0, 0, 0, 0);
     }
@@ -127,7 +121,6 @@ public class Drive extends SubsystemBase {
     private double clamp(double val, double min, double max) {
         return Math.max(min, Math.min(max, val));
     }
-
     /**
      * Returns minimum range value if the given value is less than
      * the set minimum. If the value is greater than the set maximum,
@@ -140,7 +133,6 @@ public class Drive extends SubsystemBase {
                 : value >= 1 ? 1
                 : value;
     }
-
     /**
      * Normalize the wheel speeds
      */
@@ -157,7 +149,6 @@ public class Drive extends SubsystemBase {
         }
 
     }
-
     /**
      * Normalize the wheel speeds
      */
