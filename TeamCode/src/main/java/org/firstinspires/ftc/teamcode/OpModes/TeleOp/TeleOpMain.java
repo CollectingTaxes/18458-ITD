@@ -1,11 +1,17 @@
 package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad2;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.arm.Intake;
@@ -20,16 +26,16 @@ import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.sl
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.wrist.HorizontalGrab;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.wrist.NeutralGrab;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
-import org.firstinspires.ftc.teamcode.OldStuff.RoadRunner.drive.StrafeChassis;
-import org.firstinspires.ftc.teamcode.OldStuff.RoadRunner.util.MatchOpMode;
+
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Drive;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
+import org.firstinspires.ftc.teamcode.RoadRunner.StrafeChassis;
 
 @Config
 @TeleOp
-public class TeleOpMain extends MatchOpMode {
+public class TeleOpMain extends LinearOpMode {
 
     private GamepadEx driverGamepad; //Driver 1
     private GamepadEx operatorGamepad; // Driver 2
@@ -42,8 +48,10 @@ public class TeleOpMain extends MatchOpMode {
 
     //Drive drive = new Drive(this);
 
+
     @Override
-    public void robotInit() {
+    public void runOpMode() throws InterruptedException {
+
         driverGamepad = new GamepadEx(gamepad1);
         operatorGamepad = new GamepadEx(gamepad2);
 
@@ -52,13 +60,9 @@ public class TeleOpMain extends MatchOpMode {
         claw = new Claw(hardwareMap, telemetry);
 
         wrist = new Wrist(hardwareMap, telemetry);
-        drivetrain = new Drive(new StrafeChassis(hardwareMap, telemetry, true), telemetry, hardwareMap);
-
         drivetrain.init();
-    }
 
-    @Override
-    public void configureButtons() {
+        waitForStart();
         //TODO: TALK TO CARLOS ABOUT CONTROLS FOR THE WRIST
         drivetrain.setDefaultCommand(new DefaultDriveCommand(drivetrain, driverGamepad, true));
 
@@ -91,15 +95,9 @@ public class TeleOpMain extends MatchOpMode {
         Button ClawOuttake = new GamepadButton(operatorGamepad, GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(new Release(claw));
 
-        Button wristHorizontal = new GamepadButton(operatorGamepad,GamepadKeys.Button.DPAD_LEFT)
+        Button wristHorizontal = new GamepadButton(operatorGamepad,GamepadKeys.Button.X)
                 .whenPressed(new HorizontalGrab(wrist));
-        Button wristNormal = new GamepadButton(operatorGamepad,GamepadKeys.Button.DPAD_RIGHT)
+        Button wristNormal = new GamepadButton(operatorGamepad,GamepadKeys.Button.Y)
                 .whenPressed(new NeutralGrab(wrist));
-
-
-    }
-    @Override
-    public void matchStart() {
-
     }
 }

@@ -16,7 +16,7 @@ public class Claw extends SubsystemBase {
 
     public boolean clawStateGrabbed = true;
 
-    public static double GRAB = 0.24, OPEN = 0;
+    public static double GRAB = 0.25, OPEN = 0;
 
     Telemetry telemetry;
     private static ServoEx Claw;
@@ -29,7 +29,7 @@ public class Claw extends SubsystemBase {
 
         this.telemetry = telemetry;
 
-        open();
+        grab();
     }
     @Override
     public void periodic() {
