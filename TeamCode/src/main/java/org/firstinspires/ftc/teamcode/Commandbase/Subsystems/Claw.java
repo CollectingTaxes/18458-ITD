@@ -4,12 +4,14 @@ import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.ServoEx;
 import com.arcrobotics.ftclib.hardware.SimpleServo;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config
-public class Claw extends SubsystemBase {
+public class Claw {
 
     // testing to see if you can change booleans
     public static boolean REVERSED = false;
@@ -19,31 +21,27 @@ public class Claw extends SubsystemBase {
     public static double GRAB = 0.25, OPEN = 0;
 
     Telemetry telemetry;
-    private static ServoEx Claw;
+    public Servo claw;
 
 
-    public Claw(final HardwareMap hMap, Telemetry telemetry) {
-        Claw = new SimpleServo(hMap, "Claw", 0, 360);
+    public Claw(OpMode opMode) {
+        this.claw = (Servo) opMode.hardwareMap.get("claw");
 
-        Claw.setInverted(REVERSED);
+        claw.setDirection(Servo.Direction.REVERSE);
 
         this.telemetry = telemetry;
 
         grab();
     }
-    @Override
-    public void periodic() {
-        telemetry.addData("ClawPose", Claw.getPosition());
-    }
+
 
     public void grab() {
-        Claw.setPosition(GRAB);
+        claw.setPosition(GRAB);
         clawStateGrabbed = true;
     }
 
     public void open() {
-        Claw.setPosition(OPEN);
+        claw.setPosition(OPEN);
         clawStateGrabbed = false;
     }
-
 }
