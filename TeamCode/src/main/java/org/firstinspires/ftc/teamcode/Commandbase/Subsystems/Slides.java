@@ -4,6 +4,8 @@ import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.outoftheboxrobotics.photoncore.Photon;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -11,10 +13,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config
-public class Slides extends SubsystemBase {
+public class Slides {
     private final Telemetry telemetry;
     private final MotorEx leftSlide;
     private final MotorEx rightSlide;
+    private final HardwareMap hardwareMap;
 
     public static int min = -5;
     public static int max = 2500;
@@ -25,10 +28,12 @@ public class Slides extends SubsystemBase {
     public static int Reset = 0;
     public int current = 0;
 
-    public Slides (HardwareMap hardwareMap, Telemetry telemetry) {
+    public Slides (OpMode opMode) {
+        telemetry = opMode.telemetry;
+        hardwareMap = opMode.hardwareMap;
 
-        leftSlide = new MotorEx(hardwareMap, "leftSlide");
-        rightSlide = new MotorEx(hardwareMap, "rightSlide");
+        leftSlide = hardwareMap.get(MotorEx.class, "leftSlide");
+        rightSlide = hardwareMap.get(MotorEx.class, "rightSlide");
 
         rightSlide.setInverted(false);
         leftSlide.setInverted(true);
@@ -39,16 +44,6 @@ public class Slides extends SubsystemBase {
         leftSlide.motorEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightSlide.motorEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        this.telemetry = telemetry;
-    }
-
-    @Override
-    public void periodic() {
-        if(!rightSlide.motorEx.isBusy()){
-
-            telemetry.addData("     left encoder: ", getPos());
-            telemetry.addData("     right encoder: ", getPos());
-        }
     }
 
     public void setPos(int pos) {
@@ -92,4 +87,5 @@ public class Slides extends SubsystemBase {
     public void liftHigh() {
         setPos(High);
     }
+
 }
