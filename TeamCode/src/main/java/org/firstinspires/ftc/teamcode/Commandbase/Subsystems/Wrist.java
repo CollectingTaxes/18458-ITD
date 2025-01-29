@@ -1,18 +1,22 @@
 package org.firstinspires.ftc.teamcode.Commandbase.Subsystems;
 
+import static com.qualcomm.robotcore.hardware.Servo.Direction.REVERSE;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.ServoEx;
 import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @Config
 //TODO: TALK TO CARLOS ABOUT CONTROLS FOR THE WRIST
-public class Wrist extends SubsystemBase {
+public class Wrist {
 
     // testing to see if you can change booleans
     public static boolean REVERSED = false;
@@ -23,7 +27,7 @@ public class Wrist extends SubsystemBase {
     public double HORIZONTAL_GRAB_POSE = 0.45;
 
     Telemetry telemetry;
-    private static ServoEx wrist;
+    private static Servo wrist;
     private static CRServo meh;
 
     /*37.5 degrees of rotation is = 45
@@ -36,17 +40,12 @@ public class Wrist extends SubsystemBase {
     public double rotating = 0.15;
 
 
-    public Wrist(final HardwareMap hMap, Telemetry telemetry) {
-        wrist = new SimpleServo(hMap, "Wrist", 0, 360);
+    public Wrist(OpMode opMode) {
+        this.wrist = (Servo) opMode.hardwareMap.get("wrist");
 
-        wrist.setInverted(REVERSED);
+        wrist.setDirection(REVERSE);
 
         this.telemetry = telemetry;
-    }
-    @Override
-    public void periodic() {
-        telemetry.addData("Wrist Pose: ", wrist.getPosition());
-        telemetry.addData("State of Wrist wire: ", holyMolyServoWireIsTangledUp());
     }
 
     public void neutralGrab() {

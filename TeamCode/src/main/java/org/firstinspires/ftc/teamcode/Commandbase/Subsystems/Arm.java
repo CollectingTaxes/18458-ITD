@@ -2,35 +2,32 @@ package org.firstinspires.ftc.teamcode.Commandbase.Subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.arcrobotics.ftclib.hardware.ServoEx;
 import com.arcrobotics.ftclib.hardware.SimpleServo;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config
-public class Arm extends SubsystemBase {
-
-    public static boolean FORWARD = false;
+public class Arm  {
+    public HardwareMap hardwareMap;
 
     public static double RESET_POSE = 0.41;
     public static double GRAB_POSE = 0.1;
 
     Telemetry telemetry;
-    private final SimpleServo leftArm, rightArm;
+    private final Servo leftArm, rightArm;
 
-    public Arm(final HardwareMap hMap, Telemetry telemetry) {
-        this.leftArm = new SimpleServo(hMap, "leftArm", 0, 360);
-        this.rightArm = new SimpleServo(hMap, "rightArm", 0, 360);
+    public Arm(OpMode opMode) {
+        this.leftArm = (Servo) opMode.hardwareMap.get("leftArm");
+        this.rightArm = (Servo) opMode.hardwareMap.get("rightArm");
 
-        leftArm.setInverted(FORWARD);
-        rightArm.setInverted(true);
+        leftArm.setDirection(Servo.Direction.FORWARD);
+        rightArm.setDirection(Servo.Direction.REVERSE);
 
         this.telemetry = telemetry;
-    }
-
-    @Override
-    public void periodic() {
-        telemetry.addData("ArmPose", leftArm.getPosition());
     }
 
     public void grab() {
