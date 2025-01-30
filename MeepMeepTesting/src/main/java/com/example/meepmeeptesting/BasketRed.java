@@ -14,8 +14,8 @@ public class BasketRed {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, 0, 0))
-                .lineToX(30)
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(10, 61, 270))
+                .lineToX(100)
                 .turn(Math.toRadians(90))
                 .lineToY(30)
                 .turn(Math.toRadians(90))
@@ -24,7 +24,7 @@ public class BasketRed {
                 .lineToY(0)
                 .turn(Math.toRadians(90))
                 .build());
-
+// LineToX, LineToY
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
