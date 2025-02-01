@@ -28,8 +28,7 @@ public class Wrist {
 
     Telemetry telemetry;
     private static Servo wrist;
-    private static CRServo meh;
-
+    public HardwareMap hardwareMap;
     /*37.5 degrees of rotation is = 45
         1 = 300
         0 = 0
@@ -41,11 +40,15 @@ public class Wrist {
 
 
     public Wrist(OpMode opMode) {
-        this.wrist = (Servo) opMode.hardwareMap.get("wrist");
+        this.hardwareMap = opMode.hardwareMap;
+        this.wrist = (Servo) hardwareMap.get("wrist");
 
         wrist.setDirection(REVERSE);
 
         this.telemetry = telemetry;
+    }
+    public void teleOp() {
+
     }
 
     public void neutralGrab() {
@@ -62,7 +65,7 @@ public class Wrist {
         wrist.setPosition(wrist.getPosition() - rotating);
     }
     public String holyMolyServoWireIsTangledUp() {
-        if (wrist.getPosition() <= 0.375) {
+        if (wrist.getPosition() <= 0.5) {
             return "SERVO WIRE TWISTING AROUND ARM" +
                     "SERVO WIRE TWISTING AROUND ARM";
         }

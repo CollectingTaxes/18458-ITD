@@ -19,9 +19,23 @@ public class ChamberBlue {
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-17.5, 64, Math.toRadians(270)))
                 .splineToLinearHeading(new Pose2d(-8,30, Math.toRadians(270)), Math.toRadians(270))
                 .waitSeconds(1)
+
                 .strafeToConstantHeading(new Vector2d(-15, 35))
                 .splineToLinearHeading(new Pose2d(-50, 15, Math.toRadians(270)), Math.toRadians(90))
                 .lineToYConstantHeading(55)
+                .waitSeconds(0.25)
+
+                .strafeToConstantHeading(new Vector2d(-50, 19))
+                .splineToLinearHeading(new Pose2d(-59, 19, Math.toRadians(270)), Math.toRadians(90))
+                .lineToYConstantHeading(50)
+                        .waitSeconds(0.25)
+                //DO TURN BEFORE PUSHING
+                        .lineToYConstantHeading(60)
+                .waitSeconds(0.5)
+
+
+                        .waitSeconds(0.25)
+                        .splineToLinearHeading(new Pose2d(-7, 30, Math.toRadians(270)), Math.toRadians(270))
 
                 .build());
 

@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.OldStuff.RoadRunner.drive.StrafeChassis;
 
 @Autonomous
 public class Auto extends LinearOpMode {

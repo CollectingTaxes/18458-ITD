@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -15,8 +16,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @Config
 public class Slides {
     private final Telemetry telemetry;
-    private final MotorEx leftSlide;
-    private final MotorEx rightSlide;
+    private final DcMotor leftSlide;
+    private final DcMotor rightSlide;
+    private final MotorEx h;
     private final HardwareMap hardwareMap;
 
     public static int min = -5;
@@ -29,20 +31,21 @@ public class Slides {
     public int current = 0;
 
     public Slides (OpMode opMode) {
-        telemetry = opMode.telemetry;
-        hardwareMap = opMode.hardwareMap;
+        this.telemetry = opMode.telemetry;
+        this.hardwareMap = opMode.hardwareMap;
 
-        leftSlide = hardwareMap.get(MotorEx.class, "leftSlide");
-        rightSlide = hardwareMap.get(MotorEx.class, "rightSlide");
+        this.leftSlide = (DcMotor) hardwareMap.get("leftSlide");
+        this.rightSlide = (DcMotor) hardwareMap.get("rightSlide");
 
-        rightSlide.setInverted(false);
-        leftSlide.setInverted(true);
 
-        leftSlide.resetEncoder();
-        rightSlide.resetEncoder();
+        rightSlide.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftSlide.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        leftSlide.motorEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightSlide.motorEx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        leftSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     }
 
@@ -61,14 +64,14 @@ public class Slides {
     }
 
     public void normalize() {
-        leftSlide.motorEx.setTargetPosition(current);
-        leftSlide.motorEx.setTargetPositionTolerance(10);
-        leftSlide.motorEx.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        leftSlide.motorEx.setPower(1);
-        rightSlide.motorEx.setTargetPosition(current);
-        rightSlide.motorEx.setTargetPositionTolerance(10);
-        rightSlide.motorEx.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        rightSlide.motorEx.setPower(1);
+        leftSlide.setTargetPosition(current);
+//        leftSlide.setTargetPositionTolerance(10);
+        leftSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        leftSlide.setPower(1);
+        rightSlide.setTargetPosition(current);
+//        rightSlide.motorEx.setTargetPositionTolerance(10);
+        rightSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        rightSlide.setPower(1);
     }
 
     //Lift Pose

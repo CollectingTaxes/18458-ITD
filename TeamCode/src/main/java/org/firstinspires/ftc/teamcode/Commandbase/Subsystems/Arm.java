@@ -21,13 +21,14 @@ public class Arm  {
     private final Servo leftArm, rightArm;
 
     public Arm(OpMode opMode) {
-        this.leftArm = (Servo) opMode.hardwareMap.get("leftArm");
-        this.rightArm = (Servo) opMode.hardwareMap.get("rightArm");
+        this.hardwareMap = opMode.hardwareMap;
+
+        this.leftArm = (Servo) hardwareMap.get("leftArm");
+        this.rightArm = (Servo) hardwareMap.get("rightArm");
 
         leftArm.setDirection(Servo.Direction.FORWARD);
         rightArm.setDirection(Servo.Direction.REVERSE);
 
-        this.telemetry = telemetry;
     }
 
     public void grab() {
