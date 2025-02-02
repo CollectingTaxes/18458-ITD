@@ -140,7 +140,7 @@ public class TeleOpMain extends OpMode {
                     )
             );
         }
-        slides.moveManual();
+//        slides.moveManual();
 
 
         drivetrain.setDrivePowers(new PoseVelocity2d(
