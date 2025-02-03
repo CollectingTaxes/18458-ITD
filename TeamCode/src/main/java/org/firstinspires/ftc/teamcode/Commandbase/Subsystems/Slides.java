@@ -18,7 +18,6 @@ public class Slides {
     private final Telemetry telemetry;
     private final DcMotor leftSlide;
     private final DcMotor rightSlide;
-   // private final MotorEx h;
     private final HardwareMap hardwareMap;
 
     public static int min = -5;

@@ -74,7 +74,7 @@ public final class StrafeChassis {
         // drive model parameters
         public double inPerTick = 6.173641798804263;
         public double lateralInPerTick = inPerTick;
-        public double trackWidthTicks = 0;
+        public double trackWidthTicks = 18183.614122621613;
 
         // feedforward parameters (in tick units)
         public double kS = 1.1712546173845295;
