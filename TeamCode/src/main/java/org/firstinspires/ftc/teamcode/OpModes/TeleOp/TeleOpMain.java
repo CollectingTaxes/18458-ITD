@@ -41,6 +41,7 @@ import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.sl
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.slides.SlideReset;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.wrist.HorizontalGrab;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.wrist.NeutralGrab;
+import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Hang;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
 
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
@@ -59,6 +60,7 @@ public class TeleOpMain extends OpMode {
     private Claw claw;
     private Wrist wrist;
     public StrafeChassis drivetrain;
+    public Hang hang;
     public Arm arm;
     private Slides slides;
     public double heading;
@@ -76,12 +78,12 @@ public class TeleOpMain extends OpMode {
         claw = new Claw(this);
         drivetrain = new StrafeChassis(hardwareMap, new Pose2d(0,0, heading));
         slides = new Slides(this);
+        hang = new Hang(this);
 
     }
 
     @Override
     public void loop() {
-
 
         if (gamepad2.dpad_up) {
             runningActions.add(
@@ -141,6 +143,12 @@ public class TeleOpMain extends OpMode {
             );
         }
         slides.moveManual(50);
+
+        if (gamepad1.left_trigger <= 0.5) {
+            hang.extend();
+        } else if (gamepad1.right_trigger <= 0.5) {
+            hang.fuck();
+        } else hang.motorPowers(0);
 
 
         drivetrain.setDrivePowers(new PoseVelocity2d(
