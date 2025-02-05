@@ -64,6 +64,7 @@ public class TeleOpMain extends OpMode {
         claw = new Claw(this);
         drivetrain = new Drive(this);
         slides = new Slides(this);
+        wrist = new Wrist(this);
 
     }
 
@@ -116,13 +117,13 @@ public class TeleOpMain extends OpMode {
                     )
             );
         }
-        if (gamepad2.x) {
+        if (gamepad2.dpad_left) {
             runningActions.add(
                     new SequentialAction(
                             new InstantAction(wrist::horizontalGrab)
                     )
             );
-        } else if (gamepad2.y) {
+        } else if (gamepad2.dpad_right) {
             runningActions.add(
                     new SequentialAction(
                             new InstantAction(wrist::neutralGrab)

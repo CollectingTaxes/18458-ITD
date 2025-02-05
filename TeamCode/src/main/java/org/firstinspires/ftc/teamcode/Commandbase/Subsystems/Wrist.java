@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Commandbase.Subsystems;
 
+import static com.qualcomm.robotcore.hardware.Servo.Direction.FORWARD;
 import static com.qualcomm.robotcore.hardware.Servo.Direction.REVERSE;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -23,8 +24,8 @@ public class Wrist {
 
     public boolean sensorOn = true;
 
-    public static double NEUTRAL_POSE = 0.14;
-    public double HORIZONTAL_GRAB_POSE = 0.45;
+    public static double NEUTRAL_POSE = 0;
+    public static double HORIZONTAL_GRAB_POSE = 0.33;
 
     Telemetry telemetry;
     private static Servo wrist;
@@ -43,7 +44,7 @@ public class Wrist {
         this.hardwareMap = opMode.hardwareMap;
         this.wrist = (Servo) hardwareMap.get("wrist");
 
-        wrist.setDirection(REVERSE);
+        wrist.setDirection(FORWARD);
 
         this.telemetry = telemetry;
     }

@@ -15,13 +15,13 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Claw {
 
     // testing to see if you can change booleans
-    public static boolean REVERSED = false;
+    public static boolean REVERSED = true;
 
     public HardwareMap hardwareMap;
     public Gamepad gamepad2;
     public boolean clawStateGrabbed = true;
 
-    public static double GRAB = 0.25, OPEN = 0;
+    public static double OPEN = 0.2, GRAB = 0.5;
 
     public Servo claw;
 

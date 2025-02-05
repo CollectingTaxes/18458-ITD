@@ -72,14 +72,14 @@ public final class StrafeChassis {
                 RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
 
         // drive model parameters
-        public double inPerTick = 6.173641798804263;
-        public double lateralInPerTick = inPerTick;
-        public double trackWidthTicks = 18183.614122621613;
+        public double inPerTick = 5.267720942483072e-4;
+        public double lateralInPerTick = 0.00037761086238611213;
+        public double trackWidthTicks = 17996.150921456003;
 
         // feedforward parameters (in tick units)
-        public double kS = 1.1898645723751944;
-        public double kV =  0.00010167215339798186;
-        public double kA = 0;
+        public double kS = 0.9877769514403769;
+        public double kV =  0.00010538475326520468;
+        public double kA = 0.000015;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 50;
@@ -91,9 +91,9 @@ public final class StrafeChassis {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 0.0;
-        public double lateralGain = 0.0;
-        public double headingGain = 0.0; // shared with turn
+        public double axialGain = 8.0;
+        public double lateralGain = 4.0;
+        public double headingGain = 4.0; // shared with turn
 
         public double axialVelGain = 0.0;
         public double lateralVelGain = 0.0;
