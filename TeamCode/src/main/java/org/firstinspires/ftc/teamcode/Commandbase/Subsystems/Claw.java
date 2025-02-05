@@ -21,7 +21,7 @@ public class Claw {
     public Gamepad gamepad2;
     public boolean clawStateGrabbed = true;
 
-    public static double OPEN = 0.2, GRAB = 0.5;
+    public static double GRAB = 0.2, OPEN = 0.5;
 
     public Servo claw;
 

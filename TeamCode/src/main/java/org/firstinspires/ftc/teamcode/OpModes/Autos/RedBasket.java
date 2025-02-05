@@ -5,68 +5,82 @@ import android.os.Build;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Drive;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
+import org.firstinspires.ftc.teamcode.RoadRunner.StrafeChassis;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Autonomous
-public class RedBasket extends LinearOpMode {
+public class RedBasket extends OpMode {
     public Claw claw;
     public Wrist wrist;
-    public Drive drivetrain;
+    public StrafeChassis drivetrain;
     public Arm arm;
     public Slides slides;
     public Telemetry telemetry;
     public List<Action> runningActions = new ArrayList<>();
-
     private final FtcDashboard dash = FtcDashboard.getInstance();
 
+    @Override
+    public void init() {
+
+        arm = new Arm(this);
+        claw = new Claw(this);
+        drivetrain = new StrafeChassis(hardwareMap, new Pose2d(0,0,Math.toRadians(0)));
+        slides = new Slides(this);
+        wrist = new Wrist(this);
+
+    }
 
     @Override
-    public void runOpMode() throws InterruptedException {
-        Pose2d beginPose = new Pose2d(-12, 62.25, Math.toRadians(90));
+    public void loop() {
 
-        waitForStart();
-        while (opModeIsActive()) {
-            if (opModeIsActive()) {
-                // Preload
-                Actions.runBlocking(
-                        drivetrain.actionBuilder(beginPose)
-                                .strafeTo(new Vector2d(1.5,27.75))
-                                .build()
+        Actions.runBlocking(
+                drivetrain.actionBuilder(new Pose2d(0,0,Math.toRadians(0)))
+                        .strafeTo(new Vector2d(0,10))
+                        .build()
                 );
-                slides.liftHigh();
-                sleep(300);
-                arm.grab();
-                sleep(200);
-                claw.open();
-                sleep(200);
-                slides.liftRest();
+        runningActions.add(
+                new SequentialAction(
+                        new InstantAction(slides::liftHigh),
+                        new SleepAction(100),
+                        new InstantAction(slides::liftRest)
+                )
+        );
+        Actions.runBlocking(
+                drivetrain.actionBuilder(new Pose2d(0,0,Math.toRadians(0)))
+                        .strafeTo(new Vector2d(20,0))
+                        .build()
+        );
+        stop();
 
-                List<Action> newActions = new ArrayList<>();
-                for (Action action : runningActions) {
-                    TelemetryPacket packet = new TelemetryPacket();
-                    action.preview(packet.fieldOverlay());
-                    if (!action.run(packet)) {
-                        continue;
-                    }
-                    newActions.add(action);
-                    dash.sendTelemetryPacket(packet);
-                }
-                runningActions = newActions;
+        List<Action> newActions = new ArrayList<>();
+        for (Action action : runningActions) {
+            TelemetryPacket packet = new TelemetryPacket();
+            action.preview(packet.fieldOverlay());
+            if (!action.run(packet)) {
+                continue;
             }
+            newActions.add(action);
+            dash.sendTelemetryPacket(packet);
         }
-        }
+        runningActions = newActions;
     }
 }
