@@ -77,8 +77,8 @@ public final class StrafeChassis {
         public double trackWidthTicks = 18183.614122621613;
 
         // feedforward parameters (in tick units)
-        public double kS = 1.1712546173845295;
-        public double kV = 0.00010558440247793021;
+        public double kS = 1.1898645723751944;
+        public double kV =  0.00010167215339798186;
         public double kA = 0;
 
         // path profile parameters (in inches)

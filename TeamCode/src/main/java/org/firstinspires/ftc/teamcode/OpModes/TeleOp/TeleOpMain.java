@@ -31,17 +31,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.apache.commons.math3.geometry.euclidean.twod.Line;
-import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.arm.Intake;
-import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.arm.Score;
-import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.claw.Grab;
-import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.claw.Release;
-import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.drive.DefaultDriveCommand;
-import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.drive.SlowDriveCommand;
-import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.slides.SlideHigh;
-import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.slides.SlideReset;
-import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.wrist.HorizontalGrab;
-import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.wrist.NeutralGrab;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Hang;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
 
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
@@ -57,33 +48,29 @@ import java.util.List;
 @TeleOp
 public class TeleOpMain extends OpMode {
 
-    private Claw claw;
-    private Wrist wrist;
-    public StrafeChassis drivetrain;
-    public Hang hang;
+    public Claw claw;
+    public  Wrist wrist;
+    public Drive drivetrain;
     public Arm arm;
-    private Slides slides;
-    public double heading;
+    public Slides slides;
+    public Telemetry telemetry;
 
     private final FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
 
     @Override
     public void init() {
-        if (gamepad1.x) {
-            heading = Math.toRadians(270);
-        }
-        else heading = Math.toRadians(90);
         arm = new Arm(this);
         claw = new Claw(this);
-        drivetrain = new StrafeChassis(hardwareMap, new Pose2d(0,0, heading));
+        drivetrain = new Drive(this);
         slides = new Slides(this);
-        hang = new Hang(this);
 
     }
 
     @Override
     public void loop() {
+
+        drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, 1, gamepad1.a);
 
         if (gamepad2.dpad_up) {
             runningActions.add(
@@ -93,7 +80,7 @@ public class TeleOpMain extends OpMode {
                     )
             );
         }
-        if (gamepad2.dpad_down) {
+        else if (gamepad2.dpad_down) {
             runningActions.add(
                     new SequentialAction(
                             new InstantAction(arm::reset),
@@ -142,22 +129,7 @@ public class TeleOpMain extends OpMode {
                     )
             );
         }
-        slides.moveManual(50);
 
-        if (gamepad1.left_trigger <= 0.5) {
-            hang.extend();
-        } else if (gamepad1.right_trigger <= 0.5) {
-            hang.fuck();
-        } else hang.motorPowers(0);
-
-
-        drivetrain.setDrivePowers(new PoseVelocity2d(
-                new Vector2d(
-                        gamepad1.left_stick_x,
-                        -gamepad1.left_stick_y),
-                gamepad1.right_stick_y
-                )
-        );
         List<Action> newActions = new ArrayList<>();
         for (Action action : runningActions) {
             TelemetryPacket packet = new TelemetryPacket();
