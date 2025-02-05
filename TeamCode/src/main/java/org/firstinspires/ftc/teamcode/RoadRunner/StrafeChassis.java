@@ -80,6 +80,7 @@ public final class StrafeChassis {
         public double kS = 0.9877769514403769;
         public double kV =  0.00010538475326520468;
         public double kA = 0.000015;
+        public int sigma;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 50;
