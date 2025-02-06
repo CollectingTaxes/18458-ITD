@@ -18,41 +18,33 @@ public class BacketRed {
 
 
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-  24, -62, -300))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-6, -64, -300))
                 .strafeToConstantHeading(new Vector2d(-7,-30))
-                .waitSeconds(1)
-                .strafeToConstantHeading(new Vector2d(-48, -36))
-                .waitSeconds(1)
+                .waitSeconds(0.5)
+
+                .strafeToConstantHeading(new Vector2d(-25, -35))
+                .splineToConstantHeading(new Vector2d(-48, -36), Math.toRadians(90))
+                .waitSeconds(0.5)
+
                 .turnTo(Math.toRadians(220))
                 .strafeToConstantHeading(new Vector2d(-52, -52))
-                .waitSeconds(1)
+                .waitSeconds(0.5)
+
                 .turnTo(Math.toRadians(90))
                 .strafeToConstantHeading(new Vector2d(-58, -36))
-                .waitSeconds(1)
+                .waitSeconds(0.5)
+
                 .turnTo(Math.toRadians(220))
                 .strafeToConstantHeading(new Vector2d(-52, -52))
-                .waitSeconds(1)
+                .waitSeconds(0.5)
+
                 .turnTo(Math.toRadians(145))
                 .strafeToConstantHeading(new Vector2d(-61, -34))
-                .waitSeconds(1)
+                .waitSeconds(0.5)
+
                 .turnTo(Math.toRadians(220))
                 .strafeToConstantHeading(new Vector2d(-52, -52))
-
-
-             //   .splineToLinearHeading(new Pose2d(55, -14, Math.toRadians(-33)), Math.toRadians(70))
-            //    .waitSeconds(1)
-            //    .splineToLinearHeading(new Pose2d(60, 39, Math.toRadians(-90)), Math.toRadians(70))
-            //    .splineToLinearHeading(new Pose2d(56, 54, Math.toRadians(40)), Math.toRadians(0))
-           //     .splineToLinearHeading(new Pose2d(59, 25, Math.toRadians(352)), Math.toRadians(30))
-           //     .splineToLinearHeading(new Pose2d(56, 54, Math.toRadians(40)), Math.toRadians(0))
                 .build());
-
-
-
-
-
-
-
 
 // LineToX, LineToY
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)

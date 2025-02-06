@@ -8,7 +8,7 @@ import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class ChamberBlue {
     public static void main(String[] args) {
-        MeepMeep meepMeep = new MeepMeep(600);
+        MeepMeep meepMeep = new MeepMeep(800);
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
@@ -20,25 +20,21 @@ public class ChamberBlue {
                 .splineToLinearHeading(new Pose2d(-8,30, Math.toRadians(270)), Math.toRadians(270))
                 .waitSeconds(1)
 
-                        .turn(Math.toRadians(180))
-                .strafeToLinearHeading(new Vector2d(-15, 35), Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(-50, 15, Math.toRadians(90)), Math.toRadians(90))
+                .strafeToConstantHeading(new Vector2d(-15, 35))
+                .splineToLinearHeading(new Pose2d(-50, 15, Math.toRadians(270)), Math.toRadians(90))
                 .lineToYConstantHeading(55)
                 .waitSeconds(0.25)
 
                 .strafeToConstantHeading(new Vector2d(-50, 19))
-                .splineToLinearHeading(new Pose2d(-59, 19, Math.toRadians(90)), Math.toRadians(90))
-                .lineToYConstantHeading(55)
-                        /*.waitSeconds(0.25)
+                .splineToLinearHeading(new Pose2d(-59, 19, Math.toRadians(270)), Math.toRadians(90))
+                .lineToYConstantHeading(50)
+                        .waitSeconds(0.25)
                 //DO TURN BEFORE PUSHING
                         .lineToYConstantHeading(60)
-                .waitSeconds(0.5)*/
-
-                        .strafeToLinearHeading(new Vector2d(-32, 60), Math.toRadians(180))
+                .waitSeconds(0.5)
 
 
                         .waitSeconds(0.25)
-                        .setTangent(0)
                         .splineToLinearHeading(new Pose2d(-7, 30, Math.toRadians(270)), Math.toRadians(270))
 
                 .build());

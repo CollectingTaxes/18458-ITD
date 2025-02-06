@@ -12,6 +12,9 @@ import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.arcrobotics.ftclib.spline.PoseWithCurvature;
+import com.pedropathing.localization.Pose;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -52,24 +55,66 @@ public class RedBasket extends OpMode {
     @Override
     public void loop() {
 
+        Pose2d starting = new Pose2d(-6, -64, -300);
+        Pose2d preload = new Pose2d(-7, 30, -300);
+        Pose2d toYellowBlocks = new Pose2d(-48, -36, Math.toRadians(90));
+        Pose2d cycleOne = new Pose2d(-58, -36, Math.toRadians(90));
+        Pose2d cycleTwo = new Pose2d();
+        Pose2d cycleThree = new Pose2d();
+        Pose2d end = new Pose2d();
+
         Actions.runBlocking(
-                drivetrain.actionBuilder(new Pose2d(0,0,Math.toRadians(0)))
-                        .strafeTo(new Vector2d(0,10))
-                        .build()
-                );
-        runningActions.add(
-                new SequentialAction(
-                        new InstantAction(slides::liftHigh),
-                        new SleepAction(100),
-                        new InstantAction(slides::liftRest)
-                )
-        );
-        Actions.runBlocking(
-                drivetrain.actionBuilder(new Pose2d(0,0,Math.toRadians(0)))
-                        .strafeTo(new Vector2d(20,0))
+                drivetrain.actionBuilder(starting)
+                        .strafeToConstantHeading(new Vector2d(-7, -30))
+                        .waitSeconds(0.5)
                         .build()
         );
-        stop();
+        Actions.runBlocking(
+                drivetrain.actionBuilder(preload)
+                        .strafeToConstantHeading(new Vector2d(-25, -35))
+                        .splineToConstantHeading(new Vector2d(-48, -36), Math.toRadians(90))
+                        .waitSeconds(0.5)
+                        .build()
+        );
+        Actions.runBlocking(
+                drivetrain.actionBuilder(toYellowBlocks)
+                        .turnTo(Math.toRadians(220))
+                        .strafeToConstantHeading(new Vector2d(-52, -52))
+                        .waitSeconds(0.5)
+                        .build()
+        );
+        Actions.runBlocking(
+                drivetrain.actionBuilder(cycleOne)
+                        .turnTo(Math.toRadians(90))
+                        .strafeToConstantHeading(new Vector2d(-58, -36))
+                        .waitSeconds(0.5)
+
+                        .build()
+        );
+        Actions.runBlocking(
+                drivetrain.actionBuilder(cycleTwo)
+
+                        .turnTo(Math.toRadians(220))
+                        .strafeToConstantHeading(new Vector2d(-52, -52))
+                        .waitSeconds(0.5)
+
+                        .build()
+        );
+        Actions.runBlocking(
+                drivetrain.actionBuilder(cycleThree)
+
+                        .turnTo(Math.toRadians(145))
+                        .strafeToConstantHeading(new Vector2d(-61, -34))
+                        .waitSeconds(0.5)
+
+                        .build()
+        );
+        Actions.runBlocking(
+                drivetrain.actionBuilder(end)
+                        .turnTo(Math.toRadians(220))
+                        .strafeToConstantHeading(new Vector2d(-52, -52))
+                        .build()
+        );
 
         List<Action> newActions = new ArrayList<>();
         for (Action action : runningActions) {
