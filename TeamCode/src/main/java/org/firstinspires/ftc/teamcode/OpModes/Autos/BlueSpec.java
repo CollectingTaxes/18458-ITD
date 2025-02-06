@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.OpModes.Autos;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -30,6 +33,21 @@ public class BlueSpec extends LinearOpMode {
     public Arm arm;
     public Slides slides;
 
+    enum Path {
+        START,
+        PUSH1,
+        PUSH2,
+        CYCLE1START,
+        CYCLE1END,
+        CYCLE2START,
+        CYCLE2END,
+        CYCLE3START,
+        CYCLE3END,
+        END
+    }
+
+    Path path = Path.START;
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -37,10 +55,12 @@ public class BlueSpec extends LinearOpMode {
         Pose2d Preload = new Pose2d(-8, 30, Math.toRadians(270));
         Pose2d FirstPush = new Pose2d(-50, 55, Math.toRadians(90));
         Pose2d SecondPush = new Pose2d(-59, 55, Math.toRadians(90));
-        Pose2d Cycle = new Pose2d(-32, 60, Math.toRadians(180));
-        Pose2d Score = new Pose2d(-17.5, 64, Math.toRadians(270));
+        Pose2d Cycle = new Pose2d(-30, 60, Math.toRadians(180));
+        Pose2d Score = new Pose2d(-8, 32, Math.toRadians(270));
+
 
         StrafeChassis drive = new StrafeChassis(hardwareMap, StartPose);
+        final FtcDashboard dash = FtcDashboard.getInstance();
         List<Action> runningActions = new ArrayList<>();
 
 
@@ -51,61 +71,131 @@ public class BlueSpec extends LinearOpMode {
 
         while (!opModeIsActive() && !isStopRequested()) {
             arm.reset();
-            claw.open();
+            claw.grab();
             slides.liftRest();
             wrist.neutralGrab();
 
             waitForStart();
 
             if (opModeIsActive()) {
-                //PreLoad
-                Actions.runBlocking(
-                        drive.actionBuilder(StartPose)
-                                .splineToLinearHeading(new Pose2d(-8,32, Math.toRadians(270)), Math.toRadians(270))
-                                .build());
 
-                //First Push
-                Actions.runBlocking(
-                        drive.actionBuilder(Preload)
-                                .turn(Math.toRadians(180))
-                                .strafeToLinearHeading(new Vector2d(-18, 35), Math.toRadians(90))
-                                .splineToLinearHeading(new Pose2d(-50, 15, Math.toRadians(90)), Math.toRadians(90))
-                                .lineToYConstantHeading(55)
-                                .build());
+                switch (path) {
+                    case START:
+                       slides.liftHigh();
+                        Actions.runBlocking(
+                                drive.actionBuilder(StartPose)
+                                        .splineToLinearHeading(new Pose2d(-8,32, Math.toRadians(270)), Math.toRadians(270))
+                                        .waitSeconds(0.25)
+                                        .build());
+                        slides.liftRest();
+                        sleep(100);
+                        claw.open();
 
-                //Second Push
-                Actions.runBlocking(
-                        drive.actionBuilder(FirstPush)
-                                .strafeToConstantHeading(new Vector2d(-50, 19))
-                                .splineToLinearHeading(new Pose2d(-59, 19, Math.toRadians(90)), Math.toRadians(90))
-                                .lineToYConstantHeading(55)
-                                .build());
+                    path = Path.PUSH1;
+                    case PUSH1:
+                        Actions.runBlocking(
+                                drive.actionBuilder(Preload)
+                                        .turn(Math.toRadians(180))
+                                        .strafeToLinearHeading(new Vector2d(-18, 35), Math.toRadians(90))
+                                        .splineToLinearHeading(new Pose2d(-47 , 15, Math.toRadians(90)), Math.toRadians(90))
+                                        .strafeToConstantHeading(new Vector2d(-47, 55))
+                                        .build());
+                        path = Path.PUSH2;
+                    case PUSH2:
+                        Actions.runBlocking(
+                                drive.actionBuilder(FirstPush)
+                                        .strafeToConstantHeading(new Vector2d(-50, 19))
+                                        .splineToLinearHeading(new Pose2d(-56, 19, Math.toRadians(90)), Math.toRadians(90))
+                                        .strafeToConstantHeading(new Vector2d(-56, 55))
+                                        .build());
+                        path = Path.CYCLE1START;
+                    case CYCLE1START:
+                        Actions.runBlocking(
+                                drive.actionBuilder(SecondPush)
+                                        .strafeToLinearHeading(new Vector2d(-30, 60), Math.toRadians(180))
+                                        .build());
+                        arm.grab();
+                        sleep(450);
+                        claw.grab();
 
-                //Cycle 1
-                Actions.runBlocking(
-                        drive.actionBuilder(SecondPush)
-                                .strafeToLinearHeading(new Vector2d(-32, 60), Math.toRadians(180))
-                                .build());
+                        path = Path.CYCLE1END;
+                    case CYCLE1END:
+                        sleep(250);
+                        slides.liftHigh();
+                        arm.reset();
 
-                //Cycle 1 End
-                Actions.runBlocking(
-                        drive.actionBuilder(SecondPush)
-                                .splineToLinearHeading(new Pose2d(-7, 30, Math.toRadians(270)), Math.toRadians(270))
-                                .build());
+                        Actions.runBlocking(
+                                drive.actionBuilder(Cycle)
+                                        .setTangent(0)
+                                        .splineToLinearHeading(new Pose2d(-7, 32, Math.toRadians(270)), Math.toRadians(270))
+                                        .build());
+                        path = Path.CYCLE2START;
+                    case CYCLE2START:
+                        slides.liftRest();
+                        sleep(100);
+                        claw.open();
 
+                        Actions.runBlocking(
+                                drive.actionBuilder(Score)
+                                        .strafeToLinearHeading(new Vector2d(-32, 60), Math.toRadians(180))
+                                        .build());
 
+                        arm.grab();
+                        sleep(450);
+                        claw.grab();
+                        path = Path.CYCLE2END;
+                    case CYCLE2END:
+                        sleep(250);
+                        slides.liftHigh();
+                        arm.reset();
 
+                        Actions.runBlocking(
+                                drive.actionBuilder(Cycle)
+                                        .setTangent(0)
+                                        .splineToLinearHeading(new Pose2d(-3, 32, Math.toRadians(270)), Math.toRadians(270))
+                                        .build());
+                        path = Path.CYCLE3START;
+                    case CYCLE3START:
+                        slides.liftRest();
+                        sleep(100);
+                        claw.open();
 
-                  /*runningActions.add(
-                          new SequentialAction(
-                                  new InstantAction(slides::liftHigh)
-                          )
-                  );*/
+                        Actions.runBlocking(
+                                drive.actionBuilder(Score)
+                                        .strafeToLinearHeading(new Vector2d(-32, 60), Math.toRadians(180))
+                                        .build());
 
+                        arm.grab();
+                        sleep(450);
+                        claw.grab();
+                        path = Path.CYCLE3END;
+                    case CYCLE3END:
+                        sleep(250);
+                        slides.liftHigh();
+                        arm.reset();
 
+                        Actions.runBlocking(
+                                drive.actionBuilder(Cycle)
+                                        .setTangent(0)
+                                        .splineToLinearHeading(new Pose2d(-10, 32, Math.toRadians(270)), Math.toRadians(270))
+                                        .build());
+                        path = Path.END;
+                    case END:
+                        break;
+                }
+
+                List<Action> newActions = new ArrayList<>();
+                for (Action action : runningActions) {
+                    TelemetryPacket packet = new TelemetryPacket();
+                    action.preview(packet.fieldOverlay());
+                    if (!action.run(packet)) {
+                        continue;
+                    }
+                    newActions.add(action);
+                    dash.sendTelemetryPacket(packet);
+                }
+                runningActions = newActions;
             }
-
-
         }
     }
 }

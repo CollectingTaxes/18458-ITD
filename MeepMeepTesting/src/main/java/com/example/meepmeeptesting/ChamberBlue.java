@@ -38,8 +38,10 @@ public class ChamberBlue {
 
 
                         .waitSeconds(0.25)
-                        .setTangent(0)
-                        .splineToLinearHeading(new Pose2d(-7, 30, Math.toRadians(270)), Math.toRadians(270))
+
+                .strafeToLinearHeading(new Vector2d(-7, 30), Math.toRadians(270))
+                        /*.setTangent(0)
+                        .splineToLinearHeading(new Pose2d(-7, 30, Math.toRadians(270)), Math.toRadians(270))*/
 
                 .build());
 
