@@ -16,6 +16,7 @@ public class Arm  {
 
     public static double RESET_POSE = 0.41;
     public static double GRAB_POSE = 0.1;
+    public static double SPEC_GRAB = 0.2;
 
     Telemetry telemetry;
     private final Servo leftArm, rightArm;
@@ -34,6 +35,11 @@ public class Arm  {
     public void grab() {
         leftArm.setPosition(GRAB_POSE);
         rightArm.setPosition(GRAB_POSE);
+    }
+
+    public void specGrab() {
+        leftArm.setPosition(SPEC_GRAB);
+        rightArm.setPosition(SPEC_GRAB);
     }
 
     public void reset() {
