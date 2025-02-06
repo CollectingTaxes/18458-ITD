@@ -23,7 +23,7 @@ public class Slides {
     public static int min = -5;
     public static int max = 2500;
 
-    public static int High = 1500;
+    public static int High = 1400;
     public static int Mid = 600;
     public static int Low = 100;
     public static int Reset = 0;

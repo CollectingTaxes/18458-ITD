@@ -48,13 +48,19 @@ public class Drive {
 
         imu.initialize(parameters);
     }
-    public void teleOp(double y, double x, double rx, double slowMode, boolean imuReset) {
+    public void teleOp(double y, double x, double rx, double slowMode, boolean imuReset, boolean slow) {
 
         // This button choice was made so that it is hard to hit on accident,
         // it can be freely changed based on preference.
         // The equivalent button is start on Xbox-style controllers.
         if (imuReset) {
             imu.resetYaw();
+        }
+
+        if (slow) {
+            slowMode = 0.6;
+        } else {
+            slowMode = 1;
         }
 
         double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
