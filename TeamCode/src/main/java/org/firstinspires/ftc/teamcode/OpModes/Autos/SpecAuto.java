@@ -4,19 +4,14 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Drive;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
 import org.firstinspires.ftc.teamcode.RoadRunner.StrafeChassis;
@@ -26,7 +21,7 @@ import java.util.List;
 
 @Config
 @Autonomous
-public class BlueSpec extends LinearOpMode {
+public class SpecAuto extends LinearOpMode {
 
     public Claw claw;
     public Wrist wrist;
@@ -52,11 +47,13 @@ public class BlueSpec extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         Pose2d StartPose = new Pose2d(-17.5, 64, Math.toRadians(270));
-        Pose2d Preload = new Pose2d(-8, 33.5, Math.toRadians(270));
+        Pose2d Preload = new Pose2d(-8, 32, Math.toRadians(270));
         Pose2d FirstPush = new Pose2d(-50, 55, Math.toRadians(90));
         Pose2d SecondPush = new Pose2d(-63, 55, Math.toRadians(90));
         Pose2d Cycle = new Pose2d(-30, 60, Math.toRadians(180));
-        Pose2d Score = new Pose2d(-8, 31.5, Math.toRadians(270));
+        Pose2d SecondSpec = new Pose2d(-7, 32, Math.toRadians(270));
+        Pose2d ThirdSpec = new Pose2d(-3, 32, Math.toRadians(270));
+
 
 
         StrafeChassis drive = new StrafeChassis(hardwareMap, StartPose);
@@ -84,7 +81,7 @@ public class BlueSpec extends LinearOpMode {
                        slides.liftHigh();
                         Actions.runBlocking(
                                 drive.actionBuilder(StartPose)
-                                        .splineToLinearHeading(new Pose2d(-8,33.5, Math.toRadians(270)), Math.toRadians(270))
+                                        .splineToLinearHeading(new Pose2d(-8,32, Math.toRadians(270)), Math.toRadians(270))
                                         .waitSeconds(0.25)
                                         .build());
                         slides.liftRest();
@@ -129,7 +126,7 @@ public class BlueSpec extends LinearOpMode {
                         Actions.runBlocking(
                                 drive.actionBuilder(Cycle)
                                         .setTangent(0)
-                                        .splineToLinearHeading(new Pose2d(-7, 31.5, Math.toRadians(270)), Math.toRadians(270))
+                                        .splineToLinearHeading(new Pose2d(-7, 32, Math.toRadians(270)), Math.toRadians(270))
                                         .build());
                         path = Path.CYCLE2START;
                     case CYCLE2START:
@@ -138,7 +135,7 @@ public class BlueSpec extends LinearOpMode {
                         claw.open();
 
                         Actions.runBlocking(
-                                drive.actionBuilder(Score)
+                                drive.actionBuilder(SecondSpec)
                                         .strafeToLinearHeading(new Vector2d(-32, 60), Math.toRadians(180))
                                         .build());
 
@@ -163,7 +160,7 @@ public class BlueSpec extends LinearOpMode {
                         claw.open();
 
                         Actions.runBlocking(
-                                drive.actionBuilder(Score)
+                                drive.actionBuilder(ThirdSpec)
                                         .strafeToLinearHeading(new Vector2d(-32, 60), Math.toRadians(180))
                                         .build());
 

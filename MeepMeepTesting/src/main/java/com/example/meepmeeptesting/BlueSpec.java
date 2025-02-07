@@ -17,12 +17,16 @@ public class BlueSpec {
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-17.5, 64, Math.toRadians(270)))
+
+                //preload
                 .splineToLinearHeading(new Pose2d(-8,32, Math.toRadians(270)), Math.toRadians(270))
                 .waitSeconds(1)
 
+                //first grab
                 .strafeToLinearHeading(new Vector2d(-39, 37), Math.toRadians(-135))
                 .strafeToLinearHeading(new Vector2d(-47, 59), Math.toRadians(-180))
 
+                //second grab
                 .strafeToLinearHeading(new Vector2d(-52, 37), Math.toRadians(-125))
                 .strafeToLinearHeading(new Vector2d(-47, 59), Math.toRadians(-180))
 
