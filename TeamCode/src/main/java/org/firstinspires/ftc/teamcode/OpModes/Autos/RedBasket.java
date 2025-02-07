@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Autonomous
-public class RedBasket extends OpMode {
+public class RedBasket extends LinearOpMode {
     public Claw claw;
     public Wrist wrist;
     public StrafeChassis drivetrain;
@@ -41,91 +41,117 @@ public class RedBasket extends OpMode {
     public List<Action> runningActions = new ArrayList<>();
     private final FtcDashboard dash = FtcDashboard.getInstance();
 
+    enum Path {
+        STARTING,
+        PRELOAD,
+        TOYELLOWBLOCKS,
+        CYCLEONE,
+        CYCLETWO,
+        CYCLETHREE,
+        END,
+    }
+    Path path = Path.STARTING;
     @Override
-    public void init() {
-
+    public void runOpMode() throws InterruptedException {
         arm = new Arm(this);
         claw = new Claw(this);
-        drivetrain = new StrafeChassis(hardwareMap, new Pose2d(0,0,Math.toRadians(0)));
+        drivetrain = new StrafeChassis(hardwareMap, new Pose2d(0, 0, Math.toRadians(0)));
         slides = new Slides(this);
         wrist = new Wrist(this);
-
-    }
-
-    @Override
-    public void loop() {
 
         Pose2d starting = new Pose2d(-6, -64, -300);
         Pose2d preload = new Pose2d(-7, 30, -300);
         Pose2d toYellowBlocks = new Pose2d(-48, -36, Math.toRadians(90));
         Pose2d cycleOne = new Pose2d(-58, -36, Math.toRadians(90));
-        Pose2d cycleTwo = new Pose2d();
-        Pose2d cycleThree = new Pose2d();
-        Pose2d end = new Pose2d();
+        Pose2d cycleTwo = new Pose2d(-52, -52, Math.toRadians(220));
+        Pose2d cycleThree = new Pose2d(-61, -34, Math.toRadians(145));
+        Pose2d end = new Pose2d(-52, -52, Math.toRadians(220));
 
-        Actions.runBlocking(
-                drivetrain.actionBuilder(starting)
-                        .strafeToConstantHeading(new Vector2d(-7, -30))
-                        .waitSeconds(0.5)
-                        .build()
-        );
-        Actions.runBlocking(
-                drivetrain.actionBuilder(preload)
-                        .strafeToConstantHeading(new Vector2d(-25, -35))
-                        .splineToConstantHeading(new Vector2d(-48, -36), Math.toRadians(90))
-                        .waitSeconds(0.5)
-                        .build()
-        );
-        Actions.runBlocking(
-                drivetrain.actionBuilder(toYellowBlocks)
-                        .turnTo(Math.toRadians(220))
-                        .strafeToConstantHeading(new Vector2d(-52, -52))
-                        .waitSeconds(0.5)
-                        .build()
-        );
-        Actions.runBlocking(
-                drivetrain.actionBuilder(cycleOne)
-                        .turnTo(Math.toRadians(90))
-                        .strafeToConstantHeading(new Vector2d(-58, -36))
-                        .waitSeconds(0.5)
+        waitForStart();
 
-                        .build()
-        );
-        Actions.runBlocking(
-                drivetrain.actionBuilder(cycleTwo)
 
-                        .turnTo(Math.toRadians(220))
-                        .strafeToConstantHeading(new Vector2d(-52, -52))
-                        .waitSeconds(0.5)
+        if (opModeIsActive()) {
 
-                        .build()
-        );
-        Actions.runBlocking(
-                drivetrain.actionBuilder(cycleThree)
+            switch (path) {
+                case STARTING:
+                    Actions.runBlocking(
+                            drivetrain.actionBuilder(starting)
+                                    .strafeToConstantHeading(new Vector2d(-7, -30))
+                                    .waitSeconds(0.5)
+                                    .build()
+                    );
+                    path = Path.PRELOAD;
+                    case PRELOAD:
+                    Actions.runBlocking(
+                            drivetrain.actionBuilder(preload)
+                                    .strafeToConstantHeading(new Vector2d(-25, -35))
+                                    .splineToConstantHeading(new Vector2d(-48, -36), Math.toRadians(90))
+                                    .waitSeconds(0.5)
+                                    .build()
+                    );
+                    path = Path.TOYELLOWBLOCKS;
+                    case TOYELLOWBLOCKS:
+                    Actions.runBlocking(
+                            drivetrain.actionBuilder(toYellowBlocks)
+                                    .turnTo(Math.toRadians(220))
+                                    .strafeToConstantHeading(new Vector2d(-52, -52))
+                                    .waitSeconds(0.5)
+                                    .build()
+                    );
+                    path = Path.CYCLEONE;
+                    case CYCLEONE:
+                    Actions.runBlocking(
+                            drivetrain.actionBuilder(cycleOne)
+                                    .turnTo(Math.toRadians(90))
+                                    .strafeToConstantHeading(new Vector2d(-58, -36))
+                                    .waitSeconds(0.5)
 
-                        .turnTo(Math.toRadians(145))
-                        .strafeToConstantHeading(new Vector2d(-61, -34))
-                        .waitSeconds(0.5)
+                                    .build()
+                    );
+                    path = Path.CYCLETWO;
+                    case CYCLETWO:
+                    Actions.runBlocking(
+                            drivetrain.actionBuilder(cycleTwo)
 
-                        .build()
-        );
-        Actions.runBlocking(
-                drivetrain.actionBuilder(end)
-                        .turnTo(Math.toRadians(220))
-                        .strafeToConstantHeading(new Vector2d(-52, -52))
-                        .build()
-        );
+                                    .turnTo(Math.toRadians(220))
+                                    .strafeToConstantHeading(new Vector2d(-52, -52))
+                                    .waitSeconds(0.5)
 
-        List<Action> newActions = new ArrayList<>();
-        for (Action action : runningActions) {
-            TelemetryPacket packet = new TelemetryPacket();
-            action.preview(packet.fieldOverlay());
-            if (!action.run(packet)) {
-                continue;
+                                    .build()
+                    );
+                    path = Path.CYCLETHREE;
+                    case CYCLETHREE:
+                    Actions.runBlocking(
+                            drivetrain.actionBuilder(cycleThree)
+
+                                    .turnTo(Math.toRadians(145))
+                                    .strafeToConstantHeading(new Vector2d(-61, -34))
+                                    .waitSeconds(0.5)
+
+                                    .build()
+                    );
+                    path = Path.END;
+                    case END:
+                    Actions.runBlocking(
+                            drivetrain.actionBuilder(end)
+                                    .turnTo(Math.toRadians(220))
+                                    .strafeToConstantHeading(new Vector2d(-52, -52))
+                                    .build()
+
+                    );
+
+                    List<Action> newActions = new ArrayList<>();
+                    for (Action action : runningActions) {
+                        TelemetryPacket packet = new TelemetryPacket();
+                        action.preview(packet.fieldOverlay());
+                        if (!action.run(packet)) {
+                            continue;
+                        }
+                        newActions.add(action);
+                        dash.sendTelemetryPacket(packet);
+                    }
+                    runningActions = newActions;
             }
-            newActions.add(action);
-            dash.sendTelemetryPacket(packet);
         }
-        runningActions = newActions;
     }
 }
