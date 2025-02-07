@@ -75,6 +75,8 @@ public class Slides {
 
     //Lift Pose
     public void liftRest() {
+        leftSlide.setPower(0.75);
+        rightSlide.setPower(0.75);
         setPos(Reset);
     }
 

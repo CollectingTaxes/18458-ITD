@@ -52,11 +52,11 @@ public class BlueSpec extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         Pose2d StartPose = new Pose2d(-17.5, 64, Math.toRadians(270));
-        Pose2d Preload = new Pose2d(-8, 30, Math.toRadians(270));
+        Pose2d Preload = new Pose2d(-8, 33.5, Math.toRadians(270));
         Pose2d FirstPush = new Pose2d(-50, 55, Math.toRadians(90));
-        Pose2d SecondPush = new Pose2d(-59, 55, Math.toRadians(90));
+        Pose2d SecondPush = new Pose2d(-63, 55, Math.toRadians(90));
         Pose2d Cycle = new Pose2d(-30, 60, Math.toRadians(180));
-        Pose2d Score = new Pose2d(-8, 32, Math.toRadians(270));
+        Pose2d Score = new Pose2d(-8, 31.5, Math.toRadians(270));
 
 
         StrafeChassis drive = new StrafeChassis(hardwareMap, StartPose);
@@ -84,7 +84,7 @@ public class BlueSpec extends LinearOpMode {
                        slides.liftHigh();
                         Actions.runBlocking(
                                 drive.actionBuilder(StartPose)
-                                        .splineToLinearHeading(new Pose2d(-8,32, Math.toRadians(270)), Math.toRadians(270))
+                                        .splineToLinearHeading(new Pose2d(-8,33.5, Math.toRadians(270)), Math.toRadians(270))
                                         .waitSeconds(0.25)
                                         .build());
                         slides.liftRest();
@@ -96,17 +96,19 @@ public class BlueSpec extends LinearOpMode {
                         Actions.runBlocking(
                                 drive.actionBuilder(Preload)
                                         .turn(Math.toRadians(180))
-                                        .strafeToLinearHeading(new Vector2d(-18, 35), Math.toRadians(90))
-                                        .splineToLinearHeading(new Pose2d(-47 , 15, Math.toRadians(90)), Math.toRadians(90))
-                                        .strafeToConstantHeading(new Vector2d(-47, 55))
+                                        .strafeToLinearHeading(new Vector2d(-25.5, 30), Math.toRadians(90))
+                                        .splineToLinearHeading(new Pose2d(-50 , 10, Math.toRadians(90)), Math.toRadians(90))
+                                        .waitSeconds(0.25)
+                                        .strafeToConstantHeading(new Vector2d(-50, 55))
                                         .build());
                         path = Path.PUSH2;
                     case PUSH2:
                         Actions.runBlocking(
                                 drive.actionBuilder(FirstPush)
                                         .strafeToConstantHeading(new Vector2d(-50, 19))
-                                        .splineToLinearHeading(new Pose2d(-56, 19, Math.toRadians(90)), Math.toRadians(90))
-                                        .strafeToConstantHeading(new Vector2d(-56, 55))
+                                        .splineToLinearHeading(new Pose2d(-57, 19, Math.toRadians(90)), Math.toRadians(90))
+                                        .waitSeconds(0.25)
+                                        .strafeToConstantHeading(new Vector2d(-63, 55))
                                         .build());
                         path = Path.CYCLE1START;
                     case CYCLE1START:
@@ -115,24 +117,24 @@ public class BlueSpec extends LinearOpMode {
                                         .strafeToLinearHeading(new Vector2d(-30, 60), Math.toRadians(180))
                                         .build());
                         arm.grab();
-                        sleep(450);
+                        sleep(400);
                         claw.grab();
 
                         path = Path.CYCLE1END;
                     case CYCLE1END:
-                        sleep(250);
+                        sleep(200);
                         slides.liftHigh();
                         arm.reset();
 
                         Actions.runBlocking(
                                 drive.actionBuilder(Cycle)
                                         .setTangent(0)
-                                        .splineToLinearHeading(new Pose2d(-7, 32, Math.toRadians(270)), Math.toRadians(270))
+                                        .splineToLinearHeading(new Pose2d(-7, 31.5, Math.toRadians(270)), Math.toRadians(270))
                                         .build());
                         path = Path.CYCLE2START;
                     case CYCLE2START:
                         slides.liftRest();
-                        sleep(100);
+                        sleep(150);
                         claw.open();
 
                         Actions.runBlocking(
@@ -157,7 +159,7 @@ public class BlueSpec extends LinearOpMode {
                         path = Path.CYCLE3START;
                     case CYCLE3START:
                         slides.liftRest();
-                        sleep(100);
+                        sleep(150);
                         claw.open();
 
                         Actions.runBlocking(
