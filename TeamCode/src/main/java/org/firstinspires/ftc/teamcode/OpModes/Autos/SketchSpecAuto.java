@@ -28,6 +28,28 @@ public class SketchSpecAuto extends LinearOpMode {
     public Arm arm;
     public Slides slides;
 
+    public static Pose2d StartPose = new Pose2d(-17.5, 64, Math.toRadians(270));
+    public static Pose2d Preload = new Pose2d(-8, 32, Math.toRadians(270));
+    public static Pose2d FirstGrab = new Pose2d(-41, 35, Math.toRadians(-130));
+    public static Pose2d SecondGrab = new Pose2d(-52.5, 37, Math.toRadians(-125));
+    public static Pose2d HPZone = new Pose2d(-47, 62, Math.toRadians(180));
+    public static Pose2d Cycle = new Pose2d(-30, 60, Math.toRadians(180));
+    public static Pose2d FirstSpec = new Pose2d(-3, 32, Math.toRadians(270));
+    public static Pose2d SecondSpec = new Pose2d(-7, 32, Math.toRadians(270));
+    public static Pose2d ThirdSpec = new Pose2d(-11, 32, Math.toRadians(270));
+
+    public static Vector2d PRELOAD = new Vector2d(-8, 32);
+    public static Vector2d FIRSTGRAB = new Vector2d(-41, 35);
+    public static Vector2d SECONDGRAB = new Vector2d(-52.5, 37);
+    public static Vector2d HPZONE = new Vector2d(-47, 62);
+    public static Vector2d CYCLE = new Vector2d(-30, 60);
+    public static Vector2d PARK = new Vector2d(-50, 60);
+    public static Vector2d FIRSTSPEC = new Vector2d(-3, 32);
+    public static Vector2d SECONDSPEC = new Vector2d(-7, 32);
+    public static Vector2d THIRDSPEC = new Vector2d(-11, 32);
+
+
+
     enum Path {
         START,
         GRAB1,
@@ -45,15 +67,6 @@ public class SketchSpecAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-
-        Pose2d StartPose = new Pose2d(-17.5, 64, Math.toRadians(270));
-        Pose2d Preload = new Pose2d(-8, 32, Math.toRadians(270));
-        Pose2d FirstGrab = new Pose2d(-39, 37, Math.toRadians(-135));
-        Pose2d SecondGrab = new Pose2d(-52, 37, Math.toRadians(-125));
-        Pose2d HPZone = new Pose2d(-47, 59, Math.toRadians(180));
-        Pose2d Cycle = new Pose2d(-30, 60, Math.toRadians(180));
-        Pose2d SecondSpec = new Pose2d(-7, 32, Math.toRadians(270));
-        Pose2d ThirdSpec = new Pose2d(-3, 32, Math.toRadians(270));
 
 
         StrafeChassis drive = new StrafeChassis(hardwareMap, StartPose);
@@ -81,8 +94,8 @@ public class SketchSpecAuto extends LinearOpMode {
                         slides.liftHigh();
                         Actions.runBlocking(
                                 drive.actionBuilder(StartPose)
-                                        .splineToLinearHeading(new Pose2d(-8,33.5, Math.toRadians(270)), Math.toRadians(270))
-                                        .waitSeconds(0.25)
+                                        .strafeToLinearHeading(PRELOAD, Math.toRadians(270))
+                                        //.waitSeconds(0.25)
                                         .build());
                         slides.liftRest();
                         sleep(100);
@@ -92,41 +105,45 @@ public class SketchSpecAuto extends LinearOpMode {
                     case GRAB1:
                         Actions.runBlocking(
                                 drive.actionBuilder(Preload)
-                                        .strafeToLinearHeading(new Vector2d(-39, 37), Math.toRadians(-135))
+                                        .strafeToLinearHeading(FIRSTGRAB, Math.toRadians(-130))
                                         .build());
                         arm.grab();
-                        sleep(400);
+                        wrist.specGrab();
+                        sleep(450);
                         claw.grab();
+                        sleep(250);
                         arm.specGrab();
                         Actions.runBlocking(
                                 drive.actionBuilder(FirstGrab)
-                                        .strafeToLinearHeading(new Vector2d(-47, 59), Math.toRadians(-180))
+                                        .strafeToLinearHeading(HPZONE, Math.toRadians(-180))
                                         .build());
                         path = Path.GRAB2;
                     case GRAB2:
                         claw.open();
                         Actions.runBlocking(
                                 drive.actionBuilder(HPZone)
-                                        .strafeToLinearHeading(new Vector2d(-52, 37), Math.toRadians(-125))
+                                        .strafeToLinearHeading(SECONDGRAB, Math.toRadians(-125))
                                         .build());
                         arm.grab();
                         sleep(400);
                         claw.grab();
+                        sleep(250);
                         arm.specGrab();
                         Actions.runBlocking(
                                 drive.actionBuilder(SecondGrab)
-                                        .strafeToLinearHeading(new Vector2d(-47, 59), Math.toRadians(-180))
+                                        .strafeToLinearHeading(HPZONE, Math.toRadians(-180))
                                         .build());
                         claw.open();
                         arm.reset();
+                        wrist.neutralGrab();
                         path = Path.CYCLE1START;
                     case CYCLE1START:
                         Actions.runBlocking(
                                 drive.actionBuilder(HPZone)
-                                        .strafeToLinearHeading(new Vector2d(-30, 60), Math.toRadians(180))
+                                        .strafeToLinearHeading(CYCLE, Math.toRadians(180))
                                         .build());
                         arm.grab();
-                        sleep(400);
+                        sleep(550);
                         claw.grab();
 
                         path = Path.CYCLE1END;
@@ -137,22 +154,22 @@ public class SketchSpecAuto extends LinearOpMode {
 
                         Actions.runBlocking(
                                 drive.actionBuilder(Cycle)
-                                        .setTangent(0)
-                                        .splineToLinearHeading(new Pose2d(-7, 31.5, Math.toRadians(270)), Math.toRadians(270))
+                                        .strafeToLinearHeading(FIRSTSPEC, Math.toRadians(270))
                                         .build());
                         path = Path.CYCLE2START;
                     case CYCLE2START:
+                        sleep(200);
                         slides.liftRest();
                         sleep(150);
                         claw.open();
 
                         Actions.runBlocking(
-                                drive.actionBuilder(SecondSpec)
-                                        .strafeToLinearHeading(new Vector2d(-32, 60), Math.toRadians(180))
+                                drive.actionBuilder(FirstSpec)
+                                        .strafeToLinearHeading(CYCLE, Math.toRadians(180))
                                         .build());
 
                         arm.grab();
-                        sleep(450);
+                        sleep(550);
                         claw.grab();
                         path = Path.CYCLE2END;
                     case CYCLE2END:
@@ -162,22 +179,22 @@ public class SketchSpecAuto extends LinearOpMode {
 
                         Actions.runBlocking(
                                 drive.actionBuilder(Cycle)
-                                        .setTangent(0)
-                                        .splineToLinearHeading(new Pose2d(-3, 32, Math.toRadians(270)), Math.toRadians(270))
+                                        .strafeToLinearHeading(SECONDSPEC, Math.toRadians(270))
                                         .build());
                         path = Path.CYCLE3START;
                     case CYCLE3START:
+                        sleep(200);
                         slides.liftRest();
                         sleep(150);
                         claw.open();
 
                         Actions.runBlocking(
-                                drive.actionBuilder(ThirdSpec)
-                                        .strafeToLinearHeading(new Vector2d(-32, 60), Math.toRadians(180))
+                                drive.actionBuilder(SecondSpec)
+                                        .strafeToLinearHeading(CYCLE, Math.toRadians(180))
                                         .build());
 
                         arm.grab();
-                        sleep(450);
+                        sleep(550);
                         claw.grab();
                         path = Path.CYCLE3END;
                     case CYCLE3END:
@@ -187,11 +204,20 @@ public class SketchSpecAuto extends LinearOpMode {
 
                         Actions.runBlocking(
                                 drive.actionBuilder(Cycle)
-                                        .setTangent(0)
-                                        .splineToLinearHeading(new Pose2d(-10, 32, Math.toRadians(270)), Math.toRadians(270))
+                                        .strafeToLinearHeading(THIRDSPEC, Math.toRadians(270))
                                         .build());
-                        path = Path.END;
+
+
+                        sleep(200);
+                        slides.liftRest();
+                        sleep(150);
+                        claw.open();
+                                path = Path.END;
                     case END:
+                        Actions.runBlocking(
+                                drive.actionBuilder(ThirdSpec)
+                                        .strafeToLinearHeading(PARK, Math.toRadians(270))
+                                        .build());
                         break;
                 }
 

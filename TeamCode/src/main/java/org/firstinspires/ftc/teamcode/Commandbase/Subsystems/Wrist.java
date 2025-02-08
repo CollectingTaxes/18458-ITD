@@ -25,6 +25,7 @@ public class Wrist {
     public boolean sensorOn = true;
 
     public static double NEUTRAL_POSE = 0;
+    public static double AUTO_POSE = 0.2;
     public static double HORIZONTAL_GRAB_POSE = 0.33;
 
     Telemetry telemetry;
@@ -54,6 +55,9 @@ public class Wrist {
 
     public void neutralGrab() {
         wrist.setPosition(NEUTRAL_POSE);
+    }
+    public void specGrab() {
+        wrist.setPosition(AUTO_POSE);
     }
 
     public void horizontalGrab() {

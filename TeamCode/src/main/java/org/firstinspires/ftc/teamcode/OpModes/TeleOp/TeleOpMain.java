@@ -77,7 +77,7 @@ public class TeleOpMain extends OpMode {
         if (gamepad2.dpad_up) {
             runningActions.add(
                     new SequentialAction(
-                            new InstantAction(claw::open),
+                            new InstantAction(claw::grab),
                             new SleepAction(0.2),
                             new InstantAction(arm::reset),
                             new InstantAction(slides::liftHigh)
@@ -89,21 +89,27 @@ public class TeleOpMain extends OpMode {
                     new SequentialAction(
                             new InstantAction(arm::reset),
                             new InstantAction(slides::liftRest),
+                            new InstantAction(wrist::neutralGrab),
                             new SleepAction(0.15),
-                            new InstantAction(claw::grab)
+                            new InstantAction(claw::open)
                     )
             );
         }
         if (gamepad2.b) {
             runningActions.add(
                     new SequentialAction(
+                            new InstantAction(arm::grab),
+                            new SleepAction(0.15),
+                            new InstantAction(claw::grab),
+                            new SleepAction(0.15),
                             new InstantAction(arm::reset)
                     )
             );
         } else if (gamepad2.a) {
             runningActions.add(
                     new SequentialAction(
-                            new InstantAction(arm::grab)
+                            new InstantAction(arm::specGrab),
+                            new InstantAction(claw::open)
                     )
             );
         }
