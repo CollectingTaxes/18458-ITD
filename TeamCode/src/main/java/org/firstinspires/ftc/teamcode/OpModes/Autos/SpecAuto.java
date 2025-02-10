@@ -31,7 +31,7 @@ public class SpecAuto extends LinearOpMode {
     public static Pose2d StartPose = new Pose2d(-17.5, 64, Math.toRadians(270));
     public static Pose2d Preload = new Pose2d(-8, 33.6, Math.toRadians(270));
     //Was 41
-    public static Pose2d FirstGrab = new Pose2d(-39, 35, Math.toRadians(-130));
+    public static Pose2d FirstGrab = new Pose2d(-39, 34, Math.toRadians(-130));
     public static Pose2d SecondGrab = new Pose2d(-50, 37, Math.toRadians(-125));
     public static Pose2d HPZone = new Pose2d(-47, 62, Math.toRadians(180));
     public static Pose2d Cycle = new Pose2d(-30, 60, Math.toRadians(180));
@@ -40,7 +40,7 @@ public class SpecAuto extends LinearOpMode {
     public static Pose2d ThirdSpec = new Pose2d(-12, 32.1, Math.toRadians(270));
 
     public static Vector2d PRELOAD = new Vector2d(-8, 33.575);
-    public static Vector2d FIRSTGRAB = new Vector2d(-39, 35);
+    public static Vector2d FIRSTGRAB = new Vector2d(-39, 34);
     //52.5
     public static Vector2d SECONDGRAB = new Vector2d(-50, 37);
     public static Vector2d HPZONE = new Vector2d(-47, 62);
