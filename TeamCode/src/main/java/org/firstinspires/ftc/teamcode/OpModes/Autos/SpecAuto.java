@@ -28,10 +28,34 @@ public class SpecAuto extends LinearOpMode {
     public Arm arm;
     public Slides slides;
 
+    public static Pose2d StartPose = new Pose2d(-17.5, 64, Math.toRadians(270));
+    public static Pose2d Preload = new Pose2d(-8, 33.6, Math.toRadians(270));
+    //Was 41
+    public static Pose2d FirstGrab = new Pose2d(-39, 35, Math.toRadians(-130));
+    public static Pose2d SecondGrab = new Pose2d(-50, 37, Math.toRadians(-125));
+    public static Pose2d HPZone = new Pose2d(-47, 62, Math.toRadians(180));
+    public static Pose2d Cycle = new Pose2d(-30, 60, Math.toRadians(180));
+    public static Pose2d FirstSpec = new Pose2d(-3, 33, Math.toRadians(270));
+    public static Pose2d SecondSpec = new Pose2d(-7, 33, Math.toRadians(270));
+    public static Pose2d ThirdSpec = new Pose2d(-12, 32.1, Math.toRadians(270));
+
+    public static Vector2d PRELOAD = new Vector2d(-8, 33.575);
+    public static Vector2d FIRSTGRAB = new Vector2d(-39, 35);
+    //52.5
+    public static Vector2d SECONDGRAB = new Vector2d(-50, 37);
+    public static Vector2d HPZONE = new Vector2d(-47, 62);
+    public static Vector2d CYCLE = new Vector2d(-30, 60);
+    public static Vector2d PARK = new Vector2d(-50, 60);
+    public static Vector2d FIRSTSPEC = new Vector2d(-3, 33);
+    public static Vector2d SECONDSPEC = new Vector2d(-7, 33);
+    public static Vector2d THIRDSPEC = new Vector2d(-12, 32.1);
+
+
+
     enum Path {
         START,
-        PUSH1,
-        PUSH2,
+        GRAB1,
+        GRAB2,
         CYCLE1START,
         CYCLE1END,
         CYCLE2START,
@@ -45,15 +69,6 @@ public class SpecAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-
-        Pose2d StartPose = new Pose2d(-17.5, 64, Math.toRadians(270));
-        Pose2d Preload = new Pose2d(-8, 32, Math.toRadians(270));
-        Pose2d FirstPush = new Pose2d(-50, 55, Math.toRadians(90));
-        Pose2d SecondPush = new Pose2d(-63, 55, Math.toRadians(90));
-        Pose2d Cycle = new Pose2d(-30, 60, Math.toRadians(180));
-        Pose2d SecondSpec = new Pose2d(-7, 32, Math.toRadians(270));
-        Pose2d ThirdSpec = new Pose2d(-3, 32, Math.toRadians(270));
-
 
 
         StrafeChassis drive = new StrafeChassis(hardwareMap, StartPose);
@@ -78,94 +93,111 @@ public class SpecAuto extends LinearOpMode {
 
                 switch (path) {
                     case START:
-                       slides.liftHigh();
+                        slides.liftBigHigh();
                         Actions.runBlocking(
                                 drive.actionBuilder(StartPose)
-                                        .splineToLinearHeading(new Pose2d(-8,32, Math.toRadians(270)), Math.toRadians(270))
-                                        .waitSeconds(0.25)
+                                        .strafeToLinearHeading(PRELOAD, Math.toRadians(270))
+                                        //.waitSeconds(0.25)
                                         .build());
                         slides.liftRest();
-                        sleep(100);
+                        sleep(175);
                         claw.open();
 
-                    path = Path.PUSH1;
-                    case PUSH1:
+                        path = Path.GRAB1;
+                    case GRAB1:
                         Actions.runBlocking(
                                 drive.actionBuilder(Preload)
-                                        .turn(Math.toRadians(180))
-                                        .strafeToLinearHeading(new Vector2d(-25.5, 30), Math.toRadians(90))
-                                        .splineToLinearHeading(new Pose2d(-50 , 10, Math.toRadians(90)), Math.toRadians(90))
-                                        .waitSeconds(0.25)
-                                        .strafeToConstantHeading(new Vector2d(-50, 55))
+                                        .strafeToLinearHeading(FIRSTGRAB, Math.toRadians(-130))
                                         .build());
-                        path = Path.PUSH2;
-                    case PUSH2:
+                        arm.grab();
+                        wrist.specGrab();
+                        sleep(450);
+                        claw.grab();
+                        sleep(250);
+                        arm.specGrab();
                         Actions.runBlocking(
-                                drive.actionBuilder(FirstPush)
-                                        .strafeToConstantHeading(new Vector2d(-50, 19))
-                                        .splineToLinearHeading(new Pose2d(-57, 19, Math.toRadians(90)), Math.toRadians(90))
-                                        .waitSeconds(0.25)
-                                        .strafeToConstantHeading(new Vector2d(-63, 55))
+                                drive.actionBuilder(FirstGrab)
+                                        .strafeToLinearHeading(HPZONE, Math.toRadians(-180))
                                         .build());
+                        path = Path.GRAB2;
+                    case GRAB2:
+                        claw.open();
+                        sleep(250);
+                        Actions.runBlocking(
+                                drive.actionBuilder(HPZone)
+                                        .strafeToLinearHeading(SECONDGRAB, Math.toRadians(-125))
+                                        .build());
+                        arm.grab();
+                        sleep(500);
+                        claw.grab();
+                        sleep(250);
+                        arm.specGrab();
+                        Actions.runBlocking(
+                                drive.actionBuilder(SecondGrab)
+                                        .strafeToLinearHeading(HPZONE, Math.toRadians(-180))
+                                        .build());
+                        claw.open();
+                        arm.reset();
+                        wrist.neutralGrab();
                         path = Path.CYCLE1START;
                     case CYCLE1START:
                         Actions.runBlocking(
-                                drive.actionBuilder(SecondPush)
-                                        .strafeToLinearHeading(new Vector2d(-30, 60), Math.toRadians(180))
+                                drive.actionBuilder(HPZone)
+                                        .strafeToLinearHeading(CYCLE, Math.toRadians(180))
                                         .build());
                         arm.grab();
-                        sleep(400);
+                        sleep(550);
                         claw.grab();
 
                         path = Path.CYCLE1END;
                     case CYCLE1END:
                         sleep(200);
-                        slides.liftHigh();
+                        slides.liftBigHigh();
                         arm.reset();
 
                         Actions.runBlocking(
                                 drive.actionBuilder(Cycle)
-                                        .setTangent(0)
-                                        .splineToLinearHeading(new Pose2d(-7, 32, Math.toRadians(270)), Math.toRadians(270))
+                                        .strafeToLinearHeading(FIRSTSPEC, Math.toRadians(270))
                                         .build());
                         path = Path.CYCLE2START;
                     case CYCLE2START:
+                        sleep(200);
+                        slides.liftRest();
+                        sleep(150);
+                        claw.open();
+
+                        Actions.runBlocking(
+                                drive.actionBuilder(FirstSpec)
+                                        .strafeToLinearHeading(CYCLE, Math.toRadians(180))
+                                        .build());
+
+                        arm.grab();
+                        sleep(550);
+                        claw.grab();
+                        path = Path.CYCLE2END;
+                    case CYCLE2END:
+                        sleep(250);
+                        slides.liftBigHigh();
+                        arm.reset();
+
+                        Actions.runBlocking(
+                                drive.actionBuilder(Cycle)
+                                        .strafeToLinearHeading(SECONDSPEC, Math.toRadians(270))
+                                        .build());
+                        path = Path.CYCLE3START;
+                    case CYCLE3START:
+                        sleep(200);
                         slides.liftRest();
                         sleep(150);
                         claw.open();
 
                         Actions.runBlocking(
                                 drive.actionBuilder(SecondSpec)
-                                        .strafeToLinearHeading(new Vector2d(-32, 60), Math.toRadians(180))
+                                        .strafeToLinearHeading(CYCLE, Math.toRadians(180))
                                         .build());
 
                         arm.grab();
-                        sleep(450);
-                        claw.grab();
-                        path = Path.CYCLE2END;
-                    case CYCLE2END:
-                        sleep(250);
-                        slides.liftHigh();
-                        arm.reset();
-
-                        Actions.runBlocking(
-                                drive.actionBuilder(Cycle)
-                                        .setTangent(0)
-                                        .splineToLinearHeading(new Pose2d(-3, 32, Math.toRadians(270)), Math.toRadians(270))
-                                        .build());
-                        path = Path.CYCLE3START;
-                    case CYCLE3START:
-                        slides.liftRest();
-                        sleep(150);
-                        claw.open();
-
-                        Actions.runBlocking(
-                                drive.actionBuilder(ThirdSpec)
-                                        .strafeToLinearHeading(new Vector2d(-32, 60), Math.toRadians(180))
-                                        .build());
-
-                        arm.grab();
-                        sleep(450);
+                        sleep(550);
                         claw.grab();
                         path = Path.CYCLE3END;
                     case CYCLE3END:
@@ -175,11 +207,20 @@ public class SpecAuto extends LinearOpMode {
 
                         Actions.runBlocking(
                                 drive.actionBuilder(Cycle)
-                                        .setTangent(0)
-                                        .splineToLinearHeading(new Pose2d(-10, 32, Math.toRadians(270)), Math.toRadians(270))
+                                        .strafeToLinearHeading(THIRDSPEC, Math.toRadians(270))
                                         .build());
-                        path = Path.END;
+
+
+                        sleep(200);
+                        slides.liftRest();
+                        sleep(150);
+                        claw.open();
+                                path = Path.END;
                     case END:
+                        Actions.runBlocking(
+                                drive.actionBuilder(ThirdSpec)
+                                        .strafeToLinearHeading(PARK, Math.toRadians(270))
+                                        .build());
                         break;
                 }
 

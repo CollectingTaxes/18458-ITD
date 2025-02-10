@@ -53,6 +53,16 @@ public class Slides {
         System.out.println(current);
         normalize();
     }
+    public void testing() {
+        setPos(750);
+
+        while (leftSlide.getCurrentPosition() >= 500) {
+            leftSlide.setPower(1);
+            rightSlide.setPower(1);
+        }
+        rightSlide.setPower(0.5);
+        leftSlide.setPower(0.5);
+    }
 
     public int getPos() {
         return current;
@@ -64,11 +74,9 @@ public class Slides {
 
     public void normalize() {
         leftSlide.setTargetPosition(current);
-//        leftSlide.setTargetPositionTolerance(10);
         leftSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         leftSlide.setPower(1);
         rightSlide.setTargetPosition(current);
-//        rightSlide.motorEx.setTargetPositionTolerance(10);
         rightSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         rightSlide.setPower(1);
     }
@@ -78,6 +86,9 @@ public class Slides {
         leftSlide.setPower(0.75);
         rightSlide.setPower(0.75);
         setPos(Reset);
+    }
+    public void liftBigHigh() {
+        setPos(1450);
     }
 
     public void liftLow() {
@@ -91,5 +102,4 @@ public class Slides {
     public void liftHigh() {
         setPos(High);
     }
-
 }

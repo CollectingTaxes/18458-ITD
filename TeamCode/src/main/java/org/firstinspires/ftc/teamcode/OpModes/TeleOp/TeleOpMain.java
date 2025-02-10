@@ -98,28 +98,28 @@ public class TeleOpMain extends OpMode {
         if (gamepad2.b) {
             runningActions.add(
                     new SequentialAction(
-                            new InstantAction(arm::grab),
+                            /*new InstantAction(arm::grab),
                             new SleepAction(0.15),
                             new InstantAction(claw::grab),
-                            new SleepAction(0.15),
+                            new SleepAction(0.15),*/
                             new InstantAction(arm::reset)
                     )
             );
         } else if (gamepad2.a) {
             runningActions.add(
                     new SequentialAction(
-                            new InstantAction(arm::specGrab),
+                            new InstantAction(arm::grab),
                             new InstantAction(claw::open)
                     )
             );
         }
-        if (gamepad2.right_bumper) {
+        if (gamepad2.left_bumper) {
             runningActions.add(
                     new SequentialAction(
                             new InstantAction(claw::open)
                     )
             );
-        } else if (gamepad2.left_bumper) {
+        } else if (gamepad2.right_bumper) {
             runningActions.add(
                     new SequentialAction(
                             new InstantAction(claw::grab)
