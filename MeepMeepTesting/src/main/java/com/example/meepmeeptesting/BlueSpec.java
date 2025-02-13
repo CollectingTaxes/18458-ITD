@@ -23,25 +23,31 @@ public class BlueSpec {
                 .waitSeconds(1)
 
                 //first grab
-                .strafeToLinearHeading(new Vector2d(-39, 37), Math.toRadians(-135))
+                .strafeToLinearHeading(new Vector2d(-39, 37), Math.toRadians(-130))
                 .strafeToLinearHeading(new Vector2d(-47, 59), Math.toRadians(-180))
 
                 //second grab
                 .strafeToLinearHeading(new Vector2d(-52, 37), Math.toRadians(-125))
-                .strafeToLinearHeading(new Vector2d(-47, 62), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-47, 62), Math.toRadians(180))
 
-                //.strafeToLinearHeading(new Vector2d(-32, 60), Math.toRadians(90))
+                //third grab
+                .strafeToLinearHeading(new Vector2d(-58, 26), Math.toRadians(-180))
+                .strafeToLinearHeading(new Vector2d(-47, 62), Math.toRadians(180))
+
+
+
+                .strafeToLinearHeading(new Vector2d(-32, 60), Math.toRadians(180))
 
 
                 .waitSeconds(0.25)
 
                 .strafeToLinearHeading(new Vector2d(-7, 32), Math.toRadians(270))
 
-                .strafeToLinearHeading(new Vector2d(-47, 62), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-47, 62), Math.toRadians(180))
 
                 .strafeToLinearHeading(new Vector2d(-7, 32), Math.toRadians(270))
 
-                .strafeToLinearHeading(new Vector2d(-47, 62), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-47, 62), Math.toRadians(180))
 
                 .strafeToLinearHeading(new Vector2d(-7, 32), Math.toRadians(270))
 
