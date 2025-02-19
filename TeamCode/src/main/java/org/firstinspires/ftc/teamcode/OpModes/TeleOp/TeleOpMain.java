@@ -73,6 +73,8 @@ public class TeleOpMain extends OpMode {
 
         drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, 1, gamepad1.a, gamepad1.left_bumper);
 
+        slides.Manual(-gamepad2.left_stick_y);
+
 
         if (gamepad2.dpad_up) {
             runningActions.add(
@@ -98,14 +100,23 @@ public class TeleOpMain extends OpMode {
         if (gamepad2.b) {
             runningActions.add(
                     new SequentialAction(
-                            /*new InstantAction(arm::grab),
-                            new SleepAction(0.15),
+                            new InstantAction(arm::grab),
+                            new SleepAction(0.1),
                             new InstantAction(claw::grab),
-                            new SleepAction(0.15),*/
+                            new SleepAction(0.3),
                             new InstantAction(arm::reset)
                     )
             );
         } else if (gamepad2.a) {
+            runningActions.add(
+                    new SequentialAction(
+                            new InstantAction(arm::specGrab),
+                            new InstantAction(claw::open)
+                    )
+            );
+        }
+
+        if (gamepad2.left_trigger > 0.2) {
             runningActions.add(
                     new SequentialAction(
                             new InstantAction(arm::grab),
@@ -113,6 +124,7 @@ public class TeleOpMain extends OpMode {
                     )
             );
         }
+
         if (gamepad2.left_bumper) {
             runningActions.add(
                     new SequentialAction(

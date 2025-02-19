@@ -83,12 +83,12 @@ public final class StrafeChassis {
         public int sigma;
 
         // path profile parameters (in inches)
-        public double maxWheelVel = 42.5;
-        public double minProfileAccel = -42.5;
-        public double maxProfileAccel = 42.5;
+        public double maxWheelVel = 40;
+        public double minProfileAccel = -40;
+        public double maxProfileAccel = 40;
 
         // turn profile parameters (in radians)
-        public double maxAngVel = 40; // shared with path
+        public double maxAngVel = 30; // shared with path
         public double maxAngAccel = 30;
 
         // path controller gains

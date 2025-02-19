@@ -9,6 +9,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
@@ -27,6 +28,7 @@ public class SpecAuto extends LinearOpMode {
     public Wrist wrist;
     public Arm arm;
     public Slides slides;
+    public IMU imu;
 
     public static Pose2d StartPose = new Pose2d(-17.5, 64, Math.toRadians(270));
     public static Pose2d Preload = new Pose2d(-8, 33, Math.toRadians(270));
@@ -36,7 +38,7 @@ public class SpecAuto extends LinearOpMode {
     public static Pose2d HPZone = new Pose2d(-47, 64, Math.toRadians(180));
     public static Pose2d Cycle = new Pose2d(-30, 64, Math.toRadians(180));
     public static Pose2d FirstSpec = new Pose2d(-5, 32.4, Math.toRadians(270));
-    public static Pose2d SecondSpec = new Pose2d(-7, 32.2, Math.toRadians(270));
+    public static Pose2d SecondSpec = new Pose2d(-7.5, 31.8, Math.toRadians(270));
     public static Pose2d ThirdSpec = new Pose2d(-3, 30.8, Math.toRadians(270));
 
     public static Vector2d PRELOAD = new Vector2d(-8, 33);
@@ -46,7 +48,7 @@ public class SpecAuto extends LinearOpMode {
     public static Vector2d CYCLE = new Vector2d(-30, 64);
     public static Vector2d PARK = new Vector2d(-50, 60);
     public static Vector2d FIRSTSPEC = new Vector2d(-5, 32.4);
-    public static Vector2d SECONDSPEC = new Vector2d(-7, 32.2);
+    public static Vector2d SECONDSPEC = new Vector2d(-7.5, 31.8);
     public static Vector2d THIRDSPEC = new Vector2d(-3, 30.8);
 
 

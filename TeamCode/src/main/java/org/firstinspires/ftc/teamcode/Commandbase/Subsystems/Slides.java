@@ -81,6 +81,14 @@ public class Slides {
         rightSlide.setPower(1);
     }
 
+    public void Manual(double position) {
+        if (Math.abs(position) > 0.1) {
+            moveManual(getPos() + position * 25);
+        }
+
+    }
+
+
     //Lift Pose
     public void liftRest() {
         leftSlide.setPower(0.75);
