@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -22,7 +23,7 @@ import java.util.List;
 
 @Autonomous
 @Config
-public class SketchySpecAuto extends LinearOpMode {
+public class Testing extends LinearOpMode {
     public Claw claw;
     public Wrist wrist;
     public Arm arm;
@@ -39,6 +40,7 @@ public class SketchySpecAuto extends LinearOpMode {
     //52.5
     public static Vector2d HPZONE = new Vector2d(-47, 62);
 
+    public boolean cancelAction = false;
 
     SpecAuto.Path path = SpecAuto.Path.START;
 
@@ -70,13 +72,17 @@ public class SketchySpecAuto extends LinearOpMode {
                 switch (path) {
                     case START:
                         slides.liftBigHigh();
-                        while (sensor.distanceDoesNotEqual(TESTING)) {
                         Actions.runBlocking(
                                 drive.actionBuilder(StartPose)
                                         .strafeToLinearHeading(PRELOAD, Math.toRadians(270))
-                                        //.waitSeconds(0.25)
+
+                                        .endTrajectory()
                                         .build());
-                    }
+                        if (sensor.distanceDoesNotEqual(3)) {
+
+                            drive.setDrivePowers(new PoseVelocity2d( new Vector2d(0,0), 0));
+
+                        }
                         slides.liftRest();
 
                         if (slides.getPos() <= Slides.SCOREPOSE) {

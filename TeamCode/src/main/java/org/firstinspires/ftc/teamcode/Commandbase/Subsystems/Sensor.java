@@ -18,8 +18,6 @@ public class Sensor {
 
         this.hardwareMap = opMode.hardwareMap;
 
-        this.telemetry = opMode.telemetry;
-
         this.distanceSensor = (DistanceSensor) hardwareMap.get("Sensor");
 
         telemetry.addData("Distance:", distanceSensor.getDistance(DistanceUnit.INCH));
