@@ -27,6 +27,7 @@ public class Slides {
     public static int Mid = 600;
     public static int Low = 100;
     public static int Reset = 0;
+    public static int SCOREPOSE = 700;
     public int current = 0;
 
     public Slides (OpMode opMode) {
@@ -109,5 +110,8 @@ public class Slides {
 
     public void liftHigh() {
         setPos(High);
+    }
+    public void test() {
+        setPos(SCOREPOSE);
     }
 }

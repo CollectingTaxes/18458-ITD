@@ -1,14 +1,14 @@
-package org.firstinspires.ftc.teamcode.Commandbase.Commands.SubsystemsCommands.claw;
+package org.firstinspires.ftc.teamcode.Commandbase.Commands.OLD.claw;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
 
-public class Grab extends SequentialCommandGroup {
-    public Grab(Claw claw) {
+public class Release extends SequentialCommandGroup {
+    public Release(Claw claw) {
         addCommands(
-                new InstantCommand(claw::grab)
+                new InstantCommand(claw::open)
         );
     }
 }

@@ -29,16 +29,12 @@ public class ChamberBlue {
                 .strafeToConstantHeading(new Vector2d(-50, 19))
                 .splineToLinearHeading(new Pose2d(-59, 19, Math.toRadians(90)), Math.toRadians(90))
                 .lineToYConstantHeading(55)
-                        /*.waitSeconds(0.25)
-                //DO TURN BEFORE PUSHING
-                        .lineToYConstantHeading(60)
-                .waitSeconds(0.5)*/
+                        .waitSeconds(0.5)
 
-                        .strafeToLinearHeading(new Vector2d(-32, 60), Math.toRadians(180))
+                        .strafeToConstantHeading(new Vector2d(-59, 50))
+                .splineToLinearHeading(new Pose2d(-32, 60, Math.toRadians(90)), Math.toRadians(0))
 
 
-                        .waitSeconds(0.25)
-                        .setTangent(0)
                         .splineToLinearHeading(new Pose2d(-7, 30, Math.toRadians(270)), Math.toRadians(270))
 
                 .build());
