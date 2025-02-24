@@ -103,7 +103,7 @@ public class TeleOpMain extends OpMode {
                             new InstantAction(arm::grab),
                             new SleepAction(0.1),
                             new InstantAction(claw::grab),
-                            new SleepAction(0.3),
+                            new SleepAction(0.35),
                             new InstantAction(arm::reset)
                     )
             );

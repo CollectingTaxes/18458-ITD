@@ -12,44 +12,27 @@ public class BlueSpec {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 12)
+                .setConstraints(40, 40, Math.toRadians(180), Math.toRadians(180), 12)
                 .setDimensions(12, 12)
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-17.5, 64, Math.toRadians(270)))
 
-                //preload
-                .splineToLinearHeading(new Pose2d(-8,32, Math.toRadians(270)), Math.toRadians(270))
-                .waitSeconds(1)
+                        .strafeToLinearHeading(new Vector2d(-8, 33), Math.toRadians(270))
+                        .strafeToLinearHeading(new Vector2d(-32, 36), Math.toRadians(90))
 
-                //first grab
-                .strafeToLinearHeading(new Vector2d(-39, 37), Math.toRadians(-130))
-                .strafeToLinearHeading(new Vector2d(-47, 59), Math.toRadians(-180))
+                //1 Sample
+                .strafeToLinearHeading(new Vector2d(-42, 18), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-50, 60, Math.toRadians(90)), Math.toRadians(90))
 
-                //second grab
-                .strafeToLinearHeading(new Vector2d(-52, 37), Math.toRadians(-125))
-                .strafeToLinearHeading(new Vector2d(-47, 62), Math.toRadians(180))
+                //2 Sample
+                .strafeToConstantHeading(new Vector2d(-50, 19))
+                .splineToLinearHeading(new Pose2d(-59, 19, Math.toRadians(90)), Math.toRadians(90))
+                .strafeToConstantHeading(new Vector2d(-59, 60))
 
-                //third grab
-                .strafeToLinearHeading(new Vector2d(-58, 26), Math.toRadians(-180))
-                .strafeToLinearHeading(new Vector2d(-47, 62), Math.toRadians(180))
+                //3 Sample
+                .strafeToLinearHeading(new Vector2d(-56, 25), Math.toRadians(180))
 
-
-
-                .strafeToLinearHeading(new Vector2d(-32, 60), Math.toRadians(180))
-
-
-                .waitSeconds(0.25)
-
-                .strafeToLinearHeading(new Vector2d(-7, 32), Math.toRadians(270))
-
-                .strafeToLinearHeading(new Vector2d(-47, 62), Math.toRadians(180))
-
-                .strafeToLinearHeading(new Vector2d(-7, 32), Math.toRadians(270))
-
-                .strafeToLinearHeading(new Vector2d(-47, 62), Math.toRadians(180))
-
-                .strafeToLinearHeading(new Vector2d(-7, 32), Math.toRadians(270))
 
                 .build());
 

@@ -54,7 +54,7 @@ public class Testing extends OpMode {
         } else if (gamepad2.a) {
             runningActions.add(
                     new SequentialAction(
-                            new InstantAction(claw::loosen)
+                            new InstantAction(claw::open )
                     )
             );
         }

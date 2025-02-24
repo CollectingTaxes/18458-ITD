@@ -28,12 +28,10 @@ public class FiveSpec extends LinearOpMode {
     public Arm arm;
     public Slides slides;
 
-    public static Pose2d StartPose = new Pose2d(-17.5, 64.5, Math.toRadians(270));
-    public static Pose2d Preload = new Pose2d(-8, 33.6, Math.toRadians(270));
-    public static Pose2d FirstGrab = new Pose2d(-39, 35, Math.toRadians(-130));
-    public static Pose2d SecondGrab = new Pose2d(-50, 37, Math.toRadians(-125));
+    public static Pose2d StartPose = new Pose2d(-17.5, 64, Math.toRadians(270));
+    public static Pose2d Preload = new Pose2d(-8, 33, Math.toRadians(270));
     public static Pose2d ThirdGrab = new Pose2d(-58, 26, Math.toRadians(180));
-    public static Pose2d HPZone = new Pose2d(-47, 62, Math.toRadians(180));
+    public static Pose2d HPZone = new Pose2d(-50, 6, Math.toRadians(90));
     public static Pose2d Cycle = new Pose2d(-30, 60, Math.toRadians(180));
     public static Pose2d FirstSpec = new Pose2d(-5, 33, Math.toRadians(270));
     public static Pose2d SecondSpec = new Pose2d(-7, 32.4, Math.toRadians(270));
@@ -41,8 +39,10 @@ public class FiveSpec extends LinearOpMode {
     public static Pose2d FourthSpec = new Pose2d(-12, 32.1, Math.toRadians(270));
 
 
-    public static Vector2d PRELOAD = new Vector2d(-8, 33.6);
-    public static Vector2d FIRSTGRAB = new Vector2d(-39, 35);
+    public static Vector2d PRELOAD = new Vector2d(-8, 33);
+    public static Vector2d BEFORE = new Vector2d(-32, 36);
+    public static Vector2d FIRSTSAMPLE = new Vector2d(-42, 18);
+    public static Pose2d FIRST = new Pose2d(-50, 60, Math.toRadians(90));
     public static Vector2d SECONDGRAB = new Vector2d(-50, 37);
     public static Vector2d THIRDGRAB = new Vector2d(-58, 26);
     public static Vector2d HPZONE = new Vector2d(-47, 62);
@@ -103,7 +103,6 @@ public class FiveSpec extends LinearOpMode {
                         Actions.runBlocking(
                                 drive.actionBuilder(StartPose)
                                         .strafeToLinearHeading(PRELOAD, Math.toRadians(270))
-                                        //.waitSeconds(0.25)
                                         .build());
                         slides.liftRest();
                         sleep(175);
@@ -113,38 +112,16 @@ public class FiveSpec extends LinearOpMode {
                     case GRAB1:
                         Actions.runBlocking(
                                 drive.actionBuilder(Preload)
-                                        .strafeToLinearHeading(FIRSTGRAB, Math.toRadians(-130))
-                                        .build());
-                        arm.grab();
-                        wrist.specGrab();
-                        sleep(450);
-                        claw.grab();
-                        sleep(250);
-                        arm.specGrab();
-                        Actions.runBlocking(
-                                drive.actionBuilder(FirstGrab)
-                                        .strafeToLinearHeading(HPZONE, Math.toRadians(-180))
+                                        .strafeToLinearHeading(BEFORE, Math.toRadians(90))
+                                        .strafeToLinearHeading(FIRSTSAMPLE, Math.toRadians(90))
+                                        .splineToLinearHeading(FIRST, Math.toRadians(90))
                                         .build());
                         path = Path.GRAB2;
                     case GRAB2:
-                        claw.open();
-                        sleep(250);
                         Actions.runBlocking(
                                 drive.actionBuilder(HPZone)
                                         .strafeToLinearHeading(SECONDGRAB, Math.toRadians(-125))
                                         .build());
-                        arm.grab();
-                        sleep(450);
-                        claw.grab();
-                        sleep(250);
-                        arm.specGrab();
-                        Actions.runBlocking(
-                                drive.actionBuilder(SecondGrab)
-                                        .strafeToLinearHeading(HPZONE, Math.toRadians(-180))
-                                        .build());
-                        claw.open();
-                        /*arm.reset();
-                        wrist.neutralGrab();*/
                         path = Path.GRAB3;
                     case GRAB3:
                         Actions.runBlocking(

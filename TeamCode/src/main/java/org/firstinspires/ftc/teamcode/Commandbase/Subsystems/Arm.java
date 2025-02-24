@@ -17,7 +17,7 @@ public class Arm  {
     public static double GRAB_POSE = 0.45;
     public static double RESET_POSE = 0;
     public static double SPEC_GRAB = 0.35;
-    public static double AUTO_GRAB = 0.42;
+    public static double AUTO_GRAB = 0.41;
 
     Telemetry telemetry;
     private final Servo leftArm, rightArm;
