@@ -72,24 +72,21 @@ public class Testing extends LinearOpMode {
                 switch (path) {
                     case START:
                         slides.liftBigHigh();
+
+                        if (!sensor.distanceDoesNotEqual(3))
                         Actions.runBlocking(
                                 drive.actionBuilder(StartPose)
                                         .strafeToLinearHeading(PRELOAD, Math.toRadians(270))
 
                                         .endTrajectory()
                                         .build());
-                        if (sensor.distanceDoesNotEqual(3)) {
-
+                        else {
                             drive.setDrivePowers(new PoseVelocity2d( new Vector2d(0,0), 0));
-
                         }
                         slides.liftRest();
 
-                        if (slides.getPos() <= Slides.SCOREPOSE) {
-
                         claw.open();
 
-                        }
                         path = SpecAuto.Path.GRAB1;
 
                     case GRAB1:

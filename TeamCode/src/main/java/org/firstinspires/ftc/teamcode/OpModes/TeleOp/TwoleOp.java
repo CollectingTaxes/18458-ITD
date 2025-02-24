@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Drive;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
+import org.firstinspires.ftc.teamcode.Commandbase.Testing.Outtake;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,18 +32,14 @@ public class TwoleOp extends OpMode {
     public Arm arm;
     public Slides slides;
     public Telemetry telemetry;
+    public Outtake outtake;
 
     private final FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
 
     @Override
     public void init() {
-        arm = new Arm(this);
-        claw = new Claw(this);
-        drivetrain = new Drive(this);
-        slides = new Slides(this);
-        wrist = new Wrist(this);
-
+        outtake = new Outtake(this);
     }
 
     @Override
@@ -50,72 +47,7 @@ public class TwoleOp extends OpMode {
 
         drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, 1, gamepad1.a, gamepad1.left_bumper);
 
-
-        if (gamepad2.dpad_up) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(claw::grab),
-                            new SleepAction(0.2),
-                            new InstantAction(arm::reset),
-                            new InstantAction(slides::liftHigh)
-                    )
-            );
-        }
-        else if (gamepad2.dpad_down) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(arm::reset),
-                            new InstantAction(slides::liftRest),
-                            new InstantAction(wrist::neutralGrab),
-                            new SleepAction(0.15),
-                            new InstantAction(claw::open)
-                    )
-            );
-        }
-        if (gamepad2.b) {
-            runningActions.add(
-                    new SequentialAction(
-                            /*new InstantAction(arm::grab),
-                            new SleepAction(0.15),
-                            new InstantAction(claw::grab),
-                            new SleepAction(0.15),*/
-                            new InstantAction(arm::reset)
-                    )
-            );
-        } else if (gamepad2.a) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(arm::grab),
-                            new InstantAction(claw::open)
-                    )
-            );
-        }
-        if (gamepad2.left_bumper) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(claw::open)
-                    )
-            );
-        } else if (gamepad2.right_bumper) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(claw::grab)
-                    )
-            );
-        }
-        if (gamepad2.x) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(wrist::horizontalGrab)
-                    )
-            );
-        } else if (gamepad2.y) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(wrist::neutralGrab)
-                    )
-            );
-        }
+        outtake.teleOp(runningActions, dash, gamepad2);
 
         List<Action> newActions = new ArrayList<>();
         for (Action action : runningActions) {
