@@ -53,8 +53,6 @@ public class SpecAuto extends LinearOpMode {
 
     public static double DISTANCE = 4;
 
-
-
     enum Path {
         START,
         GRAB1,

@@ -52,4 +52,5 @@ public class Claw {
         claw.setPosition(OPEN);
         clawStateGrabbed = false;
     }
+
 }

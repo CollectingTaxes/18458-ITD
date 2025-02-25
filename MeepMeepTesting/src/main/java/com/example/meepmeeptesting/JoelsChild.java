@@ -12,54 +12,51 @@ public class JoelsChild {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(45, 45, Math.toRadians(180), Math.toRadians(180), 12)
+                .setConstraints(50, 50, Math.toRadians(180), Math.toRadians(180), 12)
                 .setDimensions(12, 12)
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-17.5, 64, Math.toRadians(270)))
-                .splineToLinearHeading(new Pose2d(-8,32, Math.toRadians(270)), Math.toRadians(270))
-                .waitSeconds(0.175)
+                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(270))
+                .waitSeconds(0.15)
                 .strafeToLinearHeading(new Vector2d(-10,32), Math.toRadians(270))
-                .splineToLinearHeading(new Pose2d(-49, 33, Math.toRadians(270)), Math.toRadians(270))
-                .waitSeconds(0.175)
+                .splineToLinearHeading(new Pose2d(-49, 33, Math.toRadians(90)), Math.toRadians(270))
+                .waitSeconds(0.15)
                 .strafeTo(new Vector2d(-49, 50))
-                .waitSeconds(0.175)
-                .strafeToLinearHeading(new Vector2d(-60, 34), Math.toRadians(270))
-                .waitSeconds(0.175)
+                .waitSeconds(0.15)
+                .strafeToLinearHeading(new Vector2d(-60, 34), Math.toRadians(90))
+                .waitSeconds(0.15)
                 .strafeTo(new Vector2d(-60, 50))
-                .waitSeconds(0.175)
-                .strafeToLinearHeading(new Vector2d(-65, 34), Math.toRadians(270))
-                .waitSeconds(0.175)
-                .splineToLinearHeading(new Pose2d(-47, 63, Math.toRadians(270)), Math.toRadians(90))
-                /*
-
+                .waitSeconds(0.15)
+                .strafeToLinearHeading(new Vector2d(-61, 36), Math.toRadians(30))
+                .waitSeconds(0.15)
+                .splineToLinearHeading(new Pose2d(-47, 63, Math.toRadians(90)), Math.toRadians(90))
 
                 //CYCLE1
-                .waitSeconds(10)
-                .splineToLinearHeading(new Pose2d(-8,32, Math.toRadians(270)), Math.toRadians(270))
+                .waitSeconds(0.15)
+                .splineToLinearHeading(new Pose2d(-8,32, Math.toRadians(90)), Math.toRadians(270))
 
-                .waitSeconds(0.175)
-                .splineToLinearHeading(new Pose2d(-38, 60, Math.toRadians(270)), Math.toRadians(270))
+                .waitSeconds(0.15)
+                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(90))
+
                 //CYCLE2
-                .waitSeconds(0.175)
-                .splineToLinearHeading(new Pose2d(-8,32, Math.toRadians(270)), Math.toRadians(270))
+                .waitSeconds(0.15)
+                .splineToLinearHeading(new Pose2d(-8,32, Math.toRadians(90)), Math.toRadians(270))
 
-                .waitSeconds(0.175)
-                .splineToLinearHeading(new Pose2d(-38, 60, Math.toRadians(270)), Math.toRadians(270))
+                .waitSeconds(0.15)
+                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(90))
+
                 //CYCLE3
-                .waitSeconds(0.175)
-                .splineToLinearHeading(new Pose2d(-8,32, Math.toRadians(270)), Math.toRadians(270))
+                .waitSeconds(0.15)
+                .splineToLinearHeading(new Pose2d(-8,32, Math.toRadians(90)), Math.toRadians(270))
 
-                .waitSeconds(0.175)
-                .splineToLinearHeading(new Pose2d(-38, 60, Math.toRadians(270)), Math.toRadians(270))
-                //CYCLE4
-                .waitSeconds(0.175)
-                .splineToLinearHeading(new Pose2d(-8,32, Math.toRadians(270)), Math.toRadians(270))
+                .waitSeconds(0.15)
+                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(90))
 
-                .waitSeconds(0.175)
-                .splineToLinearHeading(new Pose2d(-38, 60, Math.toRadians(270)), Math.toRadians(270))
+                //CYCLE3
+                .waitSeconds(0.15)
+                .splineToLinearHeading(new Pose2d(-8,32, Math.toRadians(90)), Math.toRadians(270))
 
-                 */
                 .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)

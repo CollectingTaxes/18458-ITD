@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Commandbase.Testing;
+package org.firstinspires.ftc.teamcode.Commandbase.Commands;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Action;
@@ -30,7 +30,7 @@ public class Outtake {
     }
     public void teleOp(List<Action> runningActions, FtcDashboard dashboard, Gamepad gamepad) {
 
-        if (gamepad.dpad_up) {
+        if (gamepad.dpad_down) {
             runningActions.add(
                     new SequentialAction(
                             new InstantAction(arm::reset),
