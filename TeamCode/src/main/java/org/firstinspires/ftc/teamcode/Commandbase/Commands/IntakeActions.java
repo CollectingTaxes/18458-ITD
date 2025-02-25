@@ -6,7 +6,6 @@ import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
@@ -15,22 +14,22 @@ import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
 
 import java.util.List;
 
-public class Intake {
+public class IntakeActions {
     public Slides slides;
     public Claw claw;
     public Arm arm;
     public Wrist wrist;
 
 
-    public Intake(OpMode opMode) {
+    public IntakeActions(OpMode opMode) {
         slides = new Slides(opMode);
         arm = new Arm(opMode);
         wrist = new Wrist(opMode);
         claw = new Claw(opMode);
     }
-    public void teleOp(List<Action> runningActions, FtcDashboard dashboard, Gamepad gamepad) {
+    public void action(List<Action> runningActions, FtcDashboard dashboard, boolean input) {
 
-        if (gamepad.dpad_up) {
+        if (input) {
             runningActions.add(
                     new SequentialAction(
                             new InstantAction(claw::grab),

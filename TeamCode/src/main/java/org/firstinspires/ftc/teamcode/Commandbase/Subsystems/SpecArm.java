@@ -17,12 +17,8 @@ public class SpecArm {
     public static int min = -5;
     public static int max = 2500;
 
-    public static int High = 1400;
-    public static int Mid = 600;
-    public static int Low = 100;
-    public static int Reset = 0;
-    public static int SCOREPOSE = 700;
-    public int current = 0;
+    public static double GRAB = 0.17, OPEN = 0.42;
+    public static int INTAKE = 1000, OUTTAKE = 100, SPEC_ARM = 500;
 
     public SpecArm (OpMode opMode) {
         this.hardwareMap = opMode.hardwareMap;
@@ -38,52 +34,23 @@ public class SpecArm {
         specArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    public void setPos(int pos) {
-        if (pos <= max && pos >= min) current = pos;
-        System.out.println(current);
-        normalize();
+//    public void moveManual(double position) {
+//        setPos((int) position);
+//    }
+    public void grab() {
+        specServo.setPosition(GRAB);
     }
 
-    public int getPos() {
-        return current;
+    public void open() {
+        specServo.setPosition(OPEN);
     }
-
-    public void moveManual(double position) {
-        setPos((int) position);
+    public void reset() {
+        specArm.setTargetPosition(INTAKE);
     }
-
-    public void normalize() {
-        specArm.setTargetPosition(current);
-        specArm.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        specArm.setPower(1);
-
+    public void outtake() {
+        specArm.setTargetPosition(OUTTAKE);
     }
-
-    public void Manual(double position) {
-        if (Math.abs(position) > 0.1) {
-            moveManual(getPos() + position * 25);
-        }
-
-    }
-
-    //Lift Pose
-    public void liftRest() {
-        specArm.setPower(0.75);
-        setPos(Reset);
-    }
-    public void liftBigHigh() {
-        setPos(1450);
-    }
-
-    public void liftLow() {
-        setPos(Low);
-    }
-
-    public void liftMid() {
-        setPos(Mid);
-    }
-
-    public void liftHigh() {
-        setPos(High);
+    public void specArmPose() {
+        specArm.setTargetPosition(SPEC_ARM);
     }
 }
