@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Drive;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SpecCycleActions;
-import org.firstinspires.ftc.teamcode.Commandbase.Commands.OuttakeActions;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.SlideActions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class JoelSoloTeleOp extends OpMode {
 
     public Drive drivetrain;
     public Telemetry telemetry;
-    public OuttakeActions outtake;
+    public SlideActions outtake;
     public SpecCycleActions intake;
     public SubActions subActions;
 
@@ -29,7 +29,7 @@ public class JoelSoloTeleOp extends OpMode {
 
     @Override
     public void init() {
-        outtake = new OuttakeActions(this);
+        outtake = new SlideActions(this);
         drivetrain = new Drive(this);
         intake = new SpecCycleActions(this);
         subActions = new SubActions(this);

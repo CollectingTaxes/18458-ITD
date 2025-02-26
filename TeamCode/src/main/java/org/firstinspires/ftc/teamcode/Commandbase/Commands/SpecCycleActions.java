@@ -7,11 +7,7 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.SpecArm;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
 
 import java.util.List;
 

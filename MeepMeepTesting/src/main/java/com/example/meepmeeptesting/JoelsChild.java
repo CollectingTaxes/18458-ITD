@@ -14,7 +14,7 @@ public class JoelsChild {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
 
                 //26.5 SECONDS WITH 50 VELOCITY, 28.3 SECONDS WITH 45 VELOCITY
-                .setConstraints(45, 45, Math.toRadians(180), Math.toRadians(180), 12)
+                .setConstraints(50, 50, Math.toRadians(180), Math.toRadians(180), 12)
                 .setDimensions(12, 12)
                 .build();
 
@@ -64,6 +64,9 @@ public class JoelsChild {
                 //CYCLE4
                 .waitSeconds(0.15)
                 .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(90))
+
+//                .waitSeconds(0.15)
+//                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(90))
 
                 .build());
 
