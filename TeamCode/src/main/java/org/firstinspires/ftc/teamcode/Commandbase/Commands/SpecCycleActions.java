@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
 import java.util.List;
 
 public class SpecCycleActions {
-    public SpecArm specArm
+    public SpecArm specArm;
 
 
     public SpecCycleActions(OpMode opMode) {
