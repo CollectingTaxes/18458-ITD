@@ -31,8 +31,9 @@ public class BlueSpec {
                 .strafeToConstantHeading(new Vector2d(-59, 60))
 
                 //3 Sample
-                .strafeToLinearHeading(new Vector2d(-56, 25), Math.toRadians(180))
-
+                .strafeToConstantHeading(new Vector2d(-50, 19))
+                .splineToLinearHeading(new Pose2d(-66, 19, Math.toRadians(90)), Math.toRadians(90))
+                .strafeToConstantHeading(new Vector2d(-66, 60))
 
                 .build());
 

@@ -14,9 +14,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Arm  {
     public HardwareMap hardwareMap;
 
-    public static double GRAB_POSE = 0.45;
-    public static double RESET_POSE = 0;
-    public static double SPEC_GRAB = 0.35;
+    public static double GRAB_POSE = 0.27;
+    public static double RESET_POSE = 0.79;
+    public static double SPEC_GRAB = 0.4;
     public static double AUTO_GRAB = 0.41;
 
     Telemetry telemetry;
@@ -28,8 +28,8 @@ public class Arm  {
         this.leftArm = (Servo) hardwareMap.get("leftArm");
         this.rightArm = (Servo) hardwareMap.get("rightArm");
 
-        leftArm.setDirection(Servo.Direction.FORWARD);
-        rightArm.setDirection(Servo.Direction.REVERSE);
+        leftArm.setDirection(Servo.Direction.REVERSE);
+        rightArm.setDirection(Servo.Direction.FORWARD);
 
     }
 
