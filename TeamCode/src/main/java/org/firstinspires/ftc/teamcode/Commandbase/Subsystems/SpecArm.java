@@ -2,12 +2,9 @@ package org.firstinspires.ftc.teamcode.Commandbase.Subsystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-
-import org.firstinspires.ftc.onbotjava.handlers.admin.SettingsReset;
 
 public class SpecArm {
     private final DcMotor specArm;
@@ -44,13 +41,10 @@ public class SpecArm {
     public void open() {
         specServo.setPosition(OPEN);
     }
-    public void reset() {
+    public void intake() {
         specArm.setTargetPosition(INTAKE);
     }
     public void outtake() {
         specArm.setTargetPosition(OUTTAKE);
-    }
-    public void specArmPose() {
-        specArm.setTargetPosition(SPEC_ARM);
     }
 }

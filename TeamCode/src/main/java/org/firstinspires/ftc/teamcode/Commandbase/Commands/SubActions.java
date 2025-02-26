@@ -9,29 +9,29 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.SpecArm;
 
 import java.util.List;
 
 
-public class ClawActions {
+public class SubActions {
 
     enum ClawState {
         GRABBING,
-        OPENING,
+        OPENED,
     }
 
-    public SpecArm specArm;
+    public Arm arm;
+    public Claw claw;
 
     private boolean wasInputPressed = false;
-    private boolean armIsGrabbing = false;
 
     ClawState clawState = ClawState.GRABBING;
 
 
-    public ClawActions(OpMode opMode) {
+    public SubActions(OpMode opMode) {
 
-        specArm = new SpecArm(opMode);
+        arm = new Arm(opMode);
+        claw = new Claw(opMode);
 
     }
 
@@ -42,23 +42,26 @@ public class ClawActions {
 
             switch (clawState) {
                 case GRABBING:
-                    if (advancedControl && armIsGrabbing) {
+                    if (!advancedControl) {
                         runningActions.add(
                                 new SequentialAction(
-                                        new InstantAction(specArm::grab),
-                                        new SleepAction(0.15),
-                                        new InstantAction(specArm::reset)
+                                        new InstantAction(claw::grab)
                                 )
                         );
-                        clawState = ClawState.OPENING;
+                        clawState = ClawState.OPENED;
                         break;
+
                     } else {
                         runningActions.add(
                                 new SequentialAction(
-                                        new InstantAction(specArm::grab)
+                                        new InstantAction(arm::grab),
+                                        new InstantAction(claw::grab),
+                                        new InstantAction(arm::specGrab),
+                                        new SleepAction(0.15),
+                                        new InstantAction(arm::reset)
                                 )
                         );
-                        clawState = ClawState.OPENING;
+                        clawState = ClawState.OPENED;
                         break;
                     }
                     /*
@@ -66,26 +69,25 @@ public class ClawActions {
                     THIS IS FOR SPACING AND I DON'T GO INSANE FROM HOW COMPLICATED (NOT) THIS IS. ALSO ADD SOMETHING FOR DROPPING A SPEC INTO THE SUBZONE, THE IF LOGIC IS COMPLICATED
 
                      */
-                case OPENING:
+                case OPENED:
                     if (!advancedControl) {
                         runningActions.add(
                                 new SequentialAction(
-                                        new InstantAction(specArm::open)
+
                                 )
                         );
-                        clawState = ClawState.OPENING;
+                        clawState = ClawState.OPENED;
                         break;
                     }
 
                     else {
                         runningActions.add(
                                 new SequentialAction(
-                                        new InstantAction(specArm::open),
-                                        new InstantAction(specArm::specArmPose)
+                                        new InstantAction(claw::open),
+                                        new InstantAction(arm::specGrab)
                                 )
                         );
                     }
-                    armIsGrabbing = true;
 
                     clawState = ClawState.GRABBING;
                     break;
