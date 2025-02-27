@@ -26,7 +26,7 @@ public class SlideActions {
     public Arm arm;
     public Wrist wrist;
 
-    BasketCycleState basketCycleState = BasketCycleState.OUTTAKE;
+    BasketCycleState basketCycleState = BasketCycleState.INIT;
 
 
     public SlideActions(OpMode opMode) {
@@ -39,12 +39,12 @@ public class SlideActions {
 
         if (input) {
             switch (basketCycleState) {
-//                case INIT:
-//                    runningActions.add(
-//                            new InstantAction(slides::liftRest)
-//                    );
-//                    basketCycleState = BasketCycleState.OUTTAKE;
-//                    break;
+                case INIT:
+                    runningActions.add(
+                            new InstantAction(slides::liftRest)
+                    );
+                    basketCycleState = BasketCycleState.OUTTAKE;
+                    break;
                 case OUTTAKE :
                     runningActions.add(
                             new InstantAction(slides::liftHigh)

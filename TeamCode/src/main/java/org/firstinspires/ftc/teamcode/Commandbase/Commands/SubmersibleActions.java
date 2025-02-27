@@ -6,93 +6,91 @@ import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
+import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
 
 import java.util.List;
 
 
-public class SubActions {
+public class SubmersibleActions {
 
     enum ClawState {
         GRABBING,
         OPENED,
+        INIT
     }
 
     public Arm arm;
     public Claw claw;
+    public Wrist wrist;
 
-    private boolean wasInputPressed = false;
-
-    ClawState clawState = ClawState.GRABBING;
+    ClawState clawState = ClawState.INIT;
 
 
-    public SubActions(OpMode opMode) {
+    public SubmersibleActions(OpMode opMode) {
 
         arm = new Arm(opMode);
         claw = new Claw(opMode);
+        wrist = new Wrist(opMode);
 
     }
 
+    private boolean wasInputPressed = false;
+
     public void action(List<Action> runningActions, FtcDashboard dashboard, boolean input, boolean advancedControl) {
-        //DELETE ADVANCEDCONTROL IF IT STOPS WORKING
 
         if (input && !wasInputPressed) {
 
             switch (clawState) {
-                case GRABBING:
-                    if (!advancedControl) {
+                case INIT:
+                    runningActions.add(
+                            new InstantAction(claw::open)
+                    );
+                    clawState = ClawState.OPENED;
+
+                case OPENED:
+                    if (advancedControl) {
                         runningActions.add(
                                 new SequentialAction(
-                                        new InstantAction(claw::grab)
+                                        new InstantAction(claw::grab),
+                                        new InstantAction(wrist::horizontalGrab)
                                 )
                         );
-                        clawState = ClawState.OPENED;
-                        break;
-
                     } else {
                         runningActions.add(
-                                new SequentialAction(
-                                        new InstantAction(arm::grab),
-                                        new InstantAction(claw::grab),
-                                        new InstantAction(arm::specGrab),
-                                        new SleepAction(0.15),
-                                        new InstantAction(arm::reset)
-                                )
+                                new InstantAction(claw::grab)
                         );
-                        clawState = ClawState.OPENED;
-                        break;
                     }
-                    /*
+                    clawState = ClawState.GRABBING;
+                    break;
 
-                    THIS IS FOR SPACING AND I DON'T GO INSANE FROM HOW COMPLICATED (NOT) THIS IS. ALSO ADD SOMETHING FOR DROPPING A SPEC INTO THE SUBZONE, THE IF LOGIC IS COMPLICATED
+                // TOGGLE, SEPERATING BECAUSE I MIGHT GO MAD STARING AT THIS
+                case GRABBING:
 
-                     */
-                case OPENED:
-                    if (!advancedControl) {
-                        runningActions.add(
-                                new SequentialAction(
-
-                                )
-                        );
-                        clawState = ClawState.OPENED;
-                        break;
-                    }
-
-                    else {
+                    if (advancedControl) {
                         runningActions.add(
                                 new SequentialAction(
                                         new InstantAction(claw::open),
-                                        new InstantAction(arm::specGrab)
+                                        new InstantAction(wrist::neutralGrab)
+                                )
+                        );
+                    } else {
+                        runningActions.add(
+                                new SequentialAction(
+                                        new InstantAction(claw::open)
                                 )
                         );
                     }
 
-                    clawState = ClawState.GRABBING;
+                    clawState = ClawState.OPENED;
                     break;
             }
         }
         wasInputPressed = input;
     }
 }
+

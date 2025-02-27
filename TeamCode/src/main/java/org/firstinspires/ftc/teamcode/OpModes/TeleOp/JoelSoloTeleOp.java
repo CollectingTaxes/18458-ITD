@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Drive;
-import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubActions;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubmersibleActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SpecCycleActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SlideActions;
 
@@ -22,7 +22,7 @@ public class JoelSoloTeleOp extends OpMode {
     public Telemetry telemetry;
     public SlideActions outtake;
     public SpecCycleActions intake;
-    public SubActions subActions;
+    public SubmersibleActions subActions;
 
     private final FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
@@ -32,7 +32,7 @@ public class JoelSoloTeleOp extends OpMode {
         outtake = new SlideActions(this);
         drivetrain = new Drive(this);
         intake = new SpecCycleActions(this);
-        subActions = new SubActions(this);
+        subActions = new SubmersibleActions(this);
     }
 
     @Override
@@ -44,8 +44,7 @@ public class JoelSoloTeleOp extends OpMode {
 
         intake.action(runningActions, dash, gamepad1.dpad_up);
 
-        subActions.action(runningActions, dash, gamepad1.left_bumper, true);
-
+        subActions.action(runningActions, dash, gamepad2.left_bumper, true);
 
         List<Action> newActions = new ArrayList<>();
         for (Action action : runningActions) {
