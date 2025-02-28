@@ -44,7 +44,7 @@ public class JoelSoloTeleOp extends OpMode {
 
         intake.action(runningActions, dash, gamepad1.dpad_up);
 
-        subActions.action(runningActions, dash, gamepad2.left_bumper, true);
+        subActions.action(runningActions, dash, gamepad1.left_bumper, true);
 
         List<Action> newActions = new ArrayList<>();
         for (Action action : runningActions) {
