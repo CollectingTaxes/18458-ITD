@@ -28,6 +28,7 @@ public class Claw {
 
     public Claw(OpMode opMode) {
         this.hardwareMap = opMode.hardwareMap;
+        this.gamepad2 = opMode.gamepad2;
 
         this.claw = (Servo) hardwareMap.get("Claw");
 

@@ -8,7 +8,6 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
@@ -21,9 +20,8 @@ import org.firstinspires.ftc.teamcode.RoadRunner.StrafeChassis;
 import java.util.ArrayList;
 import java.util.List;
 
-@Autonomous
 @Config
-public class Testing extends LinearOpMode {
+public class Wut extends LinearOpMode {
     public Claw claw;
     public Wrist wrist;
     public Arm arm;

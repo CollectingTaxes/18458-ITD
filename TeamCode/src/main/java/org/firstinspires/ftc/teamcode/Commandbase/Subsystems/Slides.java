@@ -89,7 +89,6 @@ public class Slides {
 
     }
 
-
     //Lift Pose
     public void liftRest() {
         leftSlide.setPower(0.75);

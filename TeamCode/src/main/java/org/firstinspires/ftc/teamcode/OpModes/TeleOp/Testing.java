@@ -8,60 +8,51 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.ClawActions;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.SlideActions;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.SpecCycleActions;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubmersibleActions;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.WristAction;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Drive;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
+import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.SpecArm;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@TeleOp
 public class Testing extends OpMode {
-    public Claw claw;
-    public Slides slides;
-    public Telemetry telemetry;
+
+    public SpecArm specArm;
 
     private final FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
 
     @Override
     public void init() {
-        claw = new Claw(this);
-
+        specArm = new SpecArm(this);
     }
 
     @Override
     public void loop() {
-
-
-
-        if (gamepad2.dpad_up) {
+        if (gamepad1.dpad_up) {
             runningActions.add(
                     new SequentialAction(
-                            new InstantAction(claw::grab)
+                            new InstantAction(specArm::intake)
                     )
             );
         }
-        else if (gamepad2.dpad_down) {
+        if (gamepad1.dpad_down) {
             runningActions.add(
                     new SequentialAction(
-                            new InstantAction(claw::open)
-                    )
-            );
-        } else if (gamepad2.a) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(claw::open )
-                    )
-            );
-        }
-        if (gamepad2.x) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(slides::test)
+                            new InstantAction(specArm::outtake)
                     )
             );
         }

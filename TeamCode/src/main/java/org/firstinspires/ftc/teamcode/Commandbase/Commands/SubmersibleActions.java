@@ -16,16 +16,17 @@ import java.util.List;
 
 public class SubmersibleActions {
 
-    enum ClawState {
+    enum CycleState {
         GRABBING,
-        OPENED
+        OPENED,
+        INIT
     }
 
     public Arm arm;
     public Claw claw;
     public Wrist wrist;
 
-    ClawState clawState = ClawState.OPENED;
+    CycleState clawState = CycleState.INIT;
 
 
     public SubmersibleActions(OpMode opMode) {
@@ -43,22 +44,25 @@ public class SubmersibleActions {
         if (input && !wasInputPressed) {
 
             switch (clawState) {
+                case INIT:
+                    runningActions.add(
+                            new InstantAction(arm::reset)
+                    );
+
+                    clawState = CycleState.OPENED;
 
                 case OPENED:
                     if (advancedControl) {
                         runningActions.add(
                                 new SequentialAction(
                                         new InstantAction(arm::specGrab),
-                                        new InstantAction(claw::open),
-                                        new SleepAction(0.5)
+                                        new InstantAction(claw::open)
                                 )
                         );
-                    } else {
-                        runningActions.add(
-                                new InstantAction(claw::grab)
+                    } else runningActions.add(
+                                new InstantAction(claw::open)
                         );
-                    }
-                    clawState = ClawState.GRABBING;
+                    clawState = CycleState.GRABBING;
                     break;
 
                 // TOGGLE, SEPERATING BECAUSE I MIGHT GO MAD STARING AT THIS
@@ -67,21 +71,19 @@ public class SubmersibleActions {
                     if (advancedControl) {
                         runningActions.add(
                                 new SequentialAction(
+                                        new InstantAction(arm::grab),
+                                        new SleepAction(0.1),
                                         new InstantAction(claw::grab),
                                         new SleepAction(0.5),
                                         new InstantAction(arm::reset)
                                 )
                         );
 
-                    } else {
-                        runningActions.add(
-                                new SequentialAction(
-                                        new InstantAction(claw::open)
-                                )
+                    } else runningActions.add(
+                            new InstantAction(claw::grab)
                         );
-                        clawState = ClawState.OPENED;
-                        break;
-                    }
+                    clawState = CycleState.OPENED;
+                    break;
             }
         }
         wasInputPressed = input;

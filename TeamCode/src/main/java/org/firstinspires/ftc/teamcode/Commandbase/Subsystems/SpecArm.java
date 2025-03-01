@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.Commandbase.Subsystems;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+@Config
 public class SpecArm {
     private final DcMotor specArm;
     private final Servo specServo;
@@ -15,7 +18,8 @@ public class SpecArm {
     public static int max = 2500;
 
     public static double GRAB = 0.17, OPEN = 0.42;
-    public static int INTAKE = 1000, OUTTAKE = 100, SPEC_ARM = 500;
+    public static int INTAKE = 200, OUTTAKE = 100, SPEC_ARM = 500;
+    public int current = 0;
 
     public SpecArm (OpMode opMode) {
         this.hardwareMap = opMode.hardwareMap;
@@ -29,6 +33,19 @@ public class SpecArm {
         specArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         specArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        specArm.setTargetPosition(50);
+    }
+    public void setPos(int pos) {
+        if (pos <= max && pos >= min) current = pos;
+        System.out.println(current);
+        normalize();
+    }
+    public void normalize() {
+        specArm.setTargetPosition(current);
+        specArm.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        specArm.setPower(1);
+
     }
 
 //    public void moveManual(double position) {
@@ -42,9 +59,9 @@ public class SpecArm {
         specServo.setPosition(OPEN);
     }
     public void intake() {
-        specArm.setTargetPosition(INTAKE);
+        setPos(INTAKE);
     }
     public void outtake() {
-        specArm.setTargetPosition(OUTTAKE);
+        setPos(OUTTAKE);
     }
 }

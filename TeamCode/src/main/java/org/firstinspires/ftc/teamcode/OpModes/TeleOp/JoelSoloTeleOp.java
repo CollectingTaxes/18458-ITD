@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.ClawActions;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.WristAction;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Drive;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubmersibleActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SpecCycleActions;
@@ -23,6 +25,9 @@ public class JoelSoloTeleOp extends OpMode {
     public SlideActions outtake;
     public SpecCycleActions intake;
     public SubmersibleActions subActions;
+    public WristAction wristAction;
+    public ClawActions clawActions;
+    public SpecCycleActions specCycleActions;
 
     private final FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
@@ -33,6 +38,9 @@ public class JoelSoloTeleOp extends OpMode {
         drivetrain = new Drive(this);
         intake = new SpecCycleActions(this);
         subActions = new SubmersibleActions(this);
+        wristAction = new WristAction(this);
+        clawActions = new ClawActions(this);
+        specCycleActions = new SpecCycleActions(this);
     }
 
     @Override
@@ -44,7 +52,13 @@ public class JoelSoloTeleOp extends OpMode {
 
         intake.action(runningActions, dash, gamepad1.dpad_up);
 
-        subActions.action(runningActions, dash, gamepad1.left_bumper, true);
+        subActions.action(runningActions, dash, gamepad1.b, true);
+
+        wristAction.action(runningActions, dash, gamepad1.x);
+
+        clawActions.action(runningActions, dash, gamepad1.left_bumper);
+
+        specCycleActions.action(runningActions, dash, gamepad1.b);
 
         List<Action> newActions = new ArrayList<>();
         for (Action action : runningActions) {
