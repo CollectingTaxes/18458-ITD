@@ -11,23 +11,27 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Config
 public class SpecArm {
     private final DcMotor specArm;
-    private final Servo specServo;
+    private final Servo specClaw;
+    private final Servo specWrist;
     private final HardwareMap hardwareMap;
 
     public static int min = -5;
-    public static int max = 2500;
+    public static int max = 1000;
 
-    public static double GRAB = 0.17, OPEN = 0.42;
-    public static int INTAKE = 200, OUTTAKE = 100, SPEC_ARM = 500;
+    public static double OPEN = 0, GRAB = 0.26;
+    public static double NEUTRAL = 0, SCORE = 0.66;
+    public static int INTAKE = 0, OUTTAKE = 750, SPEC = 500;
     public int current = 0;
 
     public SpecArm (OpMode opMode) {
         this.hardwareMap = opMode.hardwareMap;
 
         this.specArm = (DcMotor) hardwareMap.get("specArm");
-        this.specServo = (Servo) hardwareMap.get("specClaw");
+        this.specWrist = (Servo) hardwareMap.get("specWrist");
+        this.specClaw = (Servo) hardwareMap.get("specClaw");
 
-        specServo.setDirection(Servo.Direction.FORWARD);
+        specClaw.setDirection(Servo.Direction.FORWARD);
+        specWrist.setDirection(Servo.Direction.FORWARD);
         specArm.setDirection(DcMotorSimple.Direction.FORWARD);
 
         specArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -52,16 +56,26 @@ public class SpecArm {
 //        setPos((int) position);
 //    }
     public void grab() {
-        specServo.setPosition(GRAB);
+        specClaw.setPosition(GRAB);
     }
 
     public void open() {
-        specServo.setPosition(OPEN);
+        specClaw.setPosition(OPEN);
+    }
+    public void nuetral() {
+        specWrist.setPosition(NEUTRAL);
+    }
+
+    public void score() {
+        specWrist.setPosition(SCORE);
     }
     public void intake() {
         setPos(INTAKE);
     }
     public void outtake() {
         setPos(OUTTAKE);
+    }
+    public void spec() {
+        setPos(SPEC);
     }
 }

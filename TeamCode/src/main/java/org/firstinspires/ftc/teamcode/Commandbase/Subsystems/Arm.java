@@ -14,9 +14,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Arm  {
     public HardwareMap hardwareMap;
 
-    public static double GRAB_POSE = 0.27;
+    public static double GRAB_POSE = 0.32;
     public static double RESET_POSE = 0.79;
-    public static double SPEC_GRAB = 0.4;
+    public static double SPEC_GRAB = 0.38;
     public static double AUTO_GRAB = 0.41;
 
     Telemetry telemetry;

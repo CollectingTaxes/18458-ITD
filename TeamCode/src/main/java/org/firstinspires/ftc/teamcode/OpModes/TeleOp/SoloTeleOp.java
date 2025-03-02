@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.apache.commons.math3.geometry.euclidean.twod.Line;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.SpecArm;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
 
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
@@ -53,6 +54,7 @@ public class SoloTeleOp extends OpMode {
     public Drive drivetrain;
     public Arm arm;
     public Slides slides;
+    public SpecArm specArm;
     public Telemetry telemetry;
 
     private final FtcDashboard dash = FtcDashboard.getInstance();
@@ -65,6 +67,7 @@ public class SoloTeleOp extends OpMode {
         drivetrain = new Drive(this);
         slides = new Slides(this);
         wrist = new Wrist(this);
+        specArm = new SpecArm(this);
 
     }
 
@@ -84,6 +87,7 @@ public class SoloTeleOp extends OpMode {
                     )
             );
         }
+
         else if (gamepad1.dpad_down) {
             runningActions.add(
                     new SequentialAction(
@@ -92,6 +96,40 @@ public class SoloTeleOp extends OpMode {
                             new InstantAction(wrist::neutralGrab),
                             new SleepAction(0.15),
                             new InstantAction(claw::open)
+                    )
+            );
+        }
+
+        if (gamepad2.x) {
+            runningActions.add(
+                    new SequentialAction(
+                            new InstantAction(specArm::nuetral),
+                            new SleepAction(0.5),
+                            new InstantAction(specArm::open),
+                            new InstantAction(specArm::intake)
+                    )
+            );
+        }
+        else if (gamepad2.y) {
+            runningActions.add(
+                    new SequentialAction(
+                            new InstantAction(specArm::grab),
+                            new SleepAction(0.4),
+                            new InstantAction(specArm::spec),
+                            //new SleepAction(0.1),
+                            new InstantAction(specArm::score)
+                    )
+            );
+        }
+        else if (gamepad2.right_bumper) {
+            runningActions.add(
+                    new SequentialAction(
+                            new InstantAction(specArm::outtake),
+                            new InstantAction(specArm::open),
+                            new SleepAction(0.2),
+                            new InstantAction(specArm::nuetral),
+                            new SleepAction(0.5),
+                            new InstantAction(specArm::intake)
                     )
             );
         }
