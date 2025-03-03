@@ -58,7 +58,7 @@ public class JoelSoloTeleOp extends OpMode {
 
         clawActions.action(runningActions, dash, gamepad1.left_bumper);
 
-        specCycleActions.action(runningActions, dash, gamepad1.b);
+        //specCycleActions.action(runningActions, dash, gamepad1.b);
 
         List<Action> newActions = new ArrayList<>();
         for (Action action : runningActions) {
