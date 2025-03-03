@@ -31,11 +31,14 @@ public class FiveSpec extends LinearOpMode {
     public SpecArm specArm;
 
     public static double FIRSTSAMPLE_X = -49;
+    public static double SECONDSAMPLE_X = -61;
 
 
     public static Pose2d StartPose = new Pose2d(-17.5, 64, Math.toRadians(270));
     public static Pose2d Preload = new Pose2d(-8, 32, Math.toRadians(270));
-    public static Pose2d ThirdGrab = new Pose2d(-58, 26, Math.toRadians(180));
+    public static Pose2d FirstGrab = new Pose2d(FIRSTSAMPLE_X, 36, Math.toRadians(90));
+    public static Pose2d SecondGrab = new Pose2d(SECONDSAMPLE_X, 60, Math.toRadians(90));
+    public static Pose2d ThirdGrab = new Pose2d(-61, 36, Math.toRadians(180));
     public static Pose2d HPZone = new Pose2d(-50, 6, Math.toRadians(90));
     public static Pose2d Cycle = new Pose2d(-30, 60, Math.toRadians(180));
     public static Pose2d FirstSpec = new Pose2d(-5, 33, Math.toRadians(270));
@@ -47,8 +50,8 @@ public class FiveSpec extends LinearOpMode {
     public static Vector2d PRELOAD = new Vector2d(-8,32);
     //TODO: MAKE A DOUBLE FOR THE HUMAN PLAYER ZONE
     public static Vector2d FIRST_GRAB = new Vector2d(FIRSTSAMPLE_X, 36);
-    public static Vector2d SECOND_GRAB = new Vector2d(-50, 37);
-    public static Vector2d THIRD_GRAB = new Vector2d(-58, 26);
+    public static Vector2d SECOND_GRAB = new Vector2d(-60, 34);
+    public static Vector2d THIRD_GRAB = new Vector2d(-61, 36);
 //    public static Vector2d HP_ZONE = new Vector2d(-47, 62);
     public static Vector2d CYCLE = new Vector2d(-30, 60);
     public static Vector2d PARK = new Vector2d(-50, 60);
@@ -127,9 +130,46 @@ public class FiveSpec extends LinearOpMode {
                         sleep(150);
                         specArm.grab();
                         Actions.runBlocking(
-                                drive.actionBuilder(Preload)
-                                        .strafeToLinearHeading(humanPlayerZone(FIRSTSAMPLE_X, 60), Math.toRadians(90))
+                                drive.actionBuilder(FirstGrab)
+                                        .strafeToLinearHeading(HUMAN_PLAYER_ZONE_VECTOR(FIRSTSAMPLE_X, 60), Math.toRadians(90))
                                         .build());
+
+                        specArm.outtake();
+                        specArm.open();
+
+                        path = Path.GRAB2;
+
+                    case GRAB2:
+                        Actions.runBlocking(
+                                drive.actionBuilder(HUMAN_PLAYER_ZONE_POSE(FIRSTSAMPLE_X, 60, 90))
+                                        .strafeToLinearHeading(SECOND_GRAB, Math.toRadians(90))
+                                        .build());
+                        specArm.intake();
+                        sleep(150);
+                        specArm.grab();
+
+                        Actions.runBlocking(
+                                drive.actionBuilder(SecondGrab)
+                                        .strafeTo(HUMAN_PLAYER_ZONE_VECTOR(SECONDSAMPLE_X, 60))
+                                        .build());
+                        specArm.outtake();
+                        specArm.open();
+
+                        path = Path.GRAB3;
+
+                    case GRAB3:
+                        Actions.runBlocking(
+                                drive.actionBuilder(HUMAN_PLAYER_ZONE_POSE(SECONDSAMPLE_X, 60, 90))
+                                        .strafeToLinearHeading(THIRD_GRAB, Math.toRadians(30))
+                                        .build());
+                        arm.grab();
+                        claw.grab();
+                        arm.reset();
+//
+//                        Actions.runBlocking(
+//                                drive.actionBuilder(ThirdGrab)
+//
+//                        );
                 }
 
                 List<Action> newActions = new ArrayList<>();
@@ -146,8 +186,12 @@ public class FiveSpec extends LinearOpMode {
             }
         }
     }
-    public Vector2d humanPlayerZone(double x, double y) {
+    public Vector2d HUMAN_PLAYER_ZONE_VECTOR(double x, double y) {
        Vector2d HPZONE = new Vector2d(x, y);
        return HPZONE;
+    }
+    public Pose2d HUMAN_PLAYER_ZONE_POSE(double x, double y, double r) {
+        Pose2d HPZONE = new Pose2d(x, y, Math.toRadians(r));
+        return HPZONE;
     }
 }

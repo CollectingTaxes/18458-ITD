@@ -73,6 +73,7 @@ public class TeleOpMain extends OpMode {
         slides = new Slides(this);
         wrist = new WristAction(this);
         clawActions = new ClawActions(this);
+        submersibleActions = new SubmersibleActions(this);
     }
 
     @Override
@@ -94,7 +95,7 @@ public class TeleOpMain extends OpMode {
 
         clawActions.action(runningActions, dash, gamepad2.left_bumper);
 
-        specCycleActions.action(runningActions, dash, gamepad2.b);
+        specCycleActions.action(runningActions, dash, gamepad2.a);
 
         List<Action> newActions = new ArrayList<>();
         for (Action action : runningActions) {
