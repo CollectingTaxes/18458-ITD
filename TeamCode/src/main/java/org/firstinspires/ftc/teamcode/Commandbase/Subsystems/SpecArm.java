@@ -52,9 +52,6 @@ public class SpecArm {
 
     }
 
-//    public void moveManual(double position) {
-//        setPos((int) position);
-//    }
     public void grab() {
         specClaw.setPosition(GRAB);
     }

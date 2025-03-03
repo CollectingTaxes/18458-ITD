@@ -83,11 +83,7 @@ public class TeleOpMain extends OpMode {
 
         slides.Manual(-gamepad2.left_stick_y);
 
-        drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, 1, gamepad1.a, gamepad1.right_bumper);
-
         outtake.action(runningActions, dash, gamepad2.dpad_down);
-
-        specCycleActions.action(runningActions, dash, gamepad2.dpad_up);
 
         submersibleActions.action(runningActions, dash, gamepad2.b, true);
 
