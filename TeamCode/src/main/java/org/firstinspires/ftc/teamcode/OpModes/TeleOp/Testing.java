@@ -49,6 +49,25 @@ public class Testing extends OpMode {
                     )
             );
         }
+
+
+        if (gamepad1.dpad_left) {
+            runningActions.add(
+                    new SequentialAction(
+                            new InstantAction(specArm::grab),
+                            new InstantAction(specArm::nuetral)
+                    )
+            );
+        }
+        if (gamepad1.dpad_right) {
+            runningActions.add(
+                    new SequentialAction(
+                            new InstantAction(specArm::open),
+                            new InstantAction(specArm::score)
+                    )
+            );
+        }
+
         if (gamepad1.dpad_down) {
             runningActions.add(
                     new SequentialAction(
