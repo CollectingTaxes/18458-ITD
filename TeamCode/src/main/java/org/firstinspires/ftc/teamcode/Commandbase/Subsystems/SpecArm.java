@@ -20,7 +20,7 @@ public class SpecArm {
 
     public static double OPEN = 0, GRAB = 0.26;
     public static double NEUTRAL = 0, SCORE = 0.66;
-    public static int INTAKE = 0, OUTTAKE = 750, SPEC = 500;
+    public static int INTAKE = -5, OUTTAKE = 800, SPEC = 500;
     public int current = 0;
 
     public SpecArm (OpMode opMode) {
