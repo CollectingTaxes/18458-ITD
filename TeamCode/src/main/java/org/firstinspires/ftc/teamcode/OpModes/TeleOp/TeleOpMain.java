@@ -83,7 +83,7 @@ public class TeleOpMain extends OpMode {
 
         slides.Manual(-gamepad2.left_stick_y);
 
-        outtake.action(runningActions, dash, gamepad2.dpad_down);
+        outtake.action(runningActions, dash, gamepad2.dpad_up);
 
         submersibleActions.action(runningActions, dash, gamepad2.b, true);
 

@@ -10,6 +10,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.SpecCycleActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
@@ -29,6 +30,7 @@ public class FiveSpec extends LinearOpMode {
     public Arm arm;
     public Slides slides;
     public SpecArm specArm;
+    public SpecCycleActions specCycleActions;
 
     public static double FIRSTSAMPLE_X = -49;
     public static double SECONDSAMPLE_X = -61;
@@ -39,26 +41,16 @@ public class FiveSpec extends LinearOpMode {
     public static Pose2d FirstGrab = new Pose2d(FIRSTSAMPLE_X, 36, Math.toRadians(90));
     public static Pose2d SecondGrab = new Pose2d(SECONDSAMPLE_X, 60, Math.toRadians(90));
     public static Pose2d ThirdGrab = new Pose2d(-61, 36, Math.toRadians(180));
-    public static Pose2d HPZone = new Pose2d(-50, 6, Math.toRadians(90));
-    public static Pose2d Cycle = new Pose2d(-30, 60, Math.toRadians(180));
-    public static Pose2d FirstSpec = new Pose2d(-5, 33, Math.toRadians(270));
-    public static Pose2d SecondSpec = new Pose2d(-7, 32.4, Math.toRadians(270));
-    public static Pose2d ThirdSpec = new Pose2d(-12, 32.1, Math.toRadians(270));
-    public static Pose2d FourthSpec = new Pose2d(-12, 32.1, Math.toRadians(270));
+    public static Pose2d HPZone = new Pose2d(-47, 63, Math.toRadians(90));
+    public static Pose2d Cycle = new Pose2d(-8, 32, Math.toRadians(180));
 
 
     public static Vector2d PRELOAD = new Vector2d(-8,32);
-    //TODO: MAKE A DOUBLE FOR THE HUMAN PLAYER ZONE
     public static Vector2d FIRST_GRAB = new Vector2d(FIRSTSAMPLE_X, 36);
     public static Vector2d SECOND_GRAB = new Vector2d(-60, 34);
     public static Vector2d THIRD_GRAB = new Vector2d(-61, 36);
-//    public static Vector2d HP_ZONE = new Vector2d(-47, 62);
-    public static Vector2d CYCLE = new Vector2d(-30, 60);
-    public static Vector2d PARK = new Vector2d(-50, 60);
-    public static Vector2d FIRST_SPEC = new Vector2d(-5, 33);
-    public static Vector2d SECOND_SPEC = new Vector2d(-7, 32.4);
-    public static Vector2d THIRD_SPEC = new Vector2d(-12, 32.1);
-    public static Vector2d FOURTH_SPEC = new Vector2d(-12, 32.1);
+    public static Vector2d HP_ZONE = new Vector2d(-47, 63);
+    public static Vector2d CYCLE = new Vector2d(-8, 32);
 
 
 
@@ -86,10 +78,6 @@ public class FiveSpec extends LinearOpMode {
         StrafeChassis drive = new StrafeChassis(hardwareMap, StartPose);
         final FtcDashboard dash = FtcDashboard.getInstance();
         List<Action> runningActions = new ArrayList<>();
-
-        StrafeChassis.PARAMS.maxWheelVel = 50;
-        StrafeChassis.PARAMS.minProfileAccel = -50;
-        StrafeChassis.PARAMS.maxProfileAccel = 50;
 
         arm = new Arm(this);
         claw = new Claw(this);
@@ -165,11 +153,92 @@ public class FiveSpec extends LinearOpMode {
                         arm.grab();
                         claw.grab();
                         arm.reset();
+
+                        Actions.runBlocking(
+                                drive.actionBuilder(ThirdGrab)
+                                        .splineToLinearHeading(HPZone, Math.toRadians(90))
+                                        .build());
+                        claw.open();
+
+                        path = Path.CYCLE1;
+
+                    case CYCLE1:
+
+                        claw.grab();
+                        slides.liftBigHigh();
+                        Actions.runBlocking(
+                                drive.actionBuilder(HPZone)
+                                        .strafeToLinearHeading(CYCLE, Math.toRadians(270))
+                                        .build());
+
+                        slides.liftRest();
+                        sleep(150);
+                        claw.open();
+
+                        Actions.runBlocking(
+                                drive.actionBuilder(Cycle)
+                                        .strafeToLinearHeading(HP_ZONE, Math.toRadians(270))
+                                        .build());
+
+                        path = Path.CYCLE2;
+                    case CYCLE2:
+
+//                        specArm.grab();
+//                        sleep(200);
+//                        specArm.
 //
 //                        Actions.runBlocking(
-//                                drive.actionBuilder(ThirdGrab)
-//
-//                        );
+//                                drive.actionBuilder(HPZone)
+//                                        .strafeToLinearHeading(CYCLE, Math.toRadians(270))
+//                                        .build());
+
+                        slides.liftRest();
+                        sleep(150);
+                        claw.open();
+
+                        Actions.runBlocking(
+                                drive.actionBuilder(Cycle)
+                                        .strafeToLinearHeading(HP_ZONE, Math.toRadians(270))
+                                        .build());
+
+                        path = Path.CYCLE3;
+                    case CYCLE3:
+
+                        claw.grab();
+                        slides.liftBigHigh();
+                        Actions.runBlocking(
+                                drive.actionBuilder(HPZone)
+                                        .strafeToLinearHeading(CYCLE, Math.toRadians(270))
+                                        .build());
+
+                        slides.liftRest();
+                        sleep(150);
+                        claw.open();
+
+                        Actions.runBlocking(
+                                drive.actionBuilder(Cycle)
+                                        .strafeToLinearHeading(HP_ZONE, Math.toRadians(270))
+                                        .build());
+
+                        path = Path.CYCLE4;
+                    case CYCLE4:
+
+                        claw.grab();
+                        slides.liftBigHigh();
+                        Actions.runBlocking(
+                                drive.actionBuilder(HPZone)
+                                        .strafeToLinearHeading(CYCLE, Math.toRadians(270))
+                                        .build());
+
+                        slides.liftRest();
+                        sleep(150);
+                        claw.open();
+
+                        Actions.runBlocking(
+                                drive.actionBuilder(Cycle)
+                                        .strafeToLinearHeading(HP_ZONE, Math.toRadians(270))
+                                        .build());
+
                 }
 
                 List<Action> newActions = new ArrayList<>();

@@ -42,28 +42,28 @@ public class JoelsChild {
                 .waitSeconds(0.15)
 
                 //CYCLE1
-                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(270))
 
                 .waitSeconds(0.15)
-                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(270))
                 .waitSeconds(0.15)
 
                 //CYCLE2
-                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(270))
 
                 .waitSeconds(0.15)
-                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(270))
                 .waitSeconds(0.15)
 
                 //CYCLE3
-                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(270))
 
                 .waitSeconds(0.15)
-                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(270))
 
                 //CYCLE4
                 .waitSeconds(0.15)
-                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(270))
 
 //                .waitSeconds(0.15)
 //                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(90))

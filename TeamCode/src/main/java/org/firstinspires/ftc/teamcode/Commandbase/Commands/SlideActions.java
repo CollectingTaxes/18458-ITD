@@ -25,6 +25,7 @@ public class SlideActions {
     public Claw claw;
     public Arm arm;
     public Wrist wrist;
+    public boolean wasInputPressed = false;
 
     BasketCycleState basketCycleState = BasketCycleState.INIT;
 
@@ -37,7 +38,8 @@ public class SlideActions {
     }
     public void action(List<Action> runningActions, FtcDashboard dashboard, boolean input) {
 
-        if (input) {
+        if (input && !wasInputPressed) {
+
             switch (basketCycleState) {
                 case INIT:
                     runningActions.add(
@@ -66,5 +68,6 @@ public class SlideActions {
                     break;
             }
         }
+        wasInputPressed = input;
     }
 }
