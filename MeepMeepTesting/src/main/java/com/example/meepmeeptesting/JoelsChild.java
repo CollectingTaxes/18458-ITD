@@ -24,7 +24,8 @@ public class JoelsChild {
                 .waitSeconds(0.15)
 
                 //GRAB ONE
-                .strafeToLinearHeading(new Vector2d(-49, 36), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-25, 35), Math.toRadians(45))
+                .strafeToLinearHeading(new Vector2d(-49, 35), Math.toRadians(90))
                 .waitSeconds(0.15)
                 .strafeTo(new Vector2d(-49, 50))
                 .waitSeconds(0.15)
@@ -38,32 +39,32 @@ public class JoelsChild {
                 //GRAB THREE
                 .strafeToLinearHeading(new Vector2d(-61, 36), Math.toRadians(30))
                 .waitSeconds(0.15)
-                .splineToLinearHeading(new Pose2d(-47, 63, Math.toRadians(90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-47, 57, Math.toRadians(90)), Math.toRadians(90))
                 .waitSeconds(0.15)
 
                 //CYCLE1
-                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(270))
+                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(90))
 
                 .waitSeconds(0.15)
-                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(270))
+                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(90))
                 .waitSeconds(0.15)
 
                 //CYCLE2
-                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(270))
+                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(90))
 
                 .waitSeconds(0.15)
-                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(270))
+                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(90))
                 .waitSeconds(0.15)
 
                 //CYCLE3
-                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(270))
+                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(90))
 
                 .waitSeconds(0.15)
-                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(270))
+                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(90))
 
                 //CYCLE4
                 .waitSeconds(0.15)
-                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(270))
+                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(90))
 
 //                .waitSeconds(0.15)
 //                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(90))
@@ -72,7 +73,7 @@ public class JoelsChild {
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
                 .setDarkMode(true)
-                .setBackgroundAlpha(0.95f)
+                .setBackgroundAlpha(0.5f)
                 .addEntity(myBot)
                 .start();
     }

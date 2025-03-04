@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Commandbase.Subsystems;
 
+import android.hardware.camera2.params.TonemapCurve;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -7,12 +9,14 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 @Config
 public class SpecArm {
     private final DcMotor specArm;
     private final Servo specClaw;
     private final Servo specWrist;
+    private TouchSensor touchSensor;
     private final HardwareMap hardwareMap;
 
     public static int min = -5;
@@ -29,6 +33,7 @@ public class SpecArm {
         this.specArm = (DcMotor) hardwareMap.get("specArm");
         this.specWrist = (Servo) hardwareMap.get("specWrist");
         this.specClaw = (Servo) hardwareMap.get("specClaw");
+        this.touchSensor = (TouchSensor) hardwareMap.get("touchSensor");
 
         specClaw.setDirection(Servo.Direction.FORWARD);
         specWrist.setDirection(Servo.Direction.FORWARD);
@@ -68,11 +73,20 @@ public class SpecArm {
     }
     public void intake() {
         setPos(INTAKE);
+        newArmPos();
     }
     public void outtake() {
         setPos(OUTTAKE);
     }
     public void spec() {
         setPos(SPEC);
+
+    }
+    public double newArmPos() {
+        if (touchSensor.isPressed()) {
+            return INTAKE = specArm.getCurrentPosition();
+        } else {
+            return INTAKE;
+        }
     }
 }
