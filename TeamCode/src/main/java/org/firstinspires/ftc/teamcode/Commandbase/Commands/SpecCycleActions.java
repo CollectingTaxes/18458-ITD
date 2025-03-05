@@ -36,7 +36,7 @@ public class SpecCycleActions {
                                 new InstantAction(specArm::grab),
                                 new SleepAction(0.4),
                                 new InstantAction(specArm::spec),
-                                new InstantAction(specArm::score)
+                               new InstantAction(specArm::score)
                         )
                 );
                 specArmCycle = SpecArmCycle.OUTTAKE;
@@ -46,7 +46,7 @@ public class SpecCycleActions {
                     runningActions.add(
                             new SequentialAction(
                                     new InstantAction(specArm::outtake),
-                                    new SleepAction(0.1),
+                                    //new SleepAction(0.1),
                                     new InstantAction(specArm::open),
                                     new SleepAction(0.4),
                                     new InstantAction(specArm::intake),

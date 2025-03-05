@@ -23,7 +23,7 @@ public class SpecArm {
     public static int max = 1000;
 
     public static double OPEN = 0, GRAB = 0.26;
-    public static double NEUTRAL = 0, SCORE = 0.66;
+    public static double NEUTRAL = 0, SCORE = 0.66, POWER = 0.8;
     public static int INTAKE = -5, OUTTAKE = 800, SPEC = 500;
     public int current = 0;
 
@@ -53,7 +53,7 @@ public class SpecArm {
     public void normalize() {
         specArm.setTargetPosition(current);
         specArm.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        specArm.setPower(1);
+        specArm.setPower(POWER);
 
     }
 

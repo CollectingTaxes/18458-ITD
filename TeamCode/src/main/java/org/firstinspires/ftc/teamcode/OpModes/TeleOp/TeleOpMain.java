@@ -34,6 +34,7 @@ import org.apache.commons.math3.geometry.euclidean.twod.Line;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.ClawActions;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.ResetActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SlideActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SpecCycleActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubmersibleActions;
@@ -61,6 +62,7 @@ public class TeleOpMain extends OpMode {
     public WristAction wrist;
     public ClawActions clawActions;
     public SubmersibleActions submersibleActions;
+    public ResetActions resetActions;
 
     private final FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
@@ -74,6 +76,7 @@ public class TeleOpMain extends OpMode {
         wrist = new WristAction(this);
         clawActions = new ClawActions(this);
         submersibleActions = new SubmersibleActions(this);
+        resetActions = new ResetActions(this);
     }
 
     @Override
@@ -88,6 +91,8 @@ public class TeleOpMain extends OpMode {
         submersibleActions.action(runningActions, dash, gamepad2.b, true);
 
         wrist.action(runningActions, dash, gamepad2.x);
+
+        resetActions.action(runningActions, dash, gamepad2.y);
 
         clawActions.action(runningActions, dash, gamepad2.left_bumper);
 

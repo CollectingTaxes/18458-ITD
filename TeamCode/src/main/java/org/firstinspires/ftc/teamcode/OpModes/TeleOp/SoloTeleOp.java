@@ -33,7 +33,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.apache.commons.math3.geometry.euclidean.twod.Line;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.SpecArm;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.ClawActions;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.ResetActions;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.SlideActions;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.SpecCycleActions;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubmersibleActions;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.WristAction;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
 
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
@@ -41,6 +46,7 @@ import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Drive;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
 import org.firstinspires.ftc.teamcode.RoadRunner.StrafeChassis;
+import org.tensorflow.lite.task.vision.segmenter.OutputType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,26 +55,28 @@ import java.util.List;
 @TeleOp
 public class SoloTeleOp extends OpMode {
 
-    public Claw claw;
-    public  Wrist wrist;
     public Drive drivetrain;
-    public Arm arm;
     public Slides slides;
-    public SpecArm specArm;
-    public Telemetry telemetry;
+    public SlideActions outtake;
+    public SpecCycleActions specCycleActions;
+    public WristAction wrist;
+    public ClawActions clawActions;
+    public SubmersibleActions submersibleActions;
+    public ResetActions resetActions;
 
     private final FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
 
     @Override
     public void init() {
-        arm = new Arm(this);
-        claw = new Claw(this);
+        outtake = new SlideActions(this);
+        specCycleActions = new SpecCycleActions(this);
         drivetrain = new Drive(this);
         slides = new Slides(this);
-        wrist = new Wrist(this);
-        specArm = new SpecArm(this);
-
+        wrist = new WristAction(this);
+        clawActions = new ClawActions(this);
+        submersibleActions = new SubmersibleActions(this);
+        resetActions = new ResetActions(this);
     }
 
     @Override
@@ -76,103 +84,19 @@ public class SoloTeleOp extends OpMode {
 
         drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, 1, gamepad1.a, gamepad1.left_bumper);
 
+        slides.Manual(-gamepad2.left_stick_y);
 
-        if (gamepad1.dpad_up) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(claw::grab),
-                            new SleepAction(0.4),
-                            new InstantAction(arm::reset),
-                            new InstantAction(slides::liftHigh)
-                    )
-            );
-        }
+        outtake.action(runningActions, dash, gamepad1.dpad_down);
 
-        else if (gamepad1.dpad_down) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(arm::reset),
-                            new InstantAction(slides::liftRest),
-                            new InstantAction(wrist::neutralGrab),
-                            new SleepAction(0.15),
-                            new InstantAction(claw::open)
-                    )
-            );
-        }
+        submersibleActions.action(runningActions, dash, gamepad1.b, true);
 
-        if (gamepad2.x) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(specArm::nuetral),
-                            new SleepAction(0.5),
-                            new InstantAction(specArm::open),
-                            new InstantAction(specArm::intake)
-                    )
-            );
-        }
-        else if (gamepad2.y) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(specArm::grab),
-                            new SleepAction(0.4),
-                            new InstantAction(specArm::spec),
-                            //new SleepAction(0.1),
-                            new InstantAction(specArm::score)
-                    )
-            );
-        }
-        else if (gamepad2.right_bumper) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(specArm::outtake),
-                            new InstantAction(specArm::open),
-                            new SleepAction(0.2),
-                            new InstantAction(specArm::nuetral),
-                            new SleepAction(0.5),
-                            new InstantAction(specArm::intake)
-                    )
-            );
-        }
-        if (gamepad1.right_bumper) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(arm::specGrab),
-                            new InstantAction(claw::open)
-                    )
-            );
-        } else if (gamepad1.left_bumper) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(arm::grab),
-                            new SleepAction(0.1),
-                            new InstantAction(claw::grab),
-                            new SleepAction(0.35),
-                            new InstantAction(arm::reset)
+        wrist.action(runningActions, dash, gamepad1.x);
 
-                    )
-            );
-        }
-        if (gamepad1.b) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(claw::open)
-                    )
-            );
-        }
+        resetActions.action(runningActions, dash, gamepad1.y);
 
-        if (gamepad1.x) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(wrist::horizontalGrab)
-                    )
-            );
-        } else if (gamepad1.y) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(wrist::neutralGrab)
-                    )
-            );
-        }
+        clawActions.action(runningActions, dash, gamepad1.right_bumper);
+
+        specCycleActions.action(runningActions, dash, gamepad1.dpad_up);
 
         List<Action> newActions = new ArrayList<>();
         for (Action action : runningActions) {

@@ -75,7 +75,7 @@ public class SubmersibleActions {
                                         new SleepAction(0.1),
                                         new InstantAction(claw::grab),
                                         new SleepAction(0.5),
-                                        new InstantAction(arm::reset)
+                                        new InstantAction(arm::specGrab)
                                 )
                         );
 

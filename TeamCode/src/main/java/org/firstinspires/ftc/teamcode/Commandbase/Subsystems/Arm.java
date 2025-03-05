@@ -16,7 +16,7 @@ public class Arm  {
 
     public static double GRAB_POSE = 0.32;
     public static double RESET_POSE = 0.79;
-    public static double SPEC_GRAB = 0.37 ;
+    public static double SPEC_GRAB = 0.41;
     public static double AUTO_GRAB = 0.41;
 
     Telemetry telemetry;
