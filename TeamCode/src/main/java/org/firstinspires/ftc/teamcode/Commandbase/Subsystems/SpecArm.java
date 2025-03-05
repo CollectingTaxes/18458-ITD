@@ -16,7 +16,6 @@ public class SpecArm {
     private final DcMotor specArm;
     private final Servo specClaw;
     private final Servo specWrist;
-    private TouchSensor touchSensor;
     private final HardwareMap hardwareMap;
 
     public static int min = -5;
@@ -24,7 +23,7 @@ public class SpecArm {
 
     public static double OPEN = 0, GRAB = 0.26;
     public static double NEUTRAL = 0, SCORE = 0.66, POWER = 0.8;
-    public static int INTAKE = -5, OUTTAKE = 800, SPEC = 500;
+    public static int INTAKE = -5, OUTTAKE = 800, SPEC = 500, FLOOR = 300;
     public int current = 0;
 
     public SpecArm (OpMode opMode) {
@@ -33,7 +32,6 @@ public class SpecArm {
         this.specArm = (DcMotor) hardwareMap.get("specArm");
         this.specWrist = (Servo) hardwareMap.get("specWrist");
         this.specClaw = (Servo) hardwareMap.get("specClaw");
-        this.touchSensor = (TouchSensor) hardwareMap.get("touchSensor");
 
         specClaw.setDirection(Servo.Direction.FORWARD);
         specWrist.setDirection(Servo.Direction.FORWARD);
@@ -73,7 +71,6 @@ public class SpecArm {
     }
     public void intake() {
         setPos(INTAKE);
-        newArmPos();
     }
     public void outtake() {
         setPos(OUTTAKE);
@@ -82,11 +79,7 @@ public class SpecArm {
         setPos(SPEC);
 
     }
-    public double newArmPos() {
-        if (touchSensor.isPressed()) {
-            return INTAKE = specArm.getCurrentPosition();
-        } else {
-            return INTAKE;
-        }
+    public void grabFromFloor() {
+        setPos(FLOOR);
     }
 }

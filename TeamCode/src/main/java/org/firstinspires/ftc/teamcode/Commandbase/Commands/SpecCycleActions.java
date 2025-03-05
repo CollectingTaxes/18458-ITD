@@ -36,7 +36,7 @@ public class SpecCycleActions {
                                 new InstantAction(specArm::grab),
                                 new SleepAction(0.4),
                                 new InstantAction(specArm::spec),
-                               new InstantAction(specArm::score)
+                                new InstantAction(specArm::score)
                         )
                 );
                 specArmCycle = SpecArmCycle.OUTTAKE;

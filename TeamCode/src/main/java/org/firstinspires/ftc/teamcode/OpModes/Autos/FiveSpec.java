@@ -112,7 +112,9 @@ public class FiveSpec extends LinearOpMode {
                     case GRAB1:
                         Actions.runBlocking(
                                 drive.actionBuilder(Preload)
-                                        .strafeToLinearHeading(FIRST_GRAB, Math.toRadians(90))
+                                        .strafeToLinearHeading(new Vector2d(-25, 35), Math.toRadians(45))
+                                        .strafeToLinearHeading(new Vector2d(-49, 35), Math.toRadians(90))
+                                        //NOTE: THIS FUCKING SUS AS HELL
                                         .build());
                         specArm.intake();
                         sleep(150);
@@ -183,14 +185,13 @@ public class FiveSpec extends LinearOpMode {
                         path = Path.CYCLE2;
                     case CYCLE2:
 
-//                        specArm.grab();
-//                        sleep(200);
-//                        specArm.
-//
-//                        Actions.runBlocking(
-//                                drive.actionBuilder(HPZone)
-//                                        .strafeToLinearHeading(CYCLE, Math.toRadians(270))
-//                                        .build());
+                        specArm.grab();
+                        sleep(200);
+
+                        Actions.runBlocking(
+                                drive.actionBuilder(HPZone)
+                                        .strafeToLinearHeading(CYCLE, Math.toRadians(270))
+                                        .build());
 
                         slides.liftRest();
                         sleep(150);
