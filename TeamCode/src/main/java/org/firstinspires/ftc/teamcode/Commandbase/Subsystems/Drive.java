@@ -59,7 +59,7 @@ public class Drive {
         }
 
         if (slow) {
-            slowMode = 0.6;
+            slowMode = 0.3;
         } else {
             slowMode = 1;
         }

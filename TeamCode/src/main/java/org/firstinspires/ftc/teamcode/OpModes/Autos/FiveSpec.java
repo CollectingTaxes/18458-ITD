@@ -97,64 +97,52 @@ public class FiveSpec extends LinearOpMode {
 
                 switch (path) {
                     case START:
-
+                        sleep(150);
                         slides.liftBigHigh();
                         Actions.runBlocking(
                                 drive.actionBuilder(StartPose)
                                         .strafeToLinearHeading(PRELOAD, Math.toRadians(270))
                                         .build());
-                        slides.liftRest();
-                        sleep(150);
-                        claw.open();
 
                         path = Path.GRAB1;
 
                     case GRAB1:
+                        sleep(150);
                         Actions.runBlocking(
                                 drive.actionBuilder(Preload)
                                         .strafeToLinearHeading(new Vector2d(-25, 35), Math.toRadians(45))
                                         .strafeToLinearHeading(new Vector2d(-49, 35), Math.toRadians(90))
                                         //NOTE: THIS FUCKING SUS AS HELL
                                         .build());
-                        specArm.intake();
-                        sleep(150);
-                        specArm.grab();
+
                         Actions.runBlocking(
                                 drive.actionBuilder(FirstGrab)
                                         .strafeToLinearHeading(HUMAN_PLAYER_ZONE_VECTOR(FIRSTSAMPLE_X, 60), Math.toRadians(90))
                                         .build());
 
-                        specArm.outtake();
-                        specArm.open();
 
                         path = Path.GRAB2;
 
                     case GRAB2:
+                        sleep(150);
                         Actions.runBlocking(
                                 drive.actionBuilder(HUMAN_PLAYER_ZONE_POSE(FIRSTSAMPLE_X, 60, 90))
                                         .strafeToLinearHeading(SECOND_GRAB, Math.toRadians(90))
                                         .build());
-                        specArm.intake();
-                        sleep(150);
-                        specArm.grab();
 
                         Actions.runBlocking(
                                 drive.actionBuilder(SecondGrab)
                                         .strafeTo(HUMAN_PLAYER_ZONE_VECTOR(SECONDSAMPLE_X, 60))
                                         .build());
-                        specArm.outtake();
-                        specArm.open();
 
                         path = Path.GRAB3;
 
                     case GRAB3:
+                        sleep(150);
                         Actions.runBlocking(
                                 drive.actionBuilder(HUMAN_PLAYER_ZONE_POSE(SECONDSAMPLE_X, 60, 90))
                                         .strafeToLinearHeading(THIRD_GRAB, Math.toRadians(30))
                                         .build());
-                        arm.grab();
-                        claw.grab();
-                        arm.reset();
 
                         Actions.runBlocking(
                                 drive.actionBuilder(ThirdGrab)
@@ -165,17 +153,11 @@ public class FiveSpec extends LinearOpMode {
                         path = Path.CYCLE1;
 
                     case CYCLE1:
-
-                        claw.grab();
-                        slides.liftBigHigh();
+                        sleep(150);
                         Actions.runBlocking(
                                 drive.actionBuilder(HPZone)
                                         .strafeToLinearHeading(CYCLE, Math.toRadians(270))
                                         .build());
-
-                        slides.liftRest();
-                        sleep(150);
-                        claw.open();
 
                         Actions.runBlocking(
                                 drive.actionBuilder(Cycle)
@@ -184,18 +166,12 @@ public class FiveSpec extends LinearOpMode {
 
                         path = Path.CYCLE2;
                     case CYCLE2:
-
-                        specArm.grab();
-                        sleep(200);
-
+                        sleep(150);
                         Actions.runBlocking(
                                 drive.actionBuilder(HPZone)
                                         .strafeToLinearHeading(CYCLE, Math.toRadians(270))
                                         .build());
 
-                        slides.liftRest();
-                        sleep(150);
-                        claw.open();
 
                         Actions.runBlocking(
                                 drive.actionBuilder(Cycle)
@@ -204,17 +180,12 @@ public class FiveSpec extends LinearOpMode {
 
                         path = Path.CYCLE3;
                     case CYCLE3:
-
-                        claw.grab();
-                        slides.liftBigHigh();
+                        sleep(150);
                         Actions.runBlocking(
                                 drive.actionBuilder(HPZone)
                                         .strafeToLinearHeading(CYCLE, Math.toRadians(270))
                                         .build());
 
-                        slides.liftRest();
-                        sleep(150);
-                        claw.open();
 
                         Actions.runBlocking(
                                 drive.actionBuilder(Cycle)
@@ -223,17 +194,11 @@ public class FiveSpec extends LinearOpMode {
 
                         path = Path.CYCLE4;
                     case CYCLE4:
-
-                        claw.grab();
-                        slides.liftBigHigh();
+                        sleep(150);
                         Actions.runBlocking(
                                 drive.actionBuilder(HPZone)
                                         .strafeToLinearHeading(CYCLE, Math.toRadians(270))
                                         .build());
-
-                        slides.liftRest();
-                        sleep(150);
-                        claw.open();
 
                         Actions.runBlocking(
                                 drive.actionBuilder(Cycle)
