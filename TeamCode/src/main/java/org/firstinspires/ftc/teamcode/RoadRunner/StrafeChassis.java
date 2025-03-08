@@ -77,8 +77,8 @@ public final class StrafeChassis {
         public double trackWidthTicks = 17996.150921456003;
 
         // feedforward parameters (in tick units)
-        public double kS = 0.9877769514403769;
-        public double kV =  0.00010538475326520468;
+        public double kS = 1.3547547957383816;
+        public double kV =  0.00006984028745846721;
         public double kA = 0.000015;
         public int sigma;
 
@@ -248,7 +248,7 @@ public final class StrafeChassis {
 
         // TODO: reverse motor directions if needed
            rightFront.setDirection(DcMotor.Direction.REVERSE);
-           leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+           leftRear.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html

@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.ClawActions;
+// import org.firstinspires.ftc.teamcode.Commandbase.Commands.ResetActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.ResetActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SlideActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SpecCycleActions;
@@ -34,7 +35,7 @@ public class TeleOpMain extends OpMode {
     public WristAction wrist;
     public ClawActions clawActions;
     public SubmersibleActions submersibleActions;
-    public ResetActions resetActions;
+   public ResetActions resetActions;
 
     private final FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
