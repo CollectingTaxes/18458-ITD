@@ -72,7 +72,7 @@ public final class StrafeChassis {
                 RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
 
         // drive model parameters
-        public double inPerTick = 5.267720942483072e-4;
+        public double inPerTick = 5.388354419011911e-4;
         public double lateralInPerTick = 0.00037761086238611213;
         public double trackWidthTicks = 17996.150921456003;
 
