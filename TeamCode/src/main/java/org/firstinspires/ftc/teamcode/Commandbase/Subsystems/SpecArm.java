@@ -3,6 +3,9 @@ package org.firstinspires.ftc.teamcode.Commandbase.Subsystems;
 import android.hardware.camera2.params.TonemapCurve;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.ftc.Encoder;
+import com.acmerobotics.roadrunner.ftc.OverflowEncoder;
+import com.acmerobotics.roadrunner.ftc.RawEncoder;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -17,13 +20,14 @@ public class SpecArm {
     private final Servo specClaw;
     private final Servo specWrist;
     private final HardwareMap hardwareMap;
+    private final Encoder revEncoderAllahHelpMe;
 
     public static int min = -5;
     public static int max = 1000;
 
     public static double OPEN = 0, GRAB = 0.26;
     public static double NEUTRAL = 0, SCORE = 0.66, POWER = 0.8;
-    public static int INTAKE = -5, OUTTAKE = 800, SPEC = 500, FLOOR = 300;
+    public static int INTAKE = -5, OUTTAKE = 80, SPEC = 50, FLOOR = 30;
     public int current = 0;
 
     public SpecArm (OpMode opMode) {
@@ -37,9 +41,10 @@ public class SpecArm {
         specWrist.setDirection(Servo.Direction.FORWARD);
         specArm.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        specArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
         specArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        revEncoderAllahHelpMe = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "leftRear")));
+        revEncoderAllahHelpMe.setDirection(DcMotorSimple.Direction.FORWARD);
 
         specArm.setTargetPosition(50);
     }
