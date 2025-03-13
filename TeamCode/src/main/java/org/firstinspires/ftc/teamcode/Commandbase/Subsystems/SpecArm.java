@@ -27,7 +27,7 @@ public class SpecArm {
 
     public static double OPEN = 0, GRAB = 0.26;
     public static double NEUTRAL = 0, SCORE = 0.66, POWER = 0.8;
-    public static int INTAKE = -5, OUTTAKE = 80, SPEC = 50, FLOOR = 30;
+    public static int INTAKE = 100, OUTTAKE = 100, SPEC = 100, FLOOR = 100;
     public int current = 0;
 
     public SpecArm (OpMode opMode) {
@@ -36,6 +36,7 @@ public class SpecArm {
         this.specArm = (DcMotor) hardwareMap.get("specArm");
         this.specWrist = (Servo) hardwareMap.get("specWrist");
         this.specClaw = (Servo) hardwareMap.get("specClaw");
+        this.revEncoderAllahHelpMe = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "specArm")));
 
         specClaw.setDirection(Servo.Direction.FORWARD);
         specWrist.setDirection(Servo.Direction.FORWARD);
@@ -43,7 +44,7 @@ public class SpecArm {
 
         specArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        revEncoderAllahHelpMe = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "specArm")));
+
         revEncoderAllahHelpMe.setDirection(DcMotorSimple.Direction.FORWARD);
 
         specArm.setTargetPosition(50);
