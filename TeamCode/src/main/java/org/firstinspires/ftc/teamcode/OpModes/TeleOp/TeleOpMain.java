@@ -10,15 +10,16 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.ClawActions;
-// import org.firstinspires.ftc.teamcode.Commandbase.Commands.ResetActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.ResetActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SlideActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SpecCycleActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubmersibleActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.WristAction;
 
+import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Drive;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
+import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.SpecArm;
 import org.firstinspires.ftc.teamcode.RoadRunner.StrafeChassis;
 
 import java.util.ArrayList;
@@ -35,7 +36,9 @@ public class TeleOpMain extends OpMode {
     public WristAction wrist;
     public ClawActions clawActions;
     public SubmersibleActions submersibleActions;
-   public ResetActions resetActions;
+    public ResetActions resetActions;
+    public SpecArm spec;
+    public Arm arm;
 
     private final FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
@@ -50,10 +53,32 @@ public class TeleOpMain extends OpMode {
         clawActions = new ClawActions(this);
         submersibleActions = new SubmersibleActions(this);
         resetActions = new ResetActions(this);
+        spec = new SpecArm(this);
+        arm = new Arm(this);
+
+        spec.init();
+        spec.start();
+
+        slides.init();
+        slides.start();
+
+        telemetry.addLine("y'all got this :)");
     }
 
     @Override
     public void loop() {
+
+        telemetry.addData("arm pose", spec.getPos());
+        telemetry.addData("arm target", spec.getTarget());
+        spec.update();
+
+        telemetry.addLine();
+        telemetry.addData("slide pose", slides.getPos());
+        telemetry.addData("slide target", slides.getTarget());
+        slides.update();
+
+        telemetry.addLine();
+        telemetry.addData("arm pose", arm.getPos());
 
         drivetrain.teleOp(gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, 1, gamepad1.a, gamepad1.left_bumper);
 
