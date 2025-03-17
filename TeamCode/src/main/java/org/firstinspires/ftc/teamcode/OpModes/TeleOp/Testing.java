@@ -31,6 +31,8 @@ import java.util.List;
 public class Testing extends OpMode {
 
     public SpecArm specArm;
+    public Slides slides;
+    public Arm arm;
 
     private final FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
@@ -38,14 +40,25 @@ public class Testing extends OpMode {
     @Override
     public void init() {
         specArm = new SpecArm(this);
+        slides = new Slides(this);
+        arm = new Arm(this);
+
+        slides.init();
+        slides.start();
+
+        arm.reset();
     }
 
     @Override
     public void loop() {
+        slides.update();
+        telemetry.addData("slide pose", slides.getPos());
+        telemetry.addData("slide target", slides.getTarget());
+
         if (gamepad1.dpad_up) {
             runningActions.add(
                     new SequentialAction(
-                            new InstantAction(specArm::intake)
+                            new InstantAction(slides::liftHigh)
                     )
             );
         }
@@ -54,16 +67,14 @@ public class Testing extends OpMode {
         if (gamepad1.dpad_left) {
             runningActions.add(
                     new SequentialAction(
-                            new InstantAction(specArm::grab),
-                            new InstantAction(specArm::nuetral)
+                            new InstantAction(slides::liftMid)
                     )
             );
         }
         if (gamepad1.dpad_right) {
             runningActions.add(
                     new SequentialAction(
-                            new InstantAction(specArm::open),
-                            new InstantAction(specArm::score)
+                            new InstantAction(slides::liftLow)
                     )
             );
         }
@@ -71,7 +82,7 @@ public class Testing extends OpMode {
         if (gamepad1.dpad_down) {
             runningActions.add(
                     new SequentialAction(
-                            new InstantAction(specArm::outtake)
+                            new InstantAction(slides::liftRest)
                     )
             );
         }

@@ -33,6 +33,10 @@ public class Arm  {
 
     }
 
+    public int getPos() {
+        return (int) leftArm.getPosition();
+    }
+
     public void grab() {
         leftArm.setPosition(GRAB_POSE);
         rightArm.setPosition(GRAB_POSE);

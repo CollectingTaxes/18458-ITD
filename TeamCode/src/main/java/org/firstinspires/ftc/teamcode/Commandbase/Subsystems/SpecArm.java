@@ -1,109 +1,100 @@
 package org.firstinspires.ftc.teamcode.Commandbase.Subsystems;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.arcrobotics.ftclib.hardware.motors.MotorEx;
+import com.pedropathing.localization.Encoder;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 @Config
-public class SpecArm implements ArmPID {
-    private final DcMotor specArm;
+public class SpecArm {
+    private final DcMotorEx specArm;
     private final Servo specClaw;
     private final Servo specWrist;
+    private final Motor.Encoder encoder;
     private final HardwareMap hardwareMap;
+    private Telemetry telemetry;
 
     public boolean usingPIDFArm = true;
-    public static double armManualPower;
-
-    public static double PositiveArm = 0.3;
-    public static double NegativeArm = -0.3;
-
-    public AnalogInput armMovement;
-    public AbsoluteAnalogEncoder armEncoder;
-    public static double armRatio = 4;
-    //If the arm starts at an offset, Make sure to record that
-    public static double armOffset = 0;
 
     //Start at 0.001 then go up
     public PIDController armController;
-    public static double p = 0, i = 0, d = 0, f = 0;
+    public static double p = 0.00025, i = 0.075, d = 0.000005, f = 0.05;
     public static int armTarget;
-    double armPos;
-    double pid, targetArmAngle, ff, currentArmAngle, armPower;
-
-    public double ticks_in_degree = 144.0 / 180.0;
-
-    public static int min = -5;
-    public static int max = 1000;
+    public double pos;
 
     public static double OPEN = 0, GRAB = 0.26;
     public static double NEUTRAL = 0, SCORE = 0.66, POWER = 0.8;
-    public static int INTAKE = -5, OUTTAKE = 80, SPEC = 50, FLOOR = 30;
-    public double MAX_POWER = 1;
+    public static int INTAKE = 0, OUTTAKE = 3000, SPEC = 2100, FLOOR = 30;
 
     public SpecArm (OpMode opMode) {
         this.hardwareMap = opMode.hardwareMap;
+        this.telemetry = opMode.telemetry;
+        this.telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        this.specArm = (DcMotor) hardwareMap.get("specArm");
+
+        this.specArm = (DcMotorEx) hardwareMap.get("specArm");
         this.specWrist = (Servo) hardwareMap.get("specWrist");
         this.specClaw = (Servo) hardwareMap.get("specClaw");
-
+        encoder = new MotorEx(hardwareMap, "specArm").encoder;
+        encoder.setDirection(Motor.Direction.REVERSE);
         specClaw.setDirection(Servo.Direction.FORWARD);
         specWrist.setDirection(Servo.Direction.FORWARD);
-        specArm.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        armMovement = hardwareMap.get(AnalogInput.class, "armMovement");
-        armEncoder = new AbsoluteAnalogEncoder(armMovement, 3.3, armOffset, armRatio);
+        encoder.reset();
+        specArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        //Config this
-        armEncoder.setInverted(false);
 
         armController = new PIDController(p, i, d);
     }
-    public void armSetPower(double pow) {
-        if(pow > MAX_POWER) pow = MAX_POWER;
-        if (pow < MAX_POWER) pow = -MAX_POWER;
-        specArm.setPower(pow);
-    }
 
-    public void armManualPositive() {
-        usingPIDFArm = false;
-        armManualPower = PositiveArm;
-    }
-
-    public void armManualNegative() {
-        usingPIDFArm = false;
-        armManualPower = NegativeArm;
-    }
-
-    public double setArmPID(int target) {
-        armController.setPID(p, i, d);
-        armPos = armEncoder.getCurrentPosition();
-        pid = armController.calculate(armPos, target);
-        targetArmAngle = target;
-        ff = (Math.sin(Math.toRadians(targetArmAngle))) * f;
-        currentArmAngle = Math.toRadians((armPos) / ticks_in_degree);
-
-        armPower = pid + ff;
-
-        return armPower;
-    }
-
-    @Override
     public void update() {
         if (usingPIDFArm) {
-            armSetPower(setArmPID(armTarget));
-        } else {
-            if (!(armEncoder.getCurrentPosition() > max && (armManualPower > 0))) {
-                armSetPower(armManualPower);
+            armController.setPID(p, i, d);
+
+            specArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+            double pid_output = armController.calculate(getPos(), armTarget);
+            double power = pid_output + f;
+
+            if (getPos() < 50 && armTarget < 50) {
+                specArm.setPower(0);
             } else {
-                armSetPower(0);
+                specArm.setPower(power);
             }
         }
+    }
+
+    public double getPos() {
+        pos = encoder.getPosition() / 4;
+        return pos;
+    }
+
+    public int getTarget() {
+        return armTarget;
+    }
+
+    public void setTarget(int b) {
+        usingPIDFArm = true;
+        armTarget = b;
+    }
+
+    public void init() {
+        armController.setPID(p,i,d);
+    }
+
+    public void start() {
+        armTarget = 0;
     }
 
     public void grab() {
@@ -121,16 +112,15 @@ public class SpecArm implements ArmPID {
         specWrist.setPosition(SCORE);
     }
     public void intake() {
-        armTarget = INTAKE;
+        setTarget(INTAKE);
     }
     public void outtake() {
-        armTarget = OUTTAKE;
+        setTarget(OUTTAKE);
     }
     public void spec() {
-        armTarget = SPEC;
-
+        setTarget(SPEC);
     }
     public void grabFromFloor() {
-        armTarget = FLOOR;
+        setTarget(FLOOR);
     }
 }
