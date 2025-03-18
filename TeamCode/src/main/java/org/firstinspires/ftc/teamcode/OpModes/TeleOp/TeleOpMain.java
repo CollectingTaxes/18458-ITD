@@ -40,7 +40,7 @@ public class TeleOpMain extends OpMode {
     public ResetActions resetActions;
     public SpecArm spec;
     public Arm arm;
-    public Hang hang;
+//    public Hang hang;
 
     private final FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
