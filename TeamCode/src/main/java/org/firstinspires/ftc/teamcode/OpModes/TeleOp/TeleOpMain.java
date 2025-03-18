@@ -98,11 +98,11 @@ public class TeleOpMain extends OpMode {
 
         specCycleActions.action(runningActions, dash, gamepad2.a);
 
-        if (gamepad1.dpad_up) {
-            hang.setLineup();
-        } else if (gamepad1.dpad_down) {
-            hang.setHang();
-        }
+//        if (gamepad1.dpad_up) {
+//            hang.setLineup();
+//        } else if (gamepad1.dpad_down) {
+//            hang.setHang();
+//        }
 
         List<Action> newActions = new ArrayList<>();
         for (Action action : runningActions) {
