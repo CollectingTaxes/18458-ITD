@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.Commandbase.Commands.WristAction;
 
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Drive;
+import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Hang;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.SpecArm;
 import org.firstinspires.ftc.teamcode.RoadRunner.StrafeChassis;
@@ -39,6 +40,7 @@ public class TeleOpMain extends OpMode {
     public ResetActions resetActions;
     public SpecArm spec;
     public Arm arm;
+    public Hang hang;
 
     private final FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
@@ -95,6 +97,12 @@ public class TeleOpMain extends OpMode {
         clawActions.action(runningActions, dash, gamepad2.left_bumper);
 
         specCycleActions.action(runningActions, dash, gamepad2.a);
+
+        if (gamepad1.dpad_up) {
+            hang.setLineup();
+        } else if (gamepad1.dpad_down) {
+            hang.setHang();
+        }
 
         List<Action> newActions = new ArrayList<>();
         for (Action action : runningActions) {

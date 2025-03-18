@@ -57,6 +57,4 @@ public class Hang {
     public void setLineup() {
         setPos(lineup);
     }
-
-
 }
