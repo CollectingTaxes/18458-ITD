@@ -72,21 +72,20 @@ public final class StrafeChassis {
                 RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
 
         // drive model parameters
-        public double inPerTick = 5.388354419011911e-4;
-        public double lateralInPerTick = 0.00037761086238611213;
-        public double trackWidthTicks = 17996.150921456003;
+        public double inPerTick = 5.267720942483072e-4;
+        public double lateralInPerTick = 0.0003363412053619928;
+        public double trackWidthTicks = 17508.07973525405 ;
 
         // feedforward parameters (in tick units)
-        public double kS = 1.3547547957383816;
-        public double kV =  0.00006984028745846721;
+        public double kS = 1.1437301733508347;
+        public double kV =  0.00007975491135624967;
         public double kA = 0.000015;
-        public int sigma;
 
         // path profile parameters (in inches)
         //was 40
-        public double maxWheelVel = 50;
-        public double minProfileAccel = -50;
-        public double maxProfileAccel = 50;
+        public double maxWheelVel = 47.5;
+        public double minProfileAccel = -47.5;
+        public double maxProfileAccel = 47.5;
 
         // turn profile parameters (in radians)
         public double maxAngVel = 30; // shared with path
@@ -248,7 +247,6 @@ public final class StrafeChassis {
 
         // TODO: reverse motor directions if needed
            rightFront.setDirection(DcMotor.Direction.REVERSE);
-           leftRear.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html

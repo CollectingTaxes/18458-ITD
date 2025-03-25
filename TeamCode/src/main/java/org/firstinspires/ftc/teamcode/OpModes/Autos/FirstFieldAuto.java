@@ -29,7 +29,7 @@ import java.util.List;
 
 @Config
 @Autonomous
-public class SpecAuto extends LinearOpMode {
+public class FirstFieldAuto extends LinearOpMode {
     public Claw claw;
     public Wrist wrist;
     public Arm arm;
@@ -60,8 +60,8 @@ public class SpecAuto extends LinearOpMode {
 
     public static Vector2d PRELOAD = new Vector2d(-2, 29);
     public static Vector2d GOINGUP = new Vector2d(-8, 47);
-    public static Vector2d FIRSTGRAB = new Vector2d(-43, 38.3);
-    public static Vector2d SECONDGRAB = new Vector2d(-52.4, 38.6);
+    public static Vector2d FIRSTGRAB = new Vector2d(-43, 38.6);
+    public static Vector2d SECONDGRAB = new Vector2d(-52.4, 38.8);
     public static Vector2d THIRDGRAB = new Vector2d(-62.5, 38.5);
     public static Vector2d HPZONE = new Vector2d(-54, 57);
     public static Vector2d CYCLE = new Vector2d(-32, 63);
@@ -211,20 +211,20 @@ public class SpecAuto extends LinearOpMode {
                         spec.Intake();
                 }
 
-                    List<Action> newActions = new ArrayList<>();
-                    for (Action action : runningActions) {
-                        TelemetryPacket packet = new TelemetryPacket();
-                        action.preview(packet.fieldOverlay());
-                        if (!action.run(packet)) {
-                            continue;
-                        }
-                        newActions.add(action);
-                        dash.sendTelemetryPacket(packet);
+                List<Action> newActions = new ArrayList<>();
+                for (Action action : runningActions) {
+                    TelemetryPacket packet = new TelemetryPacket();
+                    action.preview(packet.fieldOverlay());
+                    if (!action.run(packet)) {
+                        continue;
                     }
-                    runningActions = newActions;
+                    newActions.add(action);
+                    dash.sendTelemetryPacket(packet);
                 }
+                runningActions = newActions;
             }
         }
     }
+}
 
 //public Velconstratint name; name =new TransVelConstraint(num)

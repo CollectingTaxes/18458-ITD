@@ -21,8 +21,6 @@ public class Drive {
     public IMU imu;
     public Gamepad gamepad1;
 
-//    public ExampleFieldCentricTeleop
-
     public Drive(OpMode opMode) {
         this.hardwareMap = opMode.hardwareMap;
 

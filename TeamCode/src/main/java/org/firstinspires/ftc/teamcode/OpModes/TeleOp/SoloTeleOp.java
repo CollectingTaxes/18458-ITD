@@ -28,11 +28,6 @@ import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.apache.commons.math3.geometry.euclidean.twod.Line;
-import org.checkerframework.checker.units.qual.A;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.ClawActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.ResetActions;
@@ -41,17 +36,12 @@ import org.firstinspires.ftc.teamcode.Commandbase.Commands.SpecCycleActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubmersibleActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.WristAction;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.SpecArm;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
 
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Drive;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
-import org.firstinspires.ftc.teamcode.RoadRunner.StrafeChassis;
-import org.tensorflow.lite.task.vision.segmenter.OutputType;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @TeleOp
@@ -85,11 +75,6 @@ public class SoloTeleOp extends OpMode {
         arm = new Arm(this);
 
         spec.init();
-        spec.start();
-
-        slides.init();
-        slides.start();
-
         telemetry.addLine("y'all got this :)");
     }
 
@@ -97,13 +82,10 @@ public class SoloTeleOp extends OpMode {
     public void loop() {
 
         telemetry.addData("arm pose", spec.getPos());
-        telemetry.addData("arm target", spec.getTarget());
         spec.update();
 
         telemetry.addLine();
         telemetry.addData("slide pose", slides.getPos());
-        telemetry.addData("slide target", slides.getTarget());
-        slides.update();
 
         telemetry.addLine();
         telemetry.addData("arm pose", arm.getPos());

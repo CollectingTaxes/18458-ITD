@@ -46,7 +46,7 @@ public class SpecCycleActions {
                     runningActions.add(
                             new SequentialAction(
                                     new InstantAction(specArm::outtake),
-                                    //new SleepAction(0.1),
+                                    //new SleepAction(0.4),
                                     new InstantAction(specArm::open),
                                     new SleepAction(0.4),
                                     new InstantAction(specArm::intake),

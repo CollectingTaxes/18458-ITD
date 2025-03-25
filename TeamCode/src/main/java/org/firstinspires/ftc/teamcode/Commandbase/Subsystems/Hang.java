@@ -14,16 +14,16 @@ public class Hang {
     private HardwareMap hardwareMap;
 
 
-    public static int min = -5;
+    public static int min = -300;
     public static int max = 2500;
-    public static int reset = 0, hang = 0, lineup = 0;
+    public static int reset = -250, hang = 400, lineup = 1100;
     public int current = 0;
 
     public Hang (OpMode opMode) {
         this.telemetry = opMode.telemetry;
         this.hardwareMap = opMode.hardwareMap;
 
-        this.Hang= (DcMotor) hardwareMap.get("leftHang");
+        this.Hang= (DcMotor) hardwareMap.get("Hang");
 
         Hang.setDirection(DcMotorSimple.Direction.FORWARD);
         Hang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

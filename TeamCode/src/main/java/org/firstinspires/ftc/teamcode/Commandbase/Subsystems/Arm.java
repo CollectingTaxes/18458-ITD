@@ -18,9 +18,10 @@ public class Arm  {
     public static double RESET_POSE = 0.79;
     public static double SPEC_GRAB = 0.41;
     public static double AUTO_GRAB = 0.41;
+    public double targetPose;
 
     Telemetry telemetry;
-    private final Servo leftArm, rightArm;
+    public final Servo leftArm, rightArm;
 
     public Arm(OpMode opMode) {
         this.hardwareMap = opMode.hardwareMap;
@@ -37,9 +38,14 @@ public class Arm  {
         return (int) leftArm.getPosition();
     }
 
+    public int targetPos() {
+        return (int) targetPose;
+    }
+
     public void grab() {
         leftArm.setPosition(GRAB_POSE);
         rightArm.setPosition(GRAB_POSE);
+        targetPose = GRAB_POSE;
     }
     public void auto() {
         leftArm.setPosition(AUTO_GRAB);
@@ -49,10 +55,12 @@ public class Arm  {
     public void specGrab() {
         leftArm.setPosition(SPEC_GRAB);
         rightArm.setPosition(SPEC_GRAB);
+        targetPose = SPEC_GRAB;
     }
 
     public void reset() {
         leftArm.setPosition(RESET_POSE);
         rightArm.setPosition(RESET_POSE);
+        targetPose = RESET_POSE;
     }
 }

@@ -18,7 +18,7 @@ public class JoelsChild {
                 .setDimensions(12, 12)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-17.5, 64, Math.toRadians(270)))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-6, 63, Math.toRadians(270)))
 
                 .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(270))
                 .waitSeconds(0.15)

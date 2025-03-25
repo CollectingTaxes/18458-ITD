@@ -24,9 +24,9 @@ public class Wrist {
 
     public boolean sensorOn = true;
 
-    public static double NEUTRAL_POSE = 0.615;
-    public static double AUTO_POSE = 0.18;
-    public static double HORIZONTAL_GRAB_POSE = 0.27;
+    public static double NEUTRAL_POSE = 0.59;
+    public static double AUTO_POSE = 0.26;
+    public static double HORIZONTAL_GRAB_POSE = 0.22;
 
     Telemetry telemetry;
     private static Servo wrist;

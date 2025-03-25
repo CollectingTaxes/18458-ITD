@@ -20,6 +20,7 @@ import org.firstinspires.ftc.teamcode.Commandbase.Commands.WristAction;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Drive;
+import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.RTPSpecArm;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.SpecArm;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
@@ -33,6 +34,7 @@ public class Testing extends OpMode {
     public SpecArm specArm;
     public Slides slides;
     public Arm arm;
+    public Wrist wrist;
 
     private final FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
@@ -42,23 +44,22 @@ public class Testing extends OpMode {
         specArm = new SpecArm(this);
         slides = new Slides(this);
         arm = new Arm(this);
-
-        slides.init();
-        slides.start();
+        wrist = new Wrist(this);
 
         arm.reset();
     }
 
     @Override
     public void loop() {
-        slides.update();
         telemetry.addData("slide pose", slides.getPos());
-        telemetry.addData("slide target", slides.getTarget());
+
+        telemetry.addLine();
+        telemetry.addData("arm pose", arm.getPos());
 
         if (gamepad1.dpad_up) {
             runningActions.add(
                     new SequentialAction(
-                            new InstantAction(slides::liftHigh)
+                            new InstantAction(specArm::grab)
                     )
             );
         }
@@ -67,22 +68,7 @@ public class Testing extends OpMode {
         if (gamepad1.dpad_left) {
             runningActions.add(
                     new SequentialAction(
-                            new InstantAction(slides::liftMid)
-                    )
-            );
-        }
-        if (gamepad1.dpad_right) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(slides::liftLow)
-                    )
-            );
-        }
-
-        if (gamepad1.dpad_down) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(slides::liftRest)
+                            new InstantAction(specArm::open)
                     )
             );
         }

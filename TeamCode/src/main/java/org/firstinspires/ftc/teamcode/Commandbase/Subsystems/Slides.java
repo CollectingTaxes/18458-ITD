@@ -1,8 +1,8 @@
+
 package org.firstinspires.ftc.teamcode.Commandbase.Subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -21,16 +21,15 @@ public class Slides {
     private final DcMotor rightSlide;
     private final HardwareMap hardwareMap;
 
-    public PIDController slideController;
-    public static double p = 0.0007, i = 0.25, d = 0, f = 0.02;
-    public boolean pid = true;
-    public int target;
-    public int pos;
+    public static int min = -5;
+    public static int max = 2500;
 
-    public static int High = 950;
+    public static int High = 1450;
     public static int Mid = 600;
-    public static int Low = 300;
+    public static int Low = 100;
     public static int Reset = 0;
+    public static int SCOREPOSE = 700;
+    public int current = 0;
 
     public Slides (OpMode opMode) {
         this.telemetry = opMode.telemetry;
@@ -46,59 +45,42 @@ public class Slides {
         leftSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        leftSlide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightSlide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        slideController = new PIDController(p, i, d);
     }
 
-    public void update() {
-        if (pid) {
-            slideController.setPID(p, i, d);
+    public void setPos(int pos) {
+        if (pos <= max && pos >= min) current = pos;
+        System.out.println(current);
+        normalize();
+    }
+    public void testing() {
+        setPos(750);
 
-            leftSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            rightSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-
-            double pid_output = slideController.calculate(getPos(), target);
-            double power = pid_output + f;
-
-            if (getPos() < 50 && target < 50) {
-                leftSlide.setPower(0);
-                rightSlide.setPower(0);
-            } else {
-                leftSlide.setPower(power);
-                rightSlide.setPower(power);
-            }
-        } else {
-            leftSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            rightSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        while (leftSlide.getCurrentPosition() >= 500) {
+            leftSlide.setPower(1);
+            rightSlide.setPower(1);
         }
-    }
-
-    public void setTarget(int b) {
-        pid = true;
-        target = b;
-    }
-
-    public int getTarget() {
-        return target;
+        rightSlide.setPower(0.5);
+        leftSlide.setPower(0.5);
     }
 
     public int getPos() {
-        pos = leftSlide.getCurrentPosition();
-        return leftSlide.getCurrentPosition();
-    }
-
-    public void init() {
-        slideController.setPID(p,i,d);
-    }
-
-    public void start() {
-        target = 0;
+        return current;
     }
 
     public void moveManual(double position) {
-        setTarget((int) position);
+        setPos((int) position);
+    }
+
+    public void normalize() {
+        leftSlide.setTargetPosition(current);
+        leftSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        leftSlide.setPower(1);
+        rightSlide.setTargetPosition(current);
+        rightSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        rightSlide.setPower(1);
     }
 
     public void Manual(double position) {
@@ -110,24 +92,26 @@ public class Slides {
 
     //Lift Pose
     public void liftRest() {
-        setTarget(Reset);
+        leftSlide.setPower(0.75);
+        rightSlide.setPower(0.75);
+        setPos(Reset);
     }
     public void liftBigHigh() {
-        setTarget(1500);
+        setPos(1500);
     }
 
     public void liftLow() {
-        setTarget(Low);
+        setPos(Low);
     }
 
     public void liftMid() {
-        setTarget(Mid);
+        setPos(Mid);
     }
 
     public void liftHigh() {
-        setTarget(High);
+        setPos(High);
     }
     public void test() {
-        setTarget(Reset);
+        setPos(SCOREPOSE);
     }
 }
