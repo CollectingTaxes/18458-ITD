@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.Pose2d;
 import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -14,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Commandbase.Commands.HangActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.ResetActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SlideActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SpecCycleActions;
-import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubmersibleActions;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.SlideIntakeActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.WristAction;
 
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
@@ -23,7 +22,6 @@ import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Hang;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.SpecArm;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
-import org.firstinspires.ftc.teamcode.RoadRunner.StrafeChassis;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +36,7 @@ public class TeleOpMain extends OpMode {
     public SpecCycleActions specCycleActions;
     public WristAction wristAction;
     public ClawActions clawActions;
-    public SubmersibleActions submersibleActions;
+    public SlideIntakeActions slideIntakeActions;
     public ResetActions resetActions;
     public SpecArm spec;
     public Wrist wrist;
@@ -51,6 +49,7 @@ public class TeleOpMain extends OpMode {
 
     @Override
     public void init() {
+
         outtake = new SlideActions(this);
         specCycleActions = new SpecCycleActions(this);
         drivetrain = new Drive(this);
@@ -58,7 +57,7 @@ public class TeleOpMain extends OpMode {
         wristAction = new WristAction(this);
         wrist = new Wrist(this);
         clawActions = new ClawActions(this);
-        submersibleActions = new SubmersibleActions(this);
+        slideIntakeActions = new SlideIntakeActions(this);
         resetActions = new ResetActions(this);
         spec = new SpecArm(this);
         arm = new Arm(this);
@@ -96,7 +95,7 @@ public class TeleOpMain extends OpMode {
 
         outtake.action(runningActions, dash, gamepad2.dpad_up);
 
-        submersibleActions.action(runningActions, dash, gamepad2.b, true);
+        slideIntakeActions.actionTeleOp(runningActions, dash, gamepad2.b, true);
 
         wristAction.action(runningActions, dash, gamepad2.x);
 
@@ -104,7 +103,7 @@ public class TeleOpMain extends OpMode {
 
         clawActions.action(runningActions, dash, gamepad2.left_bumper);
 
-        specCycleActions.action(runningActions, dash, gamepad2.a);
+        specCycleActions.actionTeleOp(runningActions, dash, gamepad2.a);
 
         List<Action> newActions = new ArrayList<>();
         for (Action action : runningActions) {

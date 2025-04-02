@@ -14,62 +14,71 @@ public class JoelsChild {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
 
                 //26.5 SECONDS WITH 50 VELOCITY, 28.3 SECONDS WITH 45 VELOCITY
-                .setConstraints(50, 50, Math.toRadians(180), Math.toRadians(180), 12)
+                .setConstraints(40, 40, Math.toRadians(180), Math.toRadians(180), 12)
                 .setDimensions(12, 12)
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-6, 63, Math.toRadians(270)))
 
-                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(270))
-                .waitSeconds(0.15)
+                .strafeToLinearHeading(new Vector2d(-2,29), Math.toRadians(270))
+                    .waitSeconds(0.25)
 
                 //GRAB ONE
-                .strafeToLinearHeading(new Vector2d(-25, 35), Math.toRadians(45))
-                .strafeToLinearHeading(new Vector2d(-49, 35), Math.toRadians(90))
-                .waitSeconds(0.15)
-                .strafeTo(new Vector2d(-49, 50))
-                .waitSeconds(0.15)
+                //USE PARALLEL COMMAND GROUP FOR THE DRIVETRAIN MOVEMENT AND THE OUTTAKING
+
+                .strafeToLinearHeading(new Vector2d(-48, 50), Math.toRadians(270))
+                        .waitSeconds(0.15)
 
                 //GRAB TWO
-                .strafeToLinearHeading(new Vector2d(-60, 34), Math.toRadians(90))
-                .waitSeconds(0.15)
-                .strafeTo(new Vector2d(-60, 50))
-                .waitSeconds(0.15)
+                .strafeToLinearHeading(new Vector2d(-56, 50), Math.toRadians(270))
+                     .waitSeconds(0.15)
 
                 //GRAB THREE
-                .strafeToLinearHeading(new Vector2d(-61, 36), Math.toRadians(30))
+                .strafeToLinearHeading(new Vector2d(-62, 50), Math.toRadians(255))
+                     .waitSeconds(0.15)
+
+                //CYCLE ONE
+                .strafeToLinearHeading(new Vector2d(-32, 60), Math.toRadians(270))
+                     .waitSeconds(0.15)
+                .strafeToLinearHeading(new Vector2d(-9, 32), Math.toRadians(270))
+
+                //CYCLE TWO
+                .strafeToLinearHeading(new Vector2d(-32, 60), Math.toRadians(270))
+                        .waitSeconds(0.15)
+                .strafeToLinearHeading(new Vector2d(-9, 32), Math.toRadians(270))
+
+                //CYCLE THREE
+                .strafeToLinearHeading(new Vector2d(-32, 60), Math.toRadians(270))
+                        .waitSeconds(0.15)
+                .strafeToLinearHeading(new Vector2d(-9, 32), Math.toRadians(270))
+
+                //CYCLE FOUR
+                .strafeToLinearHeading(new Vector2d(-32, 60), Math.toRadians(270))
+                        .waitSeconds(0.15)
+                .strafeToLinearHeading(new Vector2d(-9, 32), Math.toRadians(270))
+
+/*
+           //CYCLE FIVE???
+                        .waitSeconds(0.15)
+                .strafeToLinearHeading(new Vector2d(-8, 32), Math.toRadians(270))
+                        .waitSeconds(0.5)
+
+                .strafeToLinearHeading(new Vector2d(-32, 60), Math.toRadians(270))
+                        .waitSeconds(0.15)
+                .strafeToLinearHeading(new Vector2d(-8, 40), Math.toRadians(270))
+
+                //CYCLE SIX???????
+                // 1+6 = 140 PTs, 28.54 seconds with 50, 29.26s with 47.5, 30.08 with 45, but this speed depends on how fast the slides extend out
+
+                // ADDS ABOUT 10 seconds
                 .waitSeconds(0.15)
-                .splineToLinearHeading(new Pose2d(-47, 57, Math.toRadians(90)), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-8, 32), Math.toRadians(270))
+                .waitSeconds(0.5)
+
+                .strafeToLinearHeading(new Vector2d(-32, 60), Math.toRadians(270))
                 .waitSeconds(0.15)
-
-                //CYCLE1
-                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(90))
-
-                .waitSeconds(0.15)
-                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(90))
-                .waitSeconds(0.15)
-
-                //CYCLE2
-                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(90))
-
-                .waitSeconds(0.15)
-                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(90))
-                .waitSeconds(0.15)
-
-                //CYCLE3
-                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(90))
-
-                .waitSeconds(0.15)
-                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(90))
-
-                //CYCLE4
-                .waitSeconds(0.15)
-                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(90))
-
-//                .waitSeconds(0.15)
-//                .strafeToLinearHeading(new Vector2d(-47.5, 60), Math.toRadians(90))
-                
-
+                .strafeToLinearHeading(new Vector2d(-8, 40), Math.toRadians(270))
+ */
                 .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)

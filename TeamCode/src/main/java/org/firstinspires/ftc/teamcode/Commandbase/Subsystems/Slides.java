@@ -85,7 +85,7 @@ public class Slides {
 
     public void Manual(double position) {
         if (Math.abs(position) > 0.1) {
-            moveManual(getPos() + position * 25);
+            moveManual(getPos() + position * 15);
         }
 
     }

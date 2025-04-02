@@ -1,31 +1,8 @@
 package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad2;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.opMode;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.InstantAction;
-import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.PoseVelocity2d;
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
-import com.acmerobotics.roadrunner.Vector2d;
-import com.arcrobotics.ftclib.command.CommandOpMode;
-import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.WaitCommand;
-import com.arcrobotics.ftclib.command.button.Button;
-import com.arcrobotics.ftclib.command.button.GamepadButton;
-import com.arcrobotics.ftclib.drivebase.MecanumDrive;
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.outoftheboxrobotics.photoncore.Photon;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -33,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Commandbase.Commands.ClawActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.ResetActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SlideActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SpecCycleActions;
-import org.firstinspires.ftc.teamcode.Commandbase.Commands.SubmersibleActions;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.SlideIntakeActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.WristAction;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.SpecArm;
 
@@ -53,7 +30,7 @@ public class SoloTeleOp extends OpMode {
     public SpecCycleActions specCycleActions;
     public WristAction wrist;
     public ClawActions clawActions;
-    public SubmersibleActions submersibleActions;
+    public SlideIntakeActions slideIntakeActions;
     public ResetActions resetActions;
     public SpecArm spec;
     public Arm arm;
@@ -69,7 +46,7 @@ public class SoloTeleOp extends OpMode {
         slides = new Slides(this);
         wrist = new WristAction(this);
         clawActions = new ClawActions(this);
-        submersibleActions = new SubmersibleActions(this);
+        slideIntakeActions = new SlideIntakeActions(this);
         resetActions = new ResetActions(this);
         spec = new SpecArm(this);
         arm = new Arm(this);
@@ -96,7 +73,7 @@ public class SoloTeleOp extends OpMode {
 
         outtake.action(runningActions, dash, gamepad1.dpad_down);
 
-        submersibleActions.action(runningActions, dash, gamepad1.b, true);
+        slideIntakeActions.actionTeleOp(runningActions, dash, gamepad1.b, true);
 
         wrist.action(runningActions, dash, gamepad1.x);
 
@@ -104,7 +81,7 @@ public class SoloTeleOp extends OpMode {
 
         clawActions.action(runningActions, dash, gamepad1.right_bumper);
 
-        specCycleActions.action(runningActions, dash, gamepad1.dpad_up);
+        specCycleActions.actionTeleOp(runningActions, dash, gamepad1.dpad_up);
 
         List<Action> newActions = new ArrayList<>();
         for (Action action : runningActions) {

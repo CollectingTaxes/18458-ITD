@@ -3,33 +3,37 @@ package org.firstinspires.ftc.teamcode.Commandbase.Commands;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
+import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
 
 import java.util.List;
 
 
-public class SubmersibleActions {
+public class SlideIntakeActions {
 
     enum CycleState {
         GRABBING,
-        OPENED,
+        EXTENDED,
         INIT
     }
 
     public Arm arm;
     public Claw claw;
     public Wrist wrist;
+    public Slides slide;
+    public Testing testing;
 
     CycleState clawState = CycleState.INIT;
 
 
-    public SubmersibleActions(OpMode opMode) {
+    public SlideIntakeActions(OpMode opMode) {
 
         arm = new Arm(opMode);
         claw = new Claw(opMode);
@@ -39,7 +43,7 @@ public class SubmersibleActions {
 
     private boolean wasInputPressed = false;
 
-    public void action(List<Action> runningActions, FtcDashboard dashboard, boolean input, boolean advancedControl) {
+    public void actionTeleOp(List<Action> runningActions, FtcDashboard dashboard, boolean input, boolean advancedControl) {
 
         if (input && !wasInputPressed) {
 
@@ -49,9 +53,9 @@ public class SubmersibleActions {
                             new InstantAction(arm::reset)
                     );
 
-                    clawState = CycleState.OPENED;
+                    clawState = CycleState.EXTENDED;
 
-                case OPENED:
+                case EXTENDED:
                     if (advancedControl) {
                         runningActions.add(
                                 new SequentialAction(
@@ -74,19 +78,45 @@ public class SubmersibleActions {
                                         new InstantAction(arm::grab),
                                         new SleepAction(0.1),
                                         new InstantAction(claw::grab),
-                                        new SleepAction(0.5),
-                                        new InstantAction(arm::reset)
+                                        new ParallelAction(
+                                                new InstantAction(arm::reset),
+                                                new InstantAction(slide::liftRest)
+                                        )
                                 )
                         );
 
                     } else runningActions.add(
                             new InstantAction(claw::grab)
                         );
-                    clawState = CycleState.OPENED;
+                    clawState = CycleState.EXTENDED;
                     break;
             }
         }
         wasInputPressed = input;
+    }
+
+    public void actionAuto(List<Action> runningActions, FtcDashboard dashboard, boolean intake, Action action) {
+        if (intake) {
+            runningActions.add(
+                    new SequentialAction(
+                            new InstantAction(slide::liftHigh),
+                            new InstantAction(arm::grab))
+            );
+
+        } else if (!intake) {
+            runningActions.add(
+                    new SequentialAction(
+                            new InstantAction(arm::grab),
+                            new SleepAction(0.1),
+                            new InstantAction(claw::grab),
+                            new ParallelAction(
+                                    new InstantAction(arm::reset),
+                                    new InstantAction(slide::liftRest),
+                                    action
+                            )
+                    )
+            );
+        }
     }
 }
 

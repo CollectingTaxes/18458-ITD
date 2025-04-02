@@ -25,6 +25,7 @@ public class Claw {
 
     public Servo claw;
 
+    public boolean doesDamianHaveBrownHair = false;
 
     public Claw(OpMode opMode) {
         this.hardwareMap = opMode.hardwareMap;

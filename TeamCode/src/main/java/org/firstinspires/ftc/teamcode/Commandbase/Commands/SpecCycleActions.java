@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Commandbase.Commands;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -25,10 +26,9 @@ public class SpecCycleActions {
     }
 
     private boolean wasInputPressed = false;
-    public void action(List<Action> runningActions, FtcDashboard dashboard, boolean input) {
+    public void actionTeleOp(List<Action> runningActions, FtcDashboard dashboard, boolean input) {
 
         if (input && !wasInputPressed) {
-
             switch (specArmCycle) {
                 case INTAKE:
                 runningActions.add(
@@ -59,5 +59,30 @@ public class SpecCycleActions {
             }
         }
         wasInputPressed = input;
+    }
+
+    public void actionAuto(List<Action> runningActions, FtcDashboard dashboard, boolean scoring) {
+        if (scoring) {
+            runningActions.add(
+                    new SequentialAction(
+                            new InstantAction(specArm::outtake),
+                            //new SleepAction(0.4),
+                            new InstantAction(specArm::open),
+                            new SleepAction(0.4),
+                            new InstantAction(specArm::intake),
+                            new SleepAction(0.4),
+                            new InstantAction(specArm::nuetral)
+                    )
+            );
+        } else if (!scoring) {
+            runningActions.add(
+                    new SequentialAction(
+                            new InstantAction(specArm::grab),
+                            new SleepAction(0.4),
+                            new InstantAction(specArm::spec),
+                            new InstantAction(specArm::score)
+                    )
+            );
+        }
     }
 }
