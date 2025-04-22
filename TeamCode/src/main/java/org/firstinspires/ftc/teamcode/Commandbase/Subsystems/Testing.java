@@ -15,7 +15,7 @@ public class Testing {
     public Testing(OpMode opMode) {
         this.hardwareMap = opMode.hardwareMap;
 
-        this.servo = (Servo) hardwareMap.get("Claw");
+        this.servo = (Servo) hardwareMap.get("specClaw");
     }
 
     public class OpenClaw implements Action {

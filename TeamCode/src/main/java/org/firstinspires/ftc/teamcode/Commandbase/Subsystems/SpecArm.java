@@ -122,4 +122,7 @@ public class SpecArm {
     public void grabFromFloor() {
         setTarget(FLOOR);
     }
+    public void killingMyself() {
+        specArm.setPower(0.25);
+    }
 }

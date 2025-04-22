@@ -23,10 +23,10 @@ public class RTPSpecArm {
     public static int min = -5;
     public static int max = 2500;
 
-    public static int Intake = 0;
+    public static int Intake = 750;
     public static int Start = 200;
     public static int Mid = 500;
-    public static int Outtake = 750;
+    public static int Outtake = 0;
     public static int semifloor = 1250;
     public static int Floor = 1400;
     public int current = 0;
