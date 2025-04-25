@@ -33,7 +33,6 @@ import java.util.List;
 
 @TeleOp
 public class TestingOpMode extends OpMode {
-    public SpecArm spec;
     public TestingCommands testingCommands;
 
     private final FtcDashboard dash = FtcDashboard.getInstance();

@@ -69,11 +69,4 @@ public class Wrist {
     public void decrementing() {
         wrist.setPosition(wrist.getPosition() - rotating);
     }
-    public String holyMolyServoWireIsTangledUp() {
-        if (wrist.getPosition() <= 0.5) {
-            return "SERVO WIRE TWISTING AROUND ARM" +
-                    "SERVO WIRE TWISTING AROUND ARM";
-        }
-        else return "We good gang.";
-    }
 }

@@ -19,12 +19,13 @@ public class TestingCommands {
         INTAKE,
         OUTTAKE
     }
-    public RTPSpecArm claw;
+    public Claw claw;
+    // Wrist
 
     SpecCycleActions.SpecArmCycle specArmCycle = SpecCycleActions.SpecArmCycle.INTAKE;
 
     public TestingCommands(OpMode opMode) {
-        claw = new RTPSpecArm(opMode);
+        claw = new Claw(opMode); //Wrist;
     }
 
     private boolean wasInputPressed = false;
@@ -35,7 +36,8 @@ public class TestingCommands {
                 case INTAKE:
                     runningActions.add(
                             new SequentialAction(
-                                    new InstantAction(claw::Intake)
+                                    new InstantAction(claw::intake)
+                                    //intake
                             )
                     );
                     specArmCycle = SpecCycleActions.SpecArmCycle.OUTTAKE;
@@ -44,7 +46,8 @@ public class TestingCommands {
                 case OUTTAKE:
                     runningActions.add(
                             new SequentialAction(
-                                    new InstantAction(claw::Outtake)
+                                    new InstantAction(claw::outtake)
+                                    //outtake
                             )
                     );
                     specArmCycle = SpecCycleActions.SpecArmCycle.INTAKE;

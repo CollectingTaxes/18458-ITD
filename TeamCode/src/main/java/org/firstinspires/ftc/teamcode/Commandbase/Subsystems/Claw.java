@@ -20,8 +20,6 @@ public class Claw {
 
     public Servo claw, turningThingy;
 
-    public boolean doesDamianHaveBrownHair = false;
-
     public Claw(OpMode opMode) {
         this.hardwareMap = opMode.hardwareMap;
         this.gamepad2 = opMode.gamepad2;
