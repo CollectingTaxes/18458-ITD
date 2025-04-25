@@ -1,15 +1,10 @@
 package org.firstinspires.ftc.teamcode.Commandbase.Subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.arcrobotics.ftclib.hardware.ServoEx;
-import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config
 public class Claw {
@@ -21,9 +16,9 @@ public class Claw {
     public Gamepad gamepad2;
     public boolean clawStateGrabbed = true;
 
-    public static double GRAB = 0, OPEN = 0.5;
+    public static double GRAB = 0.25, OPEN = 0.5;
 
-    public Servo claw;
+    public Servo claw, turningThingy;
 
     public boolean doesDamianHaveBrownHair = false;
 
@@ -32,6 +27,9 @@ public class Claw {
         this.gamepad2 = opMode.gamepad2;
 
         this.claw = (Servo) hardwareMap.get("Claw");
+
+        //lateral wrist movement
+        this.turningThingy = (Servo) hardwareMap.get("turningThingy");
 
         claw.setDirection(Servo.Direction.REVERSE);
 
@@ -54,4 +52,14 @@ public class Claw {
         claw.setPosition(OPEN);
         clawStateGrabbed = false;
     }
+    public void intake() {
+        turningThingy.setPosition(0);
+    }
+    public void outtake() {
+        turningThingy.setPosition(0.3);
+    }
+    public void specIntake() {
+        turningThingy.setPosition(0.5);
+    }
+
 }

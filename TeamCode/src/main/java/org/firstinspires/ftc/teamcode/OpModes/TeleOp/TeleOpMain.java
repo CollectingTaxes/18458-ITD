@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Commandbase.Commands.ResetActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SlideActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SpecCycleActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SlideIntakeActions;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.UpDownWrist;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.WristAction;
 
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
@@ -41,8 +42,7 @@ public class TeleOpMain extends OpMode {
     public SpecArm spec;
     public Wrist wrist;
     public Arm arm;
-    public Hang hang;
-    public HangActions hangActions;
+    public UpDownWrist upDownWrist;
 
     private final FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
@@ -61,8 +61,7 @@ public class TeleOpMain extends OpMode {
         resetActions = new ResetActions(this);
         spec = new SpecArm(this);
         arm = new Arm(this);
-        hang = new Hang(this);
-        hangActions = new HangActions(this);
+        upDownWrist = new UpDownWrist(this);
 
         wrist.neutralGrab();
         arm.reset();
@@ -75,10 +74,7 @@ public class TeleOpMain extends OpMode {
 
         telemetry.addData("arm pose", spec.getPos());
         spec.update();
-
-        telemetry.addLine();
-        telemetry.addData("hang pose", hang.getPos());
-
+        
         telemetry.addLine();
         telemetry.addData("slide pose", slides.getPos());
         telemetry.addLine();
@@ -86,8 +82,6 @@ public class TeleOpMain extends OpMode {
         telemetry.addData("arm2 target", arm.targetPos());
 
         telemetry.update();
-
-        hangActions.action(runningActions, dash, gamepad1.right_bumper);
 
         drivetrain.teleOp(gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, 1, gamepad1.a, gamepad1.left_bumper);
 
@@ -104,6 +98,8 @@ public class TeleOpMain extends OpMode {
         clawActions.action(runningActions, dash, gamepad2.left_bumper);
 
         specCycleActions.actionTeleOp(runningActions, dash, gamepad2.a);
+
+        upDownWrist.action(runningActions, dash, gamepad2.b);
 
         List<Action> newActions = new ArrayList<>();
         for (Action action : runningActions) {

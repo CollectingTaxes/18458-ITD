@@ -17,35 +17,29 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @Config
 public class Slides {
     private final Telemetry telemetry;
-    private final DcMotor leftSlide;
     private final DcMotor rightSlide;
     private final HardwareMap hardwareMap;
 
     public static int min = -5;
     public static int max = 2500;
 
-    public static int High = 1450;
-    public static int Mid = 600;
+    public static int High = 54;
+    public static int Mid = 320;
     public static int Low = 100;
     public static int Reset = 0;
-    public static int SCOREPOSE = 700;
     public int current = 0;
 
     public Slides (OpMode opMode) {
         this.telemetry = opMode.telemetry;
         this.hardwareMap = opMode.hardwareMap;
 
-        this.leftSlide = (DcMotor) hardwareMap.get("leftSlide");
         this.rightSlide = (DcMotor) hardwareMap.get("rightSlide");
 
 
         rightSlide.setDirection(DcMotorSimple.Direction.FORWARD);
-        leftSlide.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        leftSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        leftSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     }
@@ -58,12 +52,10 @@ public class Slides {
     public void testing() {
         setPos(750);
 
-        while (leftSlide.getCurrentPosition() >= 500) {
-            leftSlide.setPower(1);
+        while (rightSlide.getCurrentPosition() >= 500) {
             rightSlide.setPower(1);
         }
         rightSlide.setPower(0.5);
-        leftSlide.setPower(0.5);
     }
 
     public int getPos() {
@@ -75,24 +67,20 @@ public class Slides {
     }
 
     public void normalize() {
-        leftSlide.setTargetPosition(current);
-        leftSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        leftSlide.setPower(1);
         rightSlide.setTargetPosition(current);
         rightSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         rightSlide.setPower(1);
     }
 
     public void Manual(double position) {
+        rightSlide.setPower(0.75);
         if (Math.abs(position) > 0.1) {
             moveManual(getPos() + position * 15);
         }
 
     }
-
     //Lift Pose
     public void liftRest() {
-        leftSlide.setPower(0.75);
         rightSlide.setPower(0.75);
         setPos(Reset);
     }
@@ -110,8 +98,5 @@ public class Slides {
 
     public void liftHigh() {
         setPos(High);
-    }
-    public void test() {
-        setPos(SCOREPOSE);
     }
 }
