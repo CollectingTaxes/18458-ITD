@@ -16,7 +16,9 @@ public class Claw {
     public Gamepad gamepad2;
     public boolean clawStateGrabbed = true;
 
-    public static double GRAB = 0.25, OPEN = 0.5;
+    public static double GRAB = 0.77, OPEN = 0.45;
+    public static double INTAKE = 0.74, OUTTAKE = 0.37;
+
 
     public Servo claw, turningThingy;
 
@@ -29,9 +31,10 @@ public class Claw {
         //lateral wrist movement
         this.turningThingy = (Servo) hardwareMap.get("turningThingy");
 
-        claw.setDirection(Servo.Direction.REVERSE);
+        claw.setDirection(Servo.Direction.FORWARD);
 
         grab();
+        outtake();
     }
     public void teleOp() {
         if (gamepad2.b) {
@@ -51,10 +54,10 @@ public class Claw {
         clawStateGrabbed = false;
     }
     public void intake() {
-        turningThingy.setPosition(0);
+        turningThingy.setPosition(INTAKE);
     }
     public void outtake() {
-        turningThingy.setPosition(0.3);
+        turningThingy.setPosition(OUTTAKE);
     }
     public void specIntake() {
         turningThingy.setPosition(0.5);

@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Commandbase.Commands;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
-import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -11,7 +10,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Testing;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
 
 import java.util.List;
@@ -29,7 +27,6 @@ public class SlideIntakeActions {
     public Claw claw;
     public Wrist wrist;
     public Slides slide;
-    public Testing testing;
 
     CycleState clawState = CycleState.INIT;
 
@@ -39,6 +36,7 @@ public class SlideIntakeActions {
         arm = new Arm(opMode);
         claw = new Claw(opMode);
         wrist = new Wrist(opMode);
+        slide = new Slides(opMode);
 
     }
 
@@ -61,7 +59,9 @@ public class SlideIntakeActions {
                         runningActions.add(
                                 new SequentialAction(
                                         new InstantAction(arm::specGrab),
-                                        new InstantAction(claw::open)
+                                        new InstantAction(claw::intake),
+                                        new InstantAction(claw::open),
+                                        new InstantAction(slide::liftHigh)
                                 )
                         );
                     } else runningActions.add(
@@ -79,10 +79,9 @@ public class SlideIntakeActions {
                                         new InstantAction(arm::grab),
                                         new SleepAction(0.1),
                                         new InstantAction(claw::grab),
-                                        new ParallelAction(
-                                                new InstantAction(arm::reset),
-                                                new InstantAction(slide::liftRest)
-                                        )
+                                        new SleepAction(0.5),
+                                        new InstantAction(arm::specGrab),
+                                        new InstantAction(slide::liftRest)
                                 )
                         );
 
@@ -96,12 +95,15 @@ public class SlideIntakeActions {
         wasInputPressed = input;
     }
 
-    public void actionAuto(List<Action> runningActions, FtcDashboard dashboard, boolean intake, Action action) {
+    public void actionAuto(List<Action> runningActions, FtcDashboard dashboard, boolean intake) {
         if (intake) {
             runningActions.add(
                     new SequentialAction(
-                            new InstantAction(slide::liftHigh),
-                            new InstantAction(arm::grab))
+                            new InstantAction(arm::specGrab),
+                            new InstantAction(claw::intake),
+                            new InstantAction(claw::open),
+                            new InstantAction(slide::liftHigh)
+                    )
             );
 
         } else if (!intake) {
@@ -110,11 +112,9 @@ public class SlideIntakeActions {
                             new InstantAction(arm::grab),
                             new SleepAction(0.1),
                             new InstantAction(claw::grab),
-                            new ParallelAction(
-                                    new InstantAction(arm::reset),
-                                    new InstantAction(slide::liftRest),
-                                    action
-                            )
+                            new SleepAction(0.5),
+                            new InstantAction(arm::reset),
+                            new InstantAction(slide::liftRest)
                     )
             );
         }

@@ -66,7 +66,7 @@ public class FiveSpecPath {
                         .build()
         );
     }
-    public void StrafeFastWArm(Vector2d point, Pose2d pose, double minAccel, double maxAccel, double wheelVel, Action movement) {
+    public void StrafeFastWAction(Vector2d point, Pose2d pose, double minAccel, double maxAccel, double wheelVel, Action movement) {
         Actions.runBlocking(
                 drive.actionBuilder(pose)
                         .afterTime(0.25, movement)

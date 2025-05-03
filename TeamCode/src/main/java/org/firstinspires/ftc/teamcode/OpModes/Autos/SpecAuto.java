@@ -6,23 +6,20 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.roadrunner.ftc.Actions;
-import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Commandbase.Commands.AutoCommands;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.FiveSpecPath;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.SlideIntakeActions;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.SpecCycleActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.RTPSpecArm;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Sensor;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.SpecArm;
+import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.SpecServos;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
-import org.firstinspires.ftc.teamcode.RoadRunner.StrafeChassis;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +34,13 @@ public class SpecAuto extends LinearOpMode {
     public RTPSpecArm spec;
     public SpecArm specHardware;
     public FiveSpecPath drive;
-    public AutoCommands commands;
+    public SpecServos specServos;
+    public SpecCycleActions cycleActions;
+    public SlideIntakeActions intakeActions;
 
     enum Path {
         START,
+        PRELOAD,
         GRAB1,
         GRAB2,
         GRAB3,
@@ -56,13 +56,12 @@ public class SpecAuto extends LinearOpMode {
     public static long CLAW_TIME = 200;
     public static long LINE_UP = 250;
 
-    public static double MinAccel = -40, MaxAccel = 40, WheelVel = 40;
+    public static double MinAccel = -47.5, MaxAccel = 47.5, WheelVel = 47.5;
 
     public static Vector2d PRELOAD = new Vector2d(-2, 29);
-    public static Vector2d GOINGUP = new Vector2d(-8, 47);
-    public static Vector2d FIRSTGRAB = new Vector2d(-43, 38.3);
-    public static Vector2d SECONDGRAB = new Vector2d(-52.4, 38.6);
-    public static Vector2d THIRDGRAB = new Vector2d(-62.5, 38.5);
+    public static Vector2d FIRSTGRAB = new Vector2d(-47, 52);
+    public static Vector2d SECONDGRAB = new Vector2d(-59, 52);
+    public static Vector2d THIRDGRAB = new Vector2d(-62, 52);
     public static Vector2d HPZONE = new Vector2d(-54, 57);
     public static Vector2d CYCLE = new Vector2d(-32, 63);
     public static Vector2d PARK = new Vector2d(-8, 48);
@@ -72,7 +71,6 @@ public class SpecAuto extends LinearOpMode {
     public static Vector2d FOURTHSPEC = new Vector2d(6, 29);
 
     public static Pose2d StartPose = new Pose2d(-6, 63.5, Math.toRadians(90));
-    public static Pose2d GoingUp = new Pose2d(GOINGUP, Math.toRadians(90));
     public static Pose2d Preload = new Pose2d(PRELOAD, Math.toRadians(90));
     public static Pose2d FirstGrab = new Pose2d(FIRSTGRAB, Math.toRadians(90));
     public static Pose2d ThirdGrab = new Pose2d(THIRDGRAB, Math.toRadians(90));
@@ -98,19 +96,21 @@ public class SpecAuto extends LinearOpMode {
         slides = new Slides(this);
         wrist = new Wrist(this);
         spec = new RTPSpecArm(this);
-        specHardware = new SpecArm(this);
         drive = new FiveSpecPath(this);
-        commands = new AutoCommands(this);
+        cycleActions = new SpecCycleActions(this);
+        intakeActions = new SlideIntakeActions(this);
+
+        specServos = new SpecServos(this);
 
 
         while (!opModeIsActive() && !isStopRequested()) {
             arm.reset();
             claw.open();
             slides.liftRest();
-            wrist.specGrab();
+            wrist.neutralGrab();
             spec.Intake();
-            specHardware.score();
-            specHardware.open();
+            specServos.score();
+            specServos.open();
 
             waitForStart();
 
@@ -118,93 +118,85 @@ public class SpecAuto extends LinearOpMode {
 
                 switch (path) {
                     case START:
-                        spec.SemiFloor();
-                        drive.StrafeToConstantHeading(FIRSTGRAB, StartPose);
+                        spec.Mid();
+                        drive.StrafeToConstantHeading(PRELOAD, StartPose);
                         sleep(LINE_UP);
+                        path = Path.PRELOAD;
+                    case PRELOAD:
+                        cycleActions.actionAuto(runningActions, dash, false);
+                        drive.StrafeToConstantHeading(FIRSTGRAB, Preload);
                         path = Path.GRAB1;
                     case GRAB1:
-                        spec.Floor();
-                        specHardware.grab();
-                        sleep(GRAB_TIME);
-                        spec.Intake();
-                        drive.StrafeToConstantHeading(HPZONE, FirstGrab);
-                        specHardware.open();
+                        sleep(LINE_UP);
+                        intakeActions.actionAuto(runningActions, dash, true);
+                        sleep(CLAW_TIME);
+                        claw.open();
+                        //drive.StrafeToConstantHeading();
                         path = Path.GRAB2;
                     case GRAB2:
-                        sleep(ARM_TIME);
-                        spec.SemiFloor();
-                        drive.StrafeToConstantHeading(SECONDGRAB, HPZone);
-                        sleep(LINE_UP);
-                        spec.Floor();
-                        specHardware.grab();
-                        sleep(GRAB_TIME);
-                        spec.Intake();
-                        drive.StrafeToConstantHeading(HPZONE, SecondGrab);
-                        specHardware.open();
-                        path = Path.CYCLE1;
-                    /*case GRAB3:
+                        //drive.StrafeToConstantHeading();
+                        path = Path.GRAB3;
+                    case GRAB3:
                         sleep(ARM_TIME);
                         spec.SemiFloor();
                         drive.StrafeToConstantHeading(THIRDGRAB, HPZone);
                         sleep(LINE_UP);
                         spec.Floor();
-                        specHardware.grab();
                         sleep(GRAB_TIME);
                         spec.Intake();
                         sleep(ARM_TIME);
-                        specHardware.open();
                         drive.StrafeToConstantHeading(HPZONE, ThirdGrab);
-                        path = Path.CYCLE1;*/
+                        path = Path.CYCLE1;
                     case CYCLE1:
-                        specHardware.nuetral();
+                        specServos.nuetral();
                         drive.StrafeFast(CYCLE, HPZone, MinAccel, MaxAccel, WheelVel);
-                        specHardware.grab();
+                        specServos.grab();
                         sleep(GRAB_TIME);
                         spec.Mid();
-                        specHardware.score();
+                        specServos.score();
                         drive.StrafeFast(FIRSTSPEC, Cycle,MinAccel, MaxAccel, WheelVel);
                         spec.Outtake();
-                        specHardware.open();
+                        specServos.open();
                         sleep(CLAW_TIME);
                         path = Path.CYCLE2;
                     case CYCLE2:
-                        specHardware.nuetral();
-                        drive.StrafeFastWArm(CYCLE, FirstSpec,MinAccel, MaxAccel, WheelVel, new InstantAction(spec::Intake));
-                        specHardware.grab();
+                        specServos.nuetral();
+                        drive.StrafeFastWAction(CYCLE, FirstSpec,MinAccel, MaxAccel, WheelVel, new InstantAction(spec::Intake));
+                        specServos.grab();
                         sleep(GRAB_TIME);
                         spec.Mid();
-                        specHardware.score();
+                        specServos.score();
                         drive.StrafeFast(SECONDSPEC, Cycle,MinAccel, MaxAccel, WheelVel);
                         spec.Outtake();
-                        specHardware.open();
+                        specServos.open();
                         sleep(CLAW_TIME);
                         path = Path.CYCLE3;
                     case CYCLE3:
-                        specHardware.nuetral();
-                        drive.StrafeFastWArm(CYCLE, SecondSpec,MinAccel, MaxAccel, WheelVel, new InstantAction(spec::Intake));
-                        specHardware.grab();
+                        specServos.nuetral();
+                        drive.StrafeFastWAction(CYCLE, SecondSpec,MinAccel, MaxAccel, WheelVel, new InstantAction(spec::Intake));
+                        specServos.grab();
                         sleep(GRAB_TIME);
                         spec.Mid();
-                        specHardware.score();
+                        specServos.score();
                         drive.StrafeFast(THIRDSPEC, Cycle, MinAccel, MaxAccel, WheelVel);
                         spec.Outtake();
-                        specHardware.open();
+                        specServos.open();
                         sleep(CLAW_TIME);
                         path = Path.CYCLE4;
                     case CYCLE4:
-                        specHardware.nuetral();
-                        drive.StrafeFastWArm(CYCLE, ThirdSpec, MinAccel, MaxAccel, WheelVel, new InstantAction(spec::Intake));
-                        specHardware.grab();
+                        specServos.nuetral();
+                        drive.StrafeFastWAction(CYCLE, ThirdSpec, MinAccel, MaxAccel, WheelVel, new InstantAction(spec::Intake));
+                        specServos.grab();
                         sleep(GRAB_TIME);
                         spec.Mid();
-                        specHardware.score();
+                        specServos.score();
                         drive.StrafeFast(FOURTHSPEC, Cycle, MinAccel, MaxAccel, WheelVel);
                         spec.Outtake();
-                        specHardware.open();
+                        specServos.open();
                         sleep(CLAW_TIME);
                         path = Path.END;
                     case END:
-                        specHardware.nuetral();
+                        specServos.nuetral();
                         drive.StrafeToConstantHeading(PARK, FourthSpec);
                         wrist.neutralGrab();
                         arm.specGrab();

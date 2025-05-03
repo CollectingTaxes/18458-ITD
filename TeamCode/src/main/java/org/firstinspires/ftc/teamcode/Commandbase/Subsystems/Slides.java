@@ -4,7 +4,6 @@ package org.firstinspires.ftc.teamcode.Commandbase.Subsystems;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
-import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -17,15 +16,13 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @Config
 public class Slides {
     private final Telemetry telemetry;
-    private final DcMotor rightSlide;
+    private final DcMotor extendoSlide;
     private final HardwareMap hardwareMap;
 
     public static int min = -5;
-    public static int max = 2500;
+    public static int max = 500;
 
-    public static int High = 54;
-    public static int Mid = 320;
-    public static int Low = 100;
+    public static int High = 500;
     public static int Reset = 0;
     public int current = 0;
 
@@ -33,14 +30,13 @@ public class Slides {
         this.telemetry = opMode.telemetry;
         this.hardwareMap = opMode.hardwareMap;
 
-        this.rightSlide = (DcMotor) hardwareMap.get("rightSlide");
+        this.extendoSlide = (DcMotor) hardwareMap.get("rightSlide");
 
+        extendoSlide.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        rightSlide.setDirection(DcMotorSimple.Direction.FORWARD);
+        extendoSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        rightSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        rightSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        extendoSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     }
 
@@ -52,10 +48,10 @@ public class Slides {
     public void testing() {
         setPos(750);
 
-        while (rightSlide.getCurrentPosition() >= 500) {
-            rightSlide.setPower(1);
+        while (extendoSlide.getCurrentPosition() >= 500) {
+            extendoSlide.setPower(1);
         }
-        rightSlide.setPower(0.5);
+        extendoSlide.setPower(0.5);
     }
 
     public int getPos() {
@@ -63,37 +59,25 @@ public class Slides {
     }
 
     public void moveManual(double position) {
-        setPos((int) position);
+        setPos(extendoSlide.getCurrentPosition() + (int) position);
     }
 
     public void normalize() {
-        rightSlide.setTargetPosition(current);
-        rightSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        rightSlide.setPower(1);
+        extendoSlide.setTargetPosition(current);
+        extendoSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        extendoSlide.setPower(1);
     }
 
     public void Manual(double position) {
-        rightSlide.setPower(0.75);
+        extendoSlide.setPower(0.75);
         if (Math.abs(position) > 0.1) {
             moveManual(getPos() + position * 15);
         }
-
     }
+
     //Lift Pose
     public void liftRest() {
-        rightSlide.setPower(0.75);
         setPos(Reset);
-    }
-    public void liftBigHigh() {
-        setPos(1500);
-    }
-
-    public void liftLow() {
-        setPos(Low);
-    }
-
-    public void liftMid() {
-        setPos(Mid);
     }
 
     public void liftHigh() {

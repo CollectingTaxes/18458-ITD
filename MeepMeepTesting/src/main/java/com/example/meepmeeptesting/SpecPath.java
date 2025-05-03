@@ -6,13 +6,13 @@ import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class BlueSpec {
+public class SpecPath {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(600);
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(50, 50, Math.toRadians(180), Math.toRadians(180), 12)
+                .setConstraints(47.5, 47.5, Math.toRadians(180), Math.toRadians(180), 12)
                 .setDimensions(12, 12)
                 .build();
 
@@ -22,35 +22,34 @@ public class BlueSpec {
                 .waitSeconds(1)
 
                 //first grab
-                .strafeToLinearHeading(new Vector2d(-39, 37), Math.toRadians(-135))
-                .strafeToLinearHeading(new Vector2d(-47, 59), Math.toRadians(-180))
+                .strafeToConstantHeading(new Vector2d(-47, 52))
+                .waitSeconds(1)
 
                 //second grab
-                .strafeToLinearHeading(new Vector2d(-52, 37), Math.toRadians(-125))
-                .strafeToLinearHeading(new Vector2d(-47, 59), Math.toRadians(-180))
+                .strafeToConstantHeading(new Vector2d(-59, 52))
+                .waitSeconds(1)
 
                 //third grab
-                .strafeToLinearHeading(new Vector2d(-59, 37), Math.toRadians(-135))
-                .strafeToLinearHeading(new Vector2d(-47, 59), Math.toRadians(-180))
-
-                .turn(Math.toRadians(-90))
+                .strafeToLinearHeading(new Vector2d(-62, 52), Math.toRadians(245))
 
 
                 .waitSeconds(0.25)
 
-                .strafeToLinearHeading(new Vector2d(-7, 32), Math.toRadians(90))
+                        .strafeToLinearHeading(new Vector2d(-54,57), Math.toRadians(270))
 
-                .strafeToLinearHeading(new Vector2d(-47, 59), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-7, 32), Math.toRadians(270))
 
-                .strafeToLinearHeading(new Vector2d(-7, 32), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-47, 59), Math.toRadians(270))
 
-                .strafeToLinearHeading(new Vector2d(-47, 59), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-7, 32), Math.toRadians(270))
 
-                .strafeToLinearHeading(new Vector2d(-7, 32), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-47, 59), Math.toRadians(270))
 
-                .strafeToLinearHeading(new Vector2d(-47, 59), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-7, 32), Math.toRadians(270))
 
-                .strafeToLinearHeading(new Vector2d(-7, 32), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-47, 59), Math.toRadians(270))
+
+                .strafeToLinearHeading(new Vector2d(-7, 32), Math.toRadians(270))
 
                 .build());
 
