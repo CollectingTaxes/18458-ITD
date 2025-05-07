@@ -6,11 +6,7 @@ import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
+import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.HardwareSubsystem;
 
 import java.util.List;
 
@@ -23,21 +19,13 @@ public class SlideIntakeActions {
         INIT
     }
 
-    public Arm arm;
-    public Claw claw;
-    public Wrist wrist;
-    public Slides slide;
+    public HardwareSubsystem extendo;
 
     CycleState clawState = CycleState.INIT;
 
 
     public SlideIntakeActions(OpMode opMode) {
-
-        arm = new Arm(opMode);
-        claw = new Claw(opMode);
-        wrist = new Wrist(opMode);
-        slide = new Slides(opMode);
-
+        extendo = new HardwareSubsystem(opMode);
     }
 
     private boolean wasInputPressed = false;
@@ -49,7 +37,7 @@ public class SlideIntakeActions {
             switch (clawState) {
                 case INIT:
                     runningActions.add(
-                            new InstantAction(arm::reset)
+                            new InstantAction(extendo::armReset)
                     );
 
                     clawState = CycleState.EXTENDED;
@@ -58,14 +46,14 @@ public class SlideIntakeActions {
                     if (advancedControl) {
                         runningActions.add(
                                 new SequentialAction(
-                                        new InstantAction(arm::specGrab),
-                                        new InstantAction(claw::intake),
-                                        new InstantAction(claw::open),
-                                        new InstantAction(slide::liftHigh)
+                                        new InstantAction(extendo::hover),
+                                        new InstantAction(extendo::Zintake),
+                                        new InstantAction(extendo::SampOpen),
+                                        new InstantAction(extendo::liftHigh)
                                 )
                         );
                     } else runningActions.add(
-                                new InstantAction(claw::open)
+                                new InstantAction(extendo::hover)
                         );
                     clawState = CycleState.GRABBING;
                     break;
@@ -76,17 +64,17 @@ public class SlideIntakeActions {
                     if (advancedControl) {
                         runningActions.add(
                                 new SequentialAction(
-                                        new InstantAction(arm::grab),
+                                        new InstantAction(extendo::armGrab),
                                         new SleepAction(0.1),
-                                        new InstantAction(claw::grab),
-                                        new SleepAction(0.5),
-                                        new InstantAction(arm::specGrab),
-                                        new InstantAction(slide::liftRest)
+                                        new InstantAction(extendo::SampClose),
+                                        new SleepAction(0.2),
+                                        new InstantAction(extendo::hover),
+                                        new InstantAction(extendo::liftRest)
                                 )
                         );
 
                     } else runningActions.add(
-                            new InstantAction(claw::grab)
+                            new InstantAction(extendo::hover)
                         );
                     clawState = CycleState.EXTENDED;
                     break;
@@ -99,22 +87,22 @@ public class SlideIntakeActions {
         if (intake) {
             runningActions.add(
                     new SequentialAction(
-                            new InstantAction(arm::specGrab),
-                            new InstantAction(claw::intake),
-                            new InstantAction(claw::open),
-                            new InstantAction(slide::liftHigh)
+                            new InstantAction(extendo::hover),
+                            new InstantAction(extendo::Zintake),
+                            new InstantAction(extendo::SampOpen),
+                            new InstantAction(extendo::liftHigh)
                     )
             );
 
         } else if (!intake) {
             runningActions.add(
                     new SequentialAction(
-                            new InstantAction(arm::grab),
+                            new InstantAction(extendo::armGrab),
                             new SleepAction(0.1),
-                            new InstantAction(claw::grab),
-                            new SleepAction(0.5),
-                            new InstantAction(arm::reset),
-                            new InstantAction(slide::liftRest)
+                            new InstantAction(extendo::SampClose),
+                            new SleepAction(0.2),
+                            new InstantAction(extendo::liftRest),
+                            new InstantAction(extendo::armReset)
                     )
             );
         }

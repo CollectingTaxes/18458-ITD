@@ -1,26 +1,14 @@
 package org.firstinspires.ftc.teamcode.Commandbase.Commands;
-import com.acmerobotics.roadrunner.AccelConstraint;
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.AngularVelConstraint;
-import com.acmerobotics.roadrunner.CompositeVelConstraint;
-import com.acmerobotics.roadrunner.MinVelConstraint;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ProfileAccelConstraint;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Arm;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.SpecArm;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
 import org.firstinspires.ftc.teamcode.RoadRunner.StrafeChassis;
-
-import java.util.List;
 
 public class FiveSpecPath {
     public StrafeChassis drive;
@@ -73,6 +61,15 @@ public class FiveSpecPath {
                         .strafeToConstantHeading(point,
                                 new TranslationalVelConstraint(wheelVel),
                                 new ProfileAccelConstraint(minAccel, maxAccel))
+                        .build()
+        );
+    }
+
+    public void StrafeWAction(Vector2d point, Pose2d pose, Action movement, double time) {
+        Actions.runBlocking(
+                drive.actionBuilder(pose)
+                        .afterTime(time, movement)
+                        .strafeToConstantHeading(point)
                         .build()
         );
     }

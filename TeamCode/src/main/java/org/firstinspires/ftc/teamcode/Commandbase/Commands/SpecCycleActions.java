@@ -8,8 +8,7 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.SpecArm;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.SpecServos;
+import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.HardwareSubsystem;
 
 import java.util.List;
 
@@ -18,14 +17,12 @@ public class SpecCycleActions {
         INTAKE,
         OUTTAKE
     }
-    public SpecArm specArm;
-    public SpecServos servos;
+    public HardwareSubsystem specCycle;
 
     SpecArmCycle specArmCycle = SpecArmCycle.INTAKE;
 
     public SpecCycleActions(OpMode opMode) {
-        specArm = new SpecArm(opMode);
-        servos = new SpecServos(opMode);
+        specCycle = new HardwareSubsystem(opMode);
     }
 
     private boolean wasInputPressed = false;
@@ -37,10 +34,10 @@ public class SpecCycleActions {
                 case INTAKE:
                     runningActions.add(
                             new SequentialAction(
-                                    new InstantAction(servos::grab),
-                                    new SleepAction(0.4),
-                                    new InstantAction(specArm::spec),
-                                    new InstantAction(servos::nuetral)
+                                    new InstantAction(specCycle::specGrab),
+                                    new SleepAction(0.3),
+                                    new InstantAction(specCycle::spec),
+                                    new InstantAction(specCycle::specNuetral)
                             )
                     );
                     specArmCycle = SpecArmCycle.OUTTAKE;
@@ -49,13 +46,13 @@ public class SpecCycleActions {
                 case OUTTAKE:
                     runningActions.add(
                             new SequentialAction(
-                                    new InstantAction(specArm::outtake),
-                                    //new SleepAction(0.4),
-                                    new InstantAction(servos::open),
+                                    new InstantAction(specCycle::outtake),
+                                    new SleepAction(0.1),
+                                    new InstantAction(specCycle::specOpen),
                                     new SleepAction(0.4),
-                                    new InstantAction(specArm::intake),
-                                    new SleepAction(0.4),
-                                    new InstantAction(servos::score)
+                                    new InstantAction(specCycle::intake),
+                                    new SleepAction(0.1),
+                                    new InstantAction(specCycle::specScore)
                             )
                     );
                     specArmCycle = SpecArmCycle.INTAKE;
@@ -68,23 +65,23 @@ public class SpecCycleActions {
         if (intake) {
             runningActions.add(
                     new SequentialAction(
-                            new InstantAction(servos::grab),
-                            new SleepAction(0.4),
-                            new InstantAction(specArm::spec),
-                            new InstantAction(servos::nuetral)
+                            new InstantAction(specCycle::specGrab),
+                            new SleepAction(0.3),
+                            new InstantAction(specCycle::spec),
+                            new InstantAction(specCycle::specNuetral)
                     )
             );
 
         } else if (!intake) {
             runningActions.add(
                     new SequentialAction(
-                            new InstantAction(specArm::outtake),
-                            //new SleepAction(0.4),
-                            new InstantAction(servos::open),
+                            new InstantAction(specCycle::outtake),
+                            new SleepAction(0.1),
+                            new InstantAction(specCycle::specOpen),
                             new SleepAction(0.4),
-                            new InstantAction(specArm::intake),
-                            new SleepAction(0.4),
-                            new InstantAction(servos::score)
+                            new InstantAction(specCycle::intake),
+                            new SleepAction(0.1),
+                            new InstantAction(specCycle::specScore)
                     )
             );
         }

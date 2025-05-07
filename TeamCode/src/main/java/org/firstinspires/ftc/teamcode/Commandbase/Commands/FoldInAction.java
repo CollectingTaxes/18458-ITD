@@ -4,20 +4,20 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.HardwareSubsystem;
 
 import java.util.List;
 
 
-public class SlideDropOffActions {
+public class FoldInAction {
 
-    public HardwareSubsystem extendo;
+    public HardwareSubsystem arm;
 
 
-    public SlideDropOffActions(OpMode opMode) {
-        extendo = new HardwareSubsystem(opMode);
+    public FoldInAction(OpMode opMode) {
+        arm = new HardwareSubsystem(opMode);
+
     }
 
     private boolean wasInputPressed = false;
@@ -29,12 +29,7 @@ public class SlideDropOffActions {
             if (advancedControl) {
                 runningActions.add(
                         new SequentialAction(
-                                new InstantAction(extendo::hover),
-                                new InstantAction(extendo::liftHigh),
-                                new SleepAction(0.25),
-                                new InstantAction(extendo::SampOpen),
-                                new SleepAction(0.25),
-                                new InstantAction(extendo::liftRest)
+                                new InstantAction(arm::armReset)
                         )
                 );
             }

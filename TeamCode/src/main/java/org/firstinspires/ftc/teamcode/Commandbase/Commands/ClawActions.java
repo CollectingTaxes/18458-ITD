@@ -5,7 +5,7 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Claw;
+import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.HardwareSubsystem;
 
 import java.util.List;
 
@@ -15,12 +15,12 @@ public class ClawActions {
         OPENED
     }
 
-    Claw claw;
+    HardwareSubsystem claw;
 
     ClawState clawState = ClawState.CLOSED;
 
     public ClawActions(OpMode opMode) {
-        claw = new Claw(opMode);
+        claw = new HardwareSubsystem(opMode);
     }
     private boolean wasInputPressed = false;
 
@@ -30,13 +30,13 @@ public class ClawActions {
             switch (clawState) {
                 case CLOSED:
                     runningActions.add(
-                            new InstantAction(claw::open)
+                            new InstantAction(claw::SampOpen)
                     );
                     clawState = ClawState.OPENED;
                     break;
                 case OPENED:
                     runningActions.add(
-                            new InstantAction(claw::grab)
+                            new InstantAction(claw::SampClose)
                     );
                     clawState = ClawState.CLOSED;
                     break;

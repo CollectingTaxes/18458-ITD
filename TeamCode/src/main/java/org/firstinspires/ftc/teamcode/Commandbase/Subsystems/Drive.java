@@ -21,10 +21,10 @@ public class Drive {
     public DcMotor leftFront, rightFront, rightRear, leftRear;
     public HardwareMap hardwareMap;
 
-    public static boolean LF_Reverse = true;
-    public static boolean RF_Reverse = false;
-    public static boolean RB_Reverse = true;
-    public static boolean LB_Reverse = false;
+    public static boolean LF_Reverse = false;
+    public static boolean RF_Reverse = true;
+    public static boolean RB_Reverse = false;
+    public static boolean LB_Reverse = true;
 
     public IMU imu;
     public Gamepad gamepad1;
@@ -37,26 +37,8 @@ public class Drive {
         this.leftFront = (DcMotor) hardwareMap.get("leftFront");
         this.rightFront = (DcMotor) hardwareMap.get("rightFront");
 
-        if (LF_Reverse) {
-            leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        } else {
-            leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
-        }
-        if (RF_Reverse) {
-            rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        } else {
-            rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
-        }
-        if (RB_Reverse) {
-            rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
-        } else {
-            rightRear.setDirection(DcMotorSimple.Direction.FORWARD);
-        }
-        if (LB_Reverse) {
-            leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
-        } else {
-            leftRear.setDirection(DcMotorSimple.Direction.FORWARD);
-        }
+        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        leftRear.setDirection(DcMotor.Direction.REVERSE);
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -96,10 +78,10 @@ public class Drive {
         // This ensures all the powers maintain the same ratio,
         // but only if at least one is out of the range [-1, 1]
         double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
-        double frontLeftPower = (rotY + rotX - rx) / denominator;
+        double frontLeftPower = (rotY + rotX + rx) / denominator;
         double backLeftPower = (rotY - rotX + rx) / denominator;
         double frontRightPower = (rotY - rotX - rx) / denominator;
-        double backRightPower = (rotY + rotX + rx) / denominator;
+        double backRightPower = (rotY + rotX - rx) / denominator;
 
         leftFront.setPower(frontLeftPower * slowMode);
         leftRear.setPower(backLeftPower * slowMode);

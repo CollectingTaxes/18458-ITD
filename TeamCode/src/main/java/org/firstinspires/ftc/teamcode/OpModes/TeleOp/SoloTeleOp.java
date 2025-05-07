@@ -8,44 +8,45 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.ClawActions;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.FoldInAction;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SlideDropOffActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SpecCycleActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SlideIntakeActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.WristAction;
-
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Drive;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.SpecArm;
+import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.HardwareSubsystem;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @TeleOp
 public class SoloTeleOp extends OpMode {
-
-    public Drive drivetrain;
-    public Slides slides;
+    public HardwareSubsystem robot;
     public SpecCycleActions specCycleActions;
     public WristAction wristAction;
     public ClawActions clawActions;
     public SlideIntakeActions slideIntakeActions;
     public SlideDropOffActions slideDropOffActions;
-    public SpecArm spec;
+    public FoldInAction foldInAction;
+    public Drive drive;
+
 
     private final FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
 
     @Override
     public void init() {
-        spec = new SpecArm(this);
+        robot = new HardwareSubsystem(this);
         specCycleActions = new SpecCycleActions(this);
-        slides = new Slides(this);
         wristAction = new WristAction(this);
         clawActions = new ClawActions(this);
         slideIntakeActions = new SlideIntakeActions(this);
         slideDropOffActions = new SlideDropOffActions(this);
-        drivetrain = new Drive(this);
-        spec.init();
+        foldInAction = new FoldInAction(this);
+        drive = new Drive(this);
+
+        robot.init();
+        robot.robotInit();
 
         telemetry.addLine("y'all got this :)");
     }
@@ -53,14 +54,14 @@ public class SoloTeleOp extends OpMode {
     @Override
     public void loop() {
 
-        telemetry.addData("arm pose", spec.getArmPos());
-        spec.update();
+        telemetry.addData("arm pose", robot.getArmPos());
+        robot.update();
 
         telemetry.addLine();
-        telemetry.addData("slide pose", slides.getPos());
+        telemetry.addData("slide pose", robot.getPos());
         telemetry.update();
 
-        drivetrain.teleOp(gamepad1.left_stick_y, -gamepad1.left_stick_x, gamepad1.right_stick_x, 1, gamepad1.a, gamepad1.left_bumper);
+        drive.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, 1, gamepad1.a, gamepad1.left_bumper);
 
         slideIntakeActions.actionTeleOp(runningActions, dash, gamepad1.b, true);
 
@@ -69,6 +70,8 @@ public class SoloTeleOp extends OpMode {
         wristAction.action(runningActions, dash, gamepad1.x);
 
         specCycleActions.action(runningActions, dash, gamepad1.right_bumper);
+
+        foldInAction.actionTeleOp(runningActions, dash, gamepad1.left_bumper, true);
 
         List<Action> newActions = new ArrayList<>();
         for (Action action : runningActions) {

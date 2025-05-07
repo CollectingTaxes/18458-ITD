@@ -16,7 +16,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @Config
 public class RTPSpecArm {
     private final Telemetry telemetry;
-    private final DcMotor specArm;;
+    private final DcMotor specArm;
     private final HardwareMap hardwareMap;
 
     public static int min = -5;

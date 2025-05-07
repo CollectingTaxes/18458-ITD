@@ -3,22 +3,17 @@ package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.InstantAction;
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.ClawActions;
+import org.firstinspires.ftc.teamcode.Commandbase.Commands.FoldInAction;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SlideDropOffActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SpecCycleActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.SlideIntakeActions;
 import org.firstinspires.ftc.teamcode.Commandbase.Commands.WristAction;
-
 import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Drive;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Slides;
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.SpecArm;
+import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.HardwareSubsystem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,30 +21,30 @@ import java.util.List;
 @TeleOp
 public class TeleOpMain extends OpMode {
 
-    public Drive drivetrain;
-    public Slides slides;
+    public HardwareSubsystem robot;
     public SpecCycleActions specCycleActions;
     public WristAction wristAction;
     public ClawActions clawActions;
     public SlideIntakeActions slideIntakeActions;
     public SlideDropOffActions slideDropOffActions;
-    public SpecArm spec;
-
+    public FoldInAction foldInAction;
+    public Drive drive;
     private final FtcDashboard dash = FtcDashboard.getInstance();
     private List<Action> runningActions = new ArrayList<>();
 
     @Override
     public void init() {
-        spec = new SpecArm(this);
+        robot = new HardwareSubsystem(this);
         specCycleActions = new SpecCycleActions(this);
-        drivetrain = new Drive(this);
-        slides = new Slides(this);
         wristAction = new WristAction(this);
         clawActions = new ClawActions(this);
         slideIntakeActions = new SlideIntakeActions(this);
         slideDropOffActions = new SlideDropOffActions(this);
+        foldInAction = new FoldInAction(this);
+        drive = new Drive(this);
 
-        spec.init();
+        robot.init();
+        robot.robotInit();
 
         telemetry.addLine("y'all got this :)");
     }
@@ -57,18 +52,18 @@ public class TeleOpMain extends OpMode {
     @Override
     public void loop() {
 
-        telemetry.addData("arm pose", spec.getArmPos());
-        telemetry.addData("arm target", spec.getTarget());
-        spec.update();
+        telemetry.addData("arm pose", robot.getArmPos());
+        telemetry.addData("arm target", robot.getTarget());
+        robot.update();
 
         telemetry.addLine();
-        telemetry.addData("slide pose", slides.getPos());
+        telemetry.addData("slide pose", robot.getPos());
 
         telemetry.update();
 
-        drivetrain.teleOp(gamepad1.left_stick_y, -gamepad1.left_stick_x, gamepad1.right_stick_x, 1, gamepad1.a, gamepad1.left_bumper);
+        drive.teleOp(gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, 1, gamepad1.a, gamepad1.left_bumper);
 
-        slides.Manual(-gamepad2.left_stick_y);
+        robot.Manual(-gamepad2.left_stick_y);
 
         slideIntakeActions.actionTeleOp(runningActions, dash, gamepad2.b, true);
 
@@ -76,9 +71,8 @@ public class TeleOpMain extends OpMode {
 
         wristAction.action(runningActions, dash, gamepad2.x);
 
-        spec.update();
-
         specCycleActions.action(runningActions, dash, gamepad2.a);
+        foldInAction.actionTeleOp(runningActions,dash, gamepad2.left_bumper, true);
 
         List<Action> newActions = new ArrayList<>();
         for (Action action : runningActions) {

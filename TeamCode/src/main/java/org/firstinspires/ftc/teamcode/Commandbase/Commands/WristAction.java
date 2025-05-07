@@ -3,10 +3,8 @@ package org.firstinspires.ftc.teamcode.Commandbase.Commands;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
-import com.acmerobotics.roadrunner.IntegralScanResult;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
-import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.Wrist;
+import org.firstinspires.ftc.teamcode.Commandbase.Subsystems.HardwareSubsystem;
 
 import java.util.List;
 
@@ -17,12 +15,12 @@ public class WristAction {
         HORIZONTAL
     }
 
-    Wrist wrist;
+    HardwareSubsystem wrist;
 
     WristState wristState = WristState.NEUTRAL;
 
     public WristAction(OpMode opMode) {
-        wrist = new Wrist(opMode);
+        wrist = new HardwareSubsystem(opMode);
     }
     private boolean wasInputPressed = false;
 
