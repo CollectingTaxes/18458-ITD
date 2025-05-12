@@ -12,44 +12,39 @@ public class SpecPath {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(47.5, 47.5, Math.toRadians(180), Math.toRadians(180), 12)
-                .setDimensions(12, 12)
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(13.41339, 14.33071)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-17.5, 64, Math.toRadians(270)))
-                //preload
-                .strafeToLinearHeading(new Vector2d(-8,32), Math.toRadians(270))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-6, 63, Math.toRadians(270)))
+                //grab 1
+                .strafeToConstantHeading(new Vector2d(56, 58))
+                .waitSeconds(1)
+                .strafeToLinearHeading(new Vector2d(48,40), Math.toRadians(270))
                 .waitSeconds(1)
 
-                //first grab
-                .strafeToConstantHeading(new Vector2d(-47, 52))
+                //cycle
+                .strafeToConstantHeading(new Vector2d(64, 53.2))
                 .waitSeconds(1)
 
-                //second grab
-                .strafeToConstantHeading(new Vector2d(-59, 52))
+                //grab 2
+                .strafeToConstantHeading(new Vector2d(58, 40))
                 .waitSeconds(1)
 
-                //third grab
-                .strafeToLinearHeading(new Vector2d(-62, 52), Math.toRadians(245))
+                //cycle
+                .strafeToConstantHeading(new Vector2d(64, 53.2))
+                .waitSeconds(1)
 
+                //grab 3
+                .strafeToLinearHeading(new Vector2d(61, 40), Math.toRadians(295))
+                .waitSeconds(1)
 
-                .waitSeconds(0.25)
+                //cycle
+                .strafeToLinearHeading(new Vector2d(64, 53.2), Math.toRadians(270))
+                .waitSeconds(1)
 
-                        .strafeToLinearHeading(new Vector2d(-54,57), Math.toRadians(270))
-
-                .strafeToLinearHeading(new Vector2d(-7, 32), Math.toRadians(270))
-
-                .strafeToLinearHeading(new Vector2d(-47, 59), Math.toRadians(270))
-
-                .strafeToLinearHeading(new Vector2d(-7, 32), Math.toRadians(270))
-
-                .strafeToLinearHeading(new Vector2d(-47, 59), Math.toRadians(270))
-
-                .strafeToLinearHeading(new Vector2d(-7, 32), Math.toRadians(270))
-
-                .strafeToLinearHeading(new Vector2d(-47, 59), Math.toRadians(270))
-
-                .strafeToLinearHeading(new Vector2d(-7, 32), Math.toRadians(270))
+                //park
+                .splineToLinearHeading(new Pose2d(22, 8, Math.toRadians(180)), Math.toRadians(180))
 
                 .build());
 

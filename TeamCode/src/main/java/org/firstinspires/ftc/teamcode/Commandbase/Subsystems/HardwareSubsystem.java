@@ -47,19 +47,16 @@ public class HardwareSubsystem {
     public static int specMin = -5;
     public static int specMax = 2500;
 
-    public static int Intake = 750;
-    public static int Start = 200;
-    public static int Mid = 500;
-    public static int Outtake = 0;
-    public static int semifloor = 1250;
-    public static int Floor = 1400;
+    public static int Intake = 0;
+    public static int Mid = 400;
+    public static int Outtake = 725;
     public int specCurrent = 0;
 
     //Extendo Slide
     public static int slideMin = -5;
-    public static int slideMax = 650;
+    public static int slideMax = 1450;
 
-    public static int High = 545;
+    public static int High = 1450;
     public static int Reset = 0;
     public int slideCurrent = 0;
 
@@ -68,15 +65,15 @@ public class HardwareSubsystem {
     public static double p = 0.002, i = 0.055, d = 0.000005, f = 0.005;
     public static int armTarget;
     public double pos;
-    public static int INTAKE = 0, OUTTAKE = 900, SPEC = 600;
+    public static int INTAKE = 0, OUTTAKE = 750, SPEC = 300;
     public boolean usingPIDFArm = true;
 
     //Spec Servos
-    public static double SPECOPEN = 0, SPECGRAB = 0.42;
-    public static double NEUTRAL = 1, SCORE = 0.37;
+    public static double SPECOPEN = 0, SPECGRAB = 0.5;
+    public static double NEUTRAL = 0.92, SCORE = 0.37;
 
     //Wrist
-    public static double NEUTRAL_POSE = 1, HORIZONTAL_GRAB_POSE = 0.67;
+    public static double NEUTRAL_POSE = 0.92, HORIZONTAL_GRAB_POSE = 0.67;
     public double rotating = 0.15;
 
     Telemetry telemetry;
@@ -107,8 +104,8 @@ public class HardwareSubsystem {
         InvertextendoSlide.setDirection(DcMotorSimple.Direction.FORWARD);
         extendoSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         InvertextendoSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        InvertextendoSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        extendoSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        InvertextendoSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        extendoSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         this.specArm = (DcMotorEx) hardwareMap.get("specArm");
         encoder = new MotorEx(hardwareMap, "encoder").encoder;
@@ -123,6 +120,7 @@ public class HardwareSubsystem {
         this.specWrist = (Servo) hardwareMap.get("sWrist");
         this.wrist = (Servo) hardwareMap.get("wrist");
 
+        //wrist.setDirection(Servo.Direction.REVERSE);
         specWrist.setDirection(Servo.Direction.REVERSE);
     }
 
@@ -169,6 +167,15 @@ public class HardwareSubsystem {
         specArm.setTargetPosition(specCurrent);
         specArm.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         specArm.setPower(1);
+        /*if (getSpecPose() < 10) {
+            specArm.setPower(0);
+        } else {
+            specArm.setPower(1);
+        }*/
+    }
+
+    public int getSpecPose() {
+        return specCurrent;
     }
 
     //RTP Spec Pose

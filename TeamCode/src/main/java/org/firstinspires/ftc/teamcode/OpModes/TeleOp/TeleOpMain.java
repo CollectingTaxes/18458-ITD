@@ -61,7 +61,7 @@ public class TeleOpMain extends OpMode {
 
         telemetry.update();
 
-        drive.teleOp(gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, 1, gamepad1.a, gamepad1.left_bumper);
+        drive.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, 1, gamepad1.a, gamepad1.left_bumper);
 
         robot.Manual(-gamepad2.left_stick_y);
 

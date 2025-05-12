@@ -36,8 +36,7 @@ public class SpecCycleActions {
                             new SequentialAction(
                                     new InstantAction(specCycle::specGrab),
                                     new SleepAction(0.3),
-                                    new InstantAction(specCycle::spec),
-                                    new InstantAction(specCycle::specNuetral)
+                                    new InstantAction(specCycle::outtake)
                             )
                     );
                     specArmCycle = SpecArmCycle.OUTTAKE;
@@ -46,13 +45,11 @@ public class SpecCycleActions {
                 case OUTTAKE:
                     runningActions.add(
                             new SequentialAction(
-                                    new InstantAction(specCycle::outtake),
-                                    new SleepAction(0.1),
+                                    new InstantAction(specCycle::spec),
+                                    new SleepAction(0.2),
                                     new InstantAction(specCycle::specOpen),
-                                    new SleepAction(0.4),
-                                    new InstantAction(specCycle::intake),
-                                    new SleepAction(0.1),
-                                    new InstantAction(specCycle::specScore)
+                                    new SleepAction(0.2),
+                                    new InstantAction(specCycle::intake)
                             )
                     );
                     specArmCycle = SpecArmCycle.INTAKE;
@@ -67,21 +64,18 @@ public class SpecCycleActions {
                     new SequentialAction(
                             new InstantAction(specCycle::specGrab),
                             new SleepAction(0.3),
-                            new InstantAction(specCycle::spec),
-                            new InstantAction(specCycle::specNuetral)
+                            new InstantAction(specCycle::outtake)
                     )
             );
 
         } else if (!intake) {
             runningActions.add(
                     new SequentialAction(
-                            new InstantAction(specCycle::outtake),
-                            new SleepAction(0.1),
+                            new InstantAction(specCycle::spec),
+                            new SleepAction(0.2),
                             new InstantAction(specCycle::specOpen),
-                            new SleepAction(0.4),
-                            new InstantAction(specCycle::intake),
-                            new SleepAction(0.1),
-                            new InstantAction(specCycle::specScore)
+                            new SleepAction(0.2),
+                            new InstantAction(specCycle::intake)
                     )
             );
         }

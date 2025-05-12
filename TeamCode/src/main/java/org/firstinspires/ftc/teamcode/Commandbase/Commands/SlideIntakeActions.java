@@ -83,8 +83,7 @@ public class SlideIntakeActions {
         wasInputPressed = input;
     }
 
-    public void actionAuto(List<Action> runningActions, FtcDashboard dashboard, boolean intake) {
-        if (intake) {
+    public void IntakeAction(List<Action> runningActions, FtcDashboard dashboard) {
             runningActions.add(
                     new SequentialAction(
                             new InstantAction(extendo::hover),
@@ -93,19 +92,19 @@ public class SlideIntakeActions {
                             new InstantAction(extendo::liftHigh)
                     )
             );
+    }
 
-        } else if (!intake) {
-            runningActions.add(
-                    new SequentialAction(
-                            new InstantAction(extendo::armGrab),
-                            new SleepAction(0.1),
-                            new InstantAction(extendo::SampClose),
-                            new SleepAction(0.2),
-                            new InstantAction(extendo::liftRest),
-                            new InstantAction(extendo::armReset)
-                    )
-            );
-        }
+    public void OuttakeAction(List<Action> runningActions, FtcDashboard dashboard) {
+        runningActions.add(
+                new SequentialAction(
+                        new InstantAction(extendo::armGrab),
+                        new SleepAction(0.1),
+                        new InstantAction(extendo::SampClose),
+                        new SleepAction(0.2),
+                        new InstantAction(extendo::armReset),
+                        new InstantAction(extendo::liftRest)
+                )
+        );
     }
 }
 

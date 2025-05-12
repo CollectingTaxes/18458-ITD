@@ -29,12 +29,10 @@ public class SlideDropOffActions {
             if (advancedControl) {
                 runningActions.add(
                         new SequentialAction(
-                                new InstantAction(extendo::hover),
-                                new InstantAction(extendo::liftHigh),
-                                new SleepAction(0.25),
-                                new InstantAction(extendo::SampOpen),
-                                new SleepAction(0.25),
-                                new InstantAction(extendo::liftRest)
+                                new InstantAction(extendo::armReset),
+                                new InstantAction(extendo::Zouttake),
+                                new SleepAction(0.55),
+                                new InstantAction(extendo::SampOpen)
                         )
                 );
             }
