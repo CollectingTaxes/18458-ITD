@@ -73,7 +73,7 @@ public class HardwareSubsystem {
     public static double NEUTRAL = 0.92, SCORE = 0.37;
 
     //Wrist
-    public static double NEUTRAL_POSE = 0.92, HORIZONTAL_GRAB_POSE = 0.67;
+    public static double NEUTRAL_POSE = 0.92, HORIZONTAL_GRAB_POSE = 0.54;
     public double rotating = 0.15;
 
     Telemetry telemetry;

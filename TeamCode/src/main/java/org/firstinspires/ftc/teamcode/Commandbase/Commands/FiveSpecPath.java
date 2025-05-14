@@ -14,7 +14,7 @@ public class FiveSpecPath {
     public StrafeChassis drive;
     public HardwareMap hardwareMap;
 
-    public static Pose2d StartPose = new Pose2d(-6, 63.5, Math.toRadians(270));
+    public static Pose2d StartPose = new Pose2d(-6, 60.5, Math.toRadians(270));
 
     public FiveSpecPath(OpMode opMode) {
         this.hardwareMap = opMode.hardwareMap;
