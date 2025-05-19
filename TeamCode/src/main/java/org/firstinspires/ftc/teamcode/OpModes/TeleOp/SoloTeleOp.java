@@ -71,7 +71,7 @@ public class SoloTeleOp extends OpMode {
 
         specCycleActions.action(runningActions, dash, gamepad1.right_bumper);
 
-        foldInAction.actionTeleOp(runningActions, dash, gamepad1.left_bumper, true);
+        //foldInAction.actionTeleOp(runningActions, dash, gamepad1.left_bumper, true);
 
         List<Action> newActions = new ArrayList<>();
         for (Action action : runningActions) {

@@ -31,7 +31,7 @@ public class SlideDropOffActions {
                         new SequentialAction(
                                 new InstantAction(extendo::armReset),
                                 new InstantAction(extendo::Zouttake),
-                                new SleepAction(0.55),
+                                new SleepAction(0.75),
                                 new InstantAction(extendo::SampOpen)
                         )
                 );

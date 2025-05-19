@@ -83,9 +83,9 @@ public final class StrafeChassis {
 
         // path profile parameters (in inches)
         //was 40
-        public double maxWheelVel = 52.5;
-        public double minProfileAccel = -52.5;
-        public double maxProfileAccel = 52.5;
+        public double maxWheelVel = 50;
+        public double minProfileAccel = -50;
+        public double maxProfileAccel = 50;
 
         // turn profile parameters (in radians)
         public double maxAngVel = 30; // shared with path

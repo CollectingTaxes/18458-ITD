@@ -14,7 +14,7 @@ public class FiveSpecPath {
     public StrafeChassis drive;
     public HardwareMap hardwareMap;
 
-    public static Pose2d StartPose = new Pose2d(-6, 60.5, Math.toRadians(270));
+    public static Pose2d StartPose = new Pose2d(-40, 60.5, Math.toRadians(270));
 
     public FiveSpecPath(OpMode opMode) {
         this.hardwareMap = opMode.hardwareMap;
@@ -31,9 +31,7 @@ public class FiveSpecPath {
     public void StrafeToConstantHeading(Vector2d point, Pose2d pose) {
         Actions.runBlocking(
                 drive.actionBuilder(pose)
-                        .strafeToConstantHeading(point,
-                                null,
-                                new ProfileAccelConstraint(-47.5, 47.5))
+                        .strafeToConstantHeading(point)
                         .build());
 
     }

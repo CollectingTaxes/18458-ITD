@@ -12,39 +12,53 @@ public class QuesoBowl {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 12)
-                .setDimensions(13.41339, 14.33071)
+                .setConstraints(47.5, 47.5, Math.toRadians(180), Math.toRadians(180), 12)
+                .setDimensions(12, 12)
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-40, 60.5, Math.toRadians(270)))
                 //grab 1
                 .strafeToConstantHeading(new Vector2d(-47.8, 50))
 
-                .strafeToLinearHeading(new Vector2d(11, 58), Math.toRadians(215))
+                .waitSeconds(1)
 
+                //hp
+                .strafeToLinearHeading(new Vector2d(-15, 54), Math.toRadians(235))
+
+                //grab 2
                 .strafeToLinearHeading(new Vector2d(-36, 37), Math.toRadians(205))
 
-                .strafeToLinearHeading(new Vector2d(11, 58), Math.toRadians(215))
+                .waitSeconds(1)
 
-                .strafeToLinearHeading(new Vector2d(16, 63), Math.toRadians(270))
+                //hp
+                .strafeToLinearHeading(new Vector2d(-15, 54), Math.toRadians(235))
 
-                .strafeToConstantHeading(new Vector2d(12, 32))
+                //grab 3
+                .strafeToLinearHeading(new Vector2d(-46, 34), Math.toRadians(205))
 
-                .strafeToConstantHeading(new Vector2d(16, 63))
+                .waitSeconds(1)
 
-                .strafeToConstantHeading(new Vector2d(14, 32))
+                .strafeToLinearHeading(new Vector2d(-15, 54), Math.toRadians(235))
 
-                .strafeToConstantHeading(new Vector2d(16, 63))
-
-                .strafeToConstantHeading(new Vector2d(16, 32))
-
-                .strafeToConstantHeading(new Vector2d(16, 63))
-
-                .strafeToConstantHeading(new Vector2d(18, 32))
-
-                .strafeToConstantHeading(new Vector2d(16, 63))
+                .strafeToLinearHeading(new Vector2d(18, 63), Math.toRadians(270))
 
                 .strafeToConstantHeading(new Vector2d(20, 32))
+
+                .strafeToConstantHeading(new Vector2d(18, 63))
+
+                .strafeToConstantHeading(new Vector2d(22, 32))
+
+                .strafeToConstantHeading(new Vector2d(18, 63))
+
+                .strafeToConstantHeading(new Vector2d(24, 32))
+
+                .strafeToConstantHeading(new Vector2d(18, 63))
+
+                .strafeToConstantHeading(new Vector2d(26, 32))
+
+                .strafeToConstantHeading(new Vector2d(18, 63))
+
+                .strafeToConstantHeading(new Vector2d(28, 32))
 
                 .build());
 

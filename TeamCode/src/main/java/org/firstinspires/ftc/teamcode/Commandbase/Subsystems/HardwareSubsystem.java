@@ -35,11 +35,14 @@ public class HardwareSubsystem {
     //Claw
     public boolean clawStateGrabbed = true;
 
-    public static double GRAB = 0.77, OPEN = 0.45;
+    public static double GRAB = 0.74, OPEN = 0.45;
     public static double ZGRAB = 0.74, ZOUTTAKE = 0.37;
 
+    public static double SPECGRAB = 0.315;
+    public static double SPECOPEN = 0;
+
     public static double RESET_POSE = 0.95;
-    public static double GRAB_POSE = 0.2;
+    public static double GRAB_POSE = 0.23;
     public static double SPEC_GRAB = 0.32;
     public double targetPose;
 
@@ -47,9 +50,10 @@ public class HardwareSubsystem {
     public static int specMin = -5;
     public static int specMax = 2500;
 
-    public static int Intake = 0;
+    public static int Intake = 3;
     public static int Mid = 400;
-    public static int Outtake = 725;
+    public static int Outtake = 825;
+    public static int Last = 825;
     public int specCurrent = 0;
 
     //Extendo Slide
@@ -65,15 +69,14 @@ public class HardwareSubsystem {
     public static double p = 0.002, i = 0.055, d = 0.000005, f = 0.005;
     public static int armTarget;
     public double pos;
-    public static int INTAKE = 0, OUTTAKE = 750, SPEC = 300;
+    public static int INTAKE = 0, OUTTAKE = 2800, SPEC = 1700;
     public boolean usingPIDFArm = true;
 
-    //Spec Servos
-    public static double SPECOPEN = 0, SPECGRAB = 0.5;
+    //Spec Servos    public static double SPECOPEN = 0, SPECGRAB = 0.5;
     public static double NEUTRAL = 0.92, SCORE = 0.37;
 
     //Wrist
-    public static double NEUTRAL_POSE = 0.92, HORIZONTAL_GRAB_POSE = 0.54;
+    public static double NEUTRAL_POSE = 0.94, HORIZONTAL_GRAB_POSE = 0.6;
     public double rotating = 0.15;
 
     Telemetry telemetry;
@@ -109,7 +112,7 @@ public class HardwareSubsystem {
 
         this.specArm = (DcMotorEx) hardwareMap.get("specArm");
         encoder = new MotorEx(hardwareMap, "encoder").encoder;
-        encoder.setDirection(Motor.Direction.REVERSE);
+        encoder.setDirection(Motor.Direction.FORWARD);
         specArm.setDirection(DcMotorSimple.Direction.REVERSE);
 
         encoder.reset();
@@ -187,6 +190,10 @@ public class HardwareSubsystem {
     }
     public void Outtake() {
         setPos(Outtake);
+    }
+
+    public void Last() {
+        setPos(Last);
     }
 
     public void setSlidePos(int pos) {
